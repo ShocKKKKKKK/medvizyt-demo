@@ -138,7 +138,7 @@
 						<a class="button button--ghost" href="#price">Переглянути ціни</a>
 					</div>
 					<ul class="service-hero__stats service-hero__stats--four" data-hero>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">Онлайн</span><span class="service-hero__stat-label">Консультація</span></li>
+						<li class="service-hero__stat"><span class="service-hero__stat-value">Без відвідування</span><span class="service-hero__stat-label">Замовляй</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Нова Пошта</span><span class="service-hero__stat-label">Доставка у ваше місто</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Конфіденційно</span><span class="service-hero__stat-label">Захист даних</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">1200 грн</span><span class="service-hero__stat-label">Вартість</span></li>
@@ -224,7 +224,7 @@
 					</li>
 					<li class="steps__item" data-reveal>
 						<h3 class="title title--h3">Підготовка довідки психіатричного огляду</h3>
-						<p class="steps__text">Менеджер уточнить деталі та узгодить з вами огляд у медичному центрі. Документ оформлюється за його результатами.</p>
+						<p class="steps__text">Ми підготуємо та відправимо документ, відразу після підтвердження замовлення</p>
 					</li>
 					<li class="steps__item" data-reveal>
 						<h3 class="title title--h3">Доставка поштою</h3>
@@ -251,39 +251,18 @@
 							<li><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Доставимо документ Новою Поштою</li>
 						</ul>
 					</div>
-
-					<!-- Заявка йде на send.php, звідти в Telegram. Налаштування бота: tg-config.php (див. tg-config.example.php) -->
-					<form class="form" action="../send.php" method="post" novalidate data-form>
+					<form class="form form--order" action="../send.php" method="post" novalidate data-order>
 						<input type="hidden" name="lang" value="uk">
-						<div class="form__field">
-							<label class="form__label" for="f-name">ПІБ (українською мовою)</label>
-							<input class="form__input" id="f-name" name="name" type="text" autocomplete="name" placeholder="Прізвище, ім’я, по батькові" required>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-phone">Контактний телефон</label>
-							<input class="form__input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___ __ __" required>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-service">Який документ цікавить</label>
-							<select class="form__input form__input--select" id="f-service" name="service" required data-form-service>
-								<option value="">Оберіть документ</option>
-								<option>Медична довідка</option>
-								<option>Довідка про щеплення 063/о</option>
-								<option>Довідка для басейну</option>
-								<option>Медогляд 086/о</option>
-								<option>Довідка про флюорографію</option>
-								<option>Медична книжка 1-ОМК</option>
-								<option>Довідка водія 083/о</option>
-								<option selected>Довідка психіатричного огляду 100-2/о</option>
-								<option>Інша довідка</option>
-							</select>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-comment">Додаткова інформація <span class="visually-hidden">(необов’язково)</span></label>
-							<textarea class="form__input form__input--textarea" id="f-comment" name="comment" rows="3" placeholder="Необов’язково"></textarea>
+						<div class="form__grid">
+<div class="form__field" data-label="Виберіть" data-required="1"><span class="form__label">Виберіть</span><select class="form__input form__input--select" name="f66" data-cond-field="66"><option value="">— оберіть —</option><option value="Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)">Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)</option><option value="Сертифікати нарколога та психіатра">Сертифікати нарколога та психіатра</option></select><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="ПІБ (українською мовою)" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">ПІБ (українською мовою)</span><input class="form__input" type="text" name="f4" placeholder="ПІБ (українською мовою)" data-cond-field="4"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Дата народження" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Дата народження</span><input class="form__input" type="date" name="f71" placeholder="Дата народження" data-cond-field="71"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Повна адреса проживання" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Повна адреса проживання</span><input class="form__input" type="text" name="f68" placeholder="Повна адреса проживання" data-cond-field="68"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Посада (або вимоги на роботі)" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Посада (або вимоги на роботі)</span><input class="form__input" type="text" name="f69" placeholder="Посада (або вимоги на роботі)" data-cond-field="69"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Який документ потрібний:" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Який документ потрібний:</span><div class="form__chips"><label class="form__chip"><input type="checkbox" name="f70" value="Сертифікат нарколога (ф. 140/о)" data-cond-field="70"><span>Сертифікат нарколога (ф. 140/о)</span></label><label class="form__chip"><input type="checkbox" name="f70" value="Сертифікат психіатра (ф. 122-2/о)" data-cond-field="70"><span>Сертифікат психіатра (ф. 122-2/о)</span></label><label class="form__chip"><input type="checkbox" name="f70" value="Обидва" data-cond-field="70"><span>Обидва</span></label></div><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Номер телефону отримувача" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Номер телефону отримувача</span><input class="form__input" type="tel" name="f23" placeholder="Номер телефону отримувача" data-cond-field="23"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Місто та номер відділення Нової Пошти" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Місто та номер відділення Нової Пошти</span><input class="form__input" type="text" name="f47" placeholder="Місто та номер відділення Нової Пошти" data-cond-field="47"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Додаткова інформація" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Додаткова інформація</span><textarea class="form__input form__input--textarea" name="f26" rows="2" placeholder="Додаткова інформація" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
 						</div>
 						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
 						<div class="form__field">
@@ -340,9 +319,9 @@
 			<div class="about__container about__container--single">
 				<div class="about__content" data-reveal>
 					<h2 class="title title--h2">Замовляйте довідку <span class="nowrap">100-2/о</span> онлайн</h2>
-					<p class="about__text">У медцентрі Med-assistant є зручне рішення для тих, кому необхідна довідка <span class="nowrap">100-2/о</span> без зайвих складнощів і тривалого очікування. У нас ви можете пройти всі необхідні етапи оформлення і отримати медичний документ із необхідними даними, підписами та печатками відповідно до встановлених вимог.</p>
+					<p class="about__text">У медцентрі Med-assistant є зручне рішення для тих, кому необхідна довідка <span class="nowrap">100-2/о</span> без зайвих складнощів і тривалого очікування. У нас ви гарантовано можете пройти всі необхідні етапи оформлення і отримати медичний документ із необхідними даними, підписами та печатками відповідно до встановлених вимог.</p>
 					<p class="about__text">Довідка психіатричного огляду <span class="nowrap">100-2/о</span> може знадобитися під час працевлаштування, проходження обов’язкового медичного огляду, допуску до окремих видів робіт або в інших випадках, коли необхідно підтвердити відсутність відповідних медичних протипоказань.</p>
-					<p class="about__text">Вчасно отриманий документ дозволяє своєчасно надати необхідний висновок роботодавцю, медичній комісії чи іншій установі та не затримувати подальше оформлення документів. Якщо ви не впевнені, чи потрібна саме форма <span class="nowrap">100-2/о</span> у вашій ситуації, наші фахівці безкоштовно проконсультують вас.</p>
+					<p class="about__text">Вчасно або швидко отриманий документ дозволяє своєчасно надати необхідний висновок роботодавцю, медичній комісії чи іншій установі та не затримувати подальше оформлення документів. Якщо ви не впевнені, чи потрібна саме форма <span class="nowrap">100-2/о</span> у вашій ситуації, наші фахівці безкоштовно проконсультують вас.</p>
 					<p class="about__text">Замовте довідку <span class="nowrap">100-2/о</span> вже зараз — залиште заявку на сайті або напишіть нам у Telegram. Менеджер швидко зв’яжеться з вами, уточнить необхідні дані та допоможе розпочати оформлення документа без зайвих затримок.</p>
 				</div>
 			</div>
@@ -370,7 +349,7 @@
 					</details>
 					<details class="faq__item" data-reveal>
 						<summary class="faq__question">Як швидко можна отримати сертифікат нарколога або психіатра?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
-						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">У приватних медичних центрах довідку можна оформити протягом 1 робочого дня. У державних установах цей процес може зайняти кілька днів, з урахуванням черг та запису на прийом.</p></div></div>
+						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">У приватних медичних центрах довідку можна оформити протягом 1 робочого дня, іноді навіть за 1–2 години. У державних установах цей процес може зайняти кілька днів, з урахуванням черг та запису на прийом.</p></div></div>
 					</details>
 				</div>
 			</div>

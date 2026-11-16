@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Оформлення довідки для басейну швидко та офіційно | Med-assistant</title>
-	<meta name="description" content="Отримайте довідку для басейну всього за один день — офіційно, з підписами та печатками. Підходить для дітей і дорослих. Зручне оформлення по всій Україні.">
+	<meta name="description" content="Отримайте довідку для басейну всього за один день — офіційно, з підписами та печатками. Без черг і візитів до лікарів. Підходить для дітей і дорослих. Зручне оформлення по всій Україні.">
 	<!-- Поки сайт лежить на тестовому хостингу, він закритий від індексації. При запуску на med-assistant.net повернути index, follow -->
 	<link rel="canonical" href="https://med-assistant.net/basein/">
 	<link rel="alternate" hreflang="uk" href="https://med-assistant.net/basein/">
@@ -18,7 +18,7 @@
 	<meta property="og:locale" content="uk_UA">
 	<meta property="og:site_name" content="Med-assistant">
 	<meta property="og:title" content="Оформлення довідки для басейну швидко та офіційно | Med-assistant">
-	<meta property="og:description" content="Отримайте довідку для басейну всього за один день — офіційно, з підписами та печатками. Підходить для дітей і дорослих. Зручне оформлення по всій Україні.">
+	<meta property="og:description" content="Отримайте довідку для басейну всього за один день — офіційно, з підписами та печатками. Без черг і візитів до лікарів. Підходить для дітей і дорослих. Зручне оформлення по всій Україні.">
 	<meta property="og:url" content="https://med-assistant.net/basein/">
 	<meta name="twitter:card" content="summary">
 	<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "MedicalBusiness", "@id": "https://med-assistant.net/#org", "name": "ПРОФ МЕД ДОКС", "alternateName": "Med-assistant", "url": "https://med-assistant.net/", "telephone": "+380732823488", "address": {"@type": "PostalAddress", "addressLocality": "Київ", "streetAddress": "провулок Бехтерівський, 8", "addressCountry": "UA"}, "areaServed": "UA", "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "22:00"}, {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday", "Sunday"], "opens": "09:00", "closes": "18:00"}]}, {"@type": "WebSite", "name": "Med-assistant", "url": "https://med-assistant.net/", "inLanguage": "uk"}]}</script>
@@ -138,7 +138,7 @@
 						<a class="button button--ghost" href="#price">Переглянути ціни</a>
 					</div>
 					<ul class="service-hero__stats service-hero__stats--four" data-hero>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">Онлайн</span><span class="service-hero__stat-label">Консультація</span></li>
+						<li class="service-hero__stat"><span class="service-hero__stat-value">Без відвідування</span><span class="service-hero__stat-label">Замовляй</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Нова Пошта</span><span class="service-hero__stat-label">Доставка у ваше місто</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Дорослим і дітям</span><span class="service-hero__stat-label">Для кого</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">300 грн</span><span class="service-hero__stat-label">Вартість</span></li>
@@ -171,7 +171,7 @@
 					<div class="intro__content">
 						<p class="eyebrow">Про документ</p>
 						<h2 class="title title--h2">Потрібна довідка для басейну?</h2>
-						<p class="intro__text">Оформлюємо медичні довідки для басейну за один день — без черг і стресу. Офіційно, зручно, надійно.</p>
+						<p class="intro__text">Оформлюємо медичні довідки для басейну за один день — без черг, стресу та зайвих візитів до лікарів. Офіційно, зручно, надійно.</p>
 						<p class="intro__text">Медична довідка для басейну підтверджує, що особа не має протипоказань для відвідування водних закладів і не є носієм інфекційних захворювань. Вона включає огляд терапевта та результати необхідних аналізів.</p>
 					</div>
 					<div class="intro__aside">
@@ -224,7 +224,7 @@
 					</li>
 					<li class="steps__item" data-reveal>
 						<h3 class="title title--h3">Підготовка довідки для басейну</h3>
-						<p class="steps__text">Менеджер уточнить деталі та узгодить з вами огляд у медичному центрі. Документ оформлюється за його результатами.</p>
+						<p class="steps__text">Ми підготуємо та відправимо документ, відразу після підтвердження замовлення</p>
 					</li>
 					<li class="steps__item" data-reveal>
 						<h3 class="title title--h3">Доставка поштою</h3>
@@ -251,39 +251,21 @@
 							<li><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Доставимо документ Новою Поштою</li>
 						</ul>
 					</div>
-
-					<!-- Заявка йде на send.php, звідти в Telegram. Налаштування бота: tg-config.php (див. tg-config.example.php) -->
-					<form class="form" action="../send.php" method="post" novalidate data-form>
+					<form class="form form--order" action="../send.php" method="post" novalidate data-order>
 						<input type="hidden" name="lang" value="uk">
-						<div class="form__field">
-							<label class="form__label" for="f-name">ПІБ (українською мовою)</label>
-							<input class="form__input" id="f-name" name="name" type="text" autocomplete="name" placeholder="Прізвище, ім’я, по батькові" required>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-phone">Контактний телефон</label>
-							<input class="form__input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___ __ __" required>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-service">Який документ цікавить</label>
-							<select class="form__input form__input--select" id="f-service" name="service" required data-form-service>
-								<option value="">Оберіть документ</option>
-								<option>Медична довідка</option>
-								<option>Довідка про щеплення 063/о</option>
-								<option selected>Довідка для басейну</option>
-								<option>Медогляд 086/о</option>
-								<option>Довідка про флюорографію</option>
-								<option>Медична книжка 1-ОМК</option>
-								<option>Довідка водія 083/о</option>
-								<option>Довідка психіатричного огляду 100-2/о</option>
-								<option>Інша довідка</option>
-							</select>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-comment">Додаткова інформація <span class="visually-hidden">(необов’язково)</span></label>
-							<textarea class="form__input form__input--textarea" id="f-comment" name="comment" rows="3" placeholder="Необов’язково"></textarea>
+						<div class="form__grid">
+<div class="form__field" data-label="ПІБ (українською мовою)"><span class="form__label">ПІБ (українською мовою)</span><input class="form__input" type="text" name="f4" placeholder="ПІБ (українською мовою)" data-cond-field="4"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Дата народження"><span class="form__label">Дата народження</span><input class="form__input" type="date" name="f5" placeholder="Дата народження" data-cond-field="5"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Додати ще одну людину"><span class="form__label">Додати ще одну людину</span><div class="form__chips"><label class="form__chip"><input type="checkbox" name="f59" value="Додати ще одну людину" data-cond-field="59"><span>Додати ще одну людину</span></label></div><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="ПІБ (українською мовою)" data-cond="[[{&quot;f&quot;: &quot;59&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Додати ще одну людину&quot;}]]" hidden><span class="form__label">ПІБ (українською мовою)</span><input class="form__input" type="text" name="f57" placeholder="ПІБ (українською мовою)" data-cond-field="57"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Дата народження"><span class="form__label">Дата народження</span><input class="form__input" type="date" name="f58" placeholder="Дата народження" data-cond-field="58"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Додати ще одну людину 2" data-cond="[[{&quot;f&quot;: &quot;59&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Додати ще одну людину&quot;}]]" hidden><span class="form__label">Додати ще одну людину 2</span><div class="form__chips"><label class="form__chip"><input type="checkbox" name="f56" value="Додати ще одну людину" data-cond-field="56"><span>Додати ще одну людину</span></label></div><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="ПІБ (українською мовою)" data-cond="[[{&quot;f&quot;: &quot;56&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Додати ще одну людину&quot;}]]" hidden><span class="form__label">ПІБ (українською мовою)</span><input class="form__input" type="text" name="f61" placeholder="ПІБ (українською мовою)" data-cond-field="61"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Дата народження"><span class="form__label">Дата народження</span><input class="form__input" type="date" name="f62" placeholder="Дата народження" data-cond-field="62"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="ПІБ отримувача на відділенні НП"><span class="form__label">ПІБ отримувача на відділенні НП</span><input class="form__input" type="text" name="f63" placeholder="ПІБ отримувача на відділенні НП" data-cond-field="63"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Номер телефону отримувача"><span class="form__label">Номер телефону отримувача</span><input class="form__input" type="tel" name="f23" placeholder="Номер телефону отримувача" data-cond-field="23"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Місто та номер відділення Нової Пошти"><span class="form__label">Місто та номер відділення Нової Пошти</span><input class="form__input" type="text" name="f47" placeholder="Місто та номер відділення Нової Пошти" data-cond-field="47"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Додаткова інформація"><span class="form__label">Додаткова інформація</span><textarea class="form__input form__input--textarea" name="f26" rows="2" placeholder="Додаткова інформація" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
 						</div>
 						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
 						<div class="form__field">
@@ -313,12 +295,12 @@
 						<p class="features__text">Оформлення медичної довідки може бути зручним та простим, адже наш медичний центр пропонує низку суттєвих переваг.</p>
 						<ul class="features__list">
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Підготовка довідки встановленого зразка для відвідування басейну.</span></li>
-							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Аналіз на ентеробіоз або стафілокок (за потреби).</span></li>
+							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Наявність аналізу на ентеробіоз або стафілокок (за потреби).</span></li>
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Оформлення довідки на офіційному бланку з усіма підписами та печатками.</span></li>
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Врахування віку пацієнта та специфіки спортивної установи.</span></li>
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Можливість оформлення довідки як для дитини, так і для дорослого.</span></li>
 						</ul>
-						<p class="features__outro">Вам не потрібно стояти в черзі — ми запишемо на огляд у зручний час, а вся процедура буде максимально зручною та швидкою.</p>
+						<p class="features__outro">Вам не потрібно проходити медкомісію або стояти в черзі — вся процедура максимально зручна та швидка.</p>
 					</article>
 					<article class="features__card features__card--dark" data-reveal>
 						<h2 class="title title--h3">Отримайте довідку для басейну оперативно та без черг</h2>
@@ -362,6 +344,10 @@
 					<details class="faq__item" data-reveal>
 						<summary class="faq__question">Чи приймають таку довідку спортивні та освітні установи?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Так, видана довідка відповідає всім стандартам та підходить для пред’явлення в спортивних секціях, школах, гуртках і таборах.</p></div></div>
+					</details>
+					<details class="faq__item" data-reveal>
+						<summary class="faq__question">Чи можна отримати довідку без особистого візиту до лікаря?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Так, оформлення можливо дистанційно — достатньо залишити заявку на сайті, і фахівці підготують документ згідно з чинними вимогами.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
 						<summary class="faq__question">Чи можна використовувати довідку для фітнес-клубу або спортзалу?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>

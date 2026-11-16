@@ -1274,6 +1274,89 @@ html[data-scroll-lock] body {
 	display: none;
 }
 
+/* Анкета замовлення (сторінки послуг) */
+.form--order {
+	gap: 18px;
+}
+.form__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+}
+.form__field[hidden],
+.form__note[hidden] {
+	display: none;
+}
+.form__req {
+	color: #d84747;
+}
+.form--order .form__field:has(select),
+.form--order .form__field:has(textarea) {
+	grid-column: 1 / -1;
+}
+.form__note {
+	grid-column: 1 / -1;
+	padding: 12px 16px;
+	border-radius: 14px;
+	background: var(--mint);
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--ink);
+}
+.form__note p {
+	margin: 0;
+}
+.form__note ol,
+.form__note ul {
+	margin: 6px 0 0;
+	padding-left: 18px;
+}
+.form__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+.form__chip {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	padding: 9px 14px;
+	border-radius: 999px;
+	border: 1px solid var(--line);
+	background: var(--bg-soft);
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--ink);
+	cursor: pointer;
+	transition:
+		border-color 0.2s,
+		background-color 0.2s,
+		color 0.2s;
+}
+.form__chip input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+}
+.form__chip:has(input:checked) {
+	border-color: var(--primary);
+	background: var(--mint);
+	color: var(--primary-dark);
+}
+.form__chip:focus-within {
+	outline: 2px solid var(--primary);
+	outline-offset: 2px;
+}
+.form__field--error .form__chip {
+	border-color: #d84747;
+}
+@media (max-width: 48em) {
+	.form__grid {
+		grid-template-columns: 1fr;
+	}
+}
+
 /* ==========================================================================
    Footer
    ========================================================================== */

@@ -51,7 +51,12 @@ $comment = trim(mb_substr((string) ($_POST['comment'] ?? ''), 0, 1000));
 $page = field('page', 300);
 $lang = field('lang', 5) === 'ru' ? 'RU' : 'UA';
 
-if (mb_strlen($name) < 2 || strlen(preg_replace('/\D/', '', $phone)) < 10 || $service === '') {
+$details = json_decode((string) ($_POST['details'] ?? ''), true);
+if (!is_array($details)) {
+	$details = [];
+}
+
+if (strlen(preg_replace('/\D/', '', $phone)) < 10 || (empty($details) && $service === '')) {
 	reply(422, ['ok' => false, 'error' => 'fields']);
 }
 
@@ -65,15 +70,24 @@ if (is_file($lockFile) && time() - filemtime($lockFile) < 20) {
 
 $e = static fn(string $s): string => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
-$lines = [
-	'<b>Нова заявка з сайту</b> · ' . $lang,
-	'',
-	'<b>ПІБ:</b> ' . $e($name),
-	'<b>Телефон:</b> ' . $e($phone),
-	'<b>Документ:</b> ' . $e($service),
-];
-if ($comment !== '') {
-	$lines[] = '<b>Додатково:</b> ' . $e($comment);
+$lines = ['<b>Нова заявка з сайту</b> · ' . $lang, ''];
+if (!empty($details)) {
+	foreach ($details as $d) {
+		$label = $e((string) ($d['label'] ?? ''));
+		$value = $e((string) ($d['value'] ?? ''));
+		if ($label !== '' && $value !== '') {
+			$lines[] = '<b>' . $label . ':</b> ' . $value;
+		}
+	}
+} else {
+	if ($name !== '') {
+		$lines[] = '<b>ПІБ:</b> ' . $e($name);
+	}
+	$lines[] = '<b>Телефон:</b> ' . $e($phone);
+	$lines[] = '<b>Документ:</b> ' . $e($service);
+	if ($comment !== '') {
+		$lines[] = '<b>Додатково:</b> ' . $e($comment);
+	}
 }
 if ($page !== '') {
 	$lines[] = '';
@@ -81,9 +95,14 @@ if ($page !== '') {
 }
 $lines[] = '<b>Час:</b> ' . date('d.m.Y H:i');
 
+$text = implode("\n", $lines);
+if (mb_strlen($text) > 3800) {
+	$text = mb_substr($text, 0, 3800) . '…';
+}
+
 $payload = http_build_query([
 	'chat_id' => $chatId,
-	'text' => implode("\n", $lines),
+	'text' => $text,
 	'parse_mode' => 'HTML',
 	'disable_web_page_preview' => 'true',
 ]);

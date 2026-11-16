@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Справка о флюорографии — быстрое оформление | Med-assistant</title>
+	<title>Справка о флюорографии — оформить за 5 минут | Med-assistant</title>
 	<meta name="description" content="Нужна справка о прохождении флюорографии? Оформляем официальный документ с печатью и подписью врача для работы, учёбы или госпитализации. Быстро, законно, по всей Украине.">
 	<!-- Поки сайт лежить на тестовому хостингу, він закритий від індексації. При запуску на med-assistant.net повернути index, follow -->
 	<link rel="canonical" href="https://med-assistant.net/ru/fliuorohrafiia/">
@@ -17,7 +17,7 @@
 	<meta property="og:type" content="website">
 	<meta property="og:locale" content="ru_UA">
 	<meta property="og:site_name" content="Med-assistant">
-	<meta property="og:title" content="Справка о флюорографии — быстрое оформление | Med-assistant">
+	<meta property="og:title" content="Справка о флюорографии — оформить за 5 минут | Med-assistant">
 	<meta property="og:description" content="Нужна справка о прохождении флюорографии? Оформляем официальный документ с печатью и подписью врача для работы, учёбы или госпитализации. Быстро, законно, по всей Украине.">
 	<meta property="og:url" content="https://med-assistant.net/ru/fliuorohrafiia/">
 	<meta name="twitter:card" content="summary">
@@ -138,7 +138,7 @@
 						<a class="button button--ghost" href="#price">Посмотреть цены</a>
 					</div>
 					<ul class="service-hero__stats service-hero__stats--four" data-hero>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">Онлайн</span><span class="service-hero__stat-label">Консультация</span></li>
+						<li class="service-hero__stat"><span class="service-hero__stat-value">Без посещения</span><span class="service-hero__stat-label">Заказывай</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Новая Почта</span><span class="service-hero__stat-label">Доставка в ваш город</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Любые цели</span><span class="service-hero__stat-label">Для чего</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">400 грн</span><span class="service-hero__stat-label">Стоимость</span></li>
@@ -171,7 +171,7 @@
 					<div class="intro__content">
 						<p class="eyebrow">О документе</p>
 						<h2 class="title title--h2">Нужна справка о флюорографии?</h2>
-						<p class="intro__text">Оставьте заявку на справку о флюорографии за несколько минут — быстро, удобно и с гарантией официальности.</p>
+						<p class="intro__text">Закажите справку о флюорографии всего за несколько минут — быстро, удобно и с гарантией официальности.</p>
 						<p class="intro__text">Справка о флюорографии подтверждает прохождение обследования органов грудной клетки с целью выявления патологий, в частности туберкулёза. Содержит врачебное заключение, дату обследования и официальную печать медицинского учреждения.</p>
 					</div>
 					<div class="intro__aside">
@@ -224,7 +224,7 @@
 					</li>
 					<li class="steps__item" data-reveal>
 						<h3 class="title title--h3">Подготовка справки о флюорографии</h3>
-						<p class="steps__text">Менеджер уточнит детали и согласует с вами осмотр в медицинском центре. Документ оформляется по его результатам.</p>
+						<p class="steps__text">Мы подготовим и отправим документ сразу после подтверждения заказа</p>
 					</li>
 					<li class="steps__item" data-reveal>
 						<h3 class="title title--h3">Доставка почтой</h3>
@@ -251,39 +251,16 @@
 							<li><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Доставим документ Новой Почтой</li>
 						</ul>
 					</div>
-
-					<!-- Заявка йде на send.php, звідти в Telegram. Налаштування бота: tg-config.php (див. tg-config.example.php) -->
-					<form class="form" action="../../send.php" method="post" novalidate data-form>
+					<form class="form form--order" action="../../send.php" method="post" novalidate data-order>
 						<input type="hidden" name="lang" value="ru">
-						<div class="form__field">
-							<label class="form__label" for="f-name">ФИО (на украинском языке)</label>
-							<input class="form__input" id="f-name" name="name" type="text" autocomplete="name" placeholder="Фамилия, имя, отчество" required>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-phone">Контактный телефон</label>
-							<input class="form__input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___ __ __" required>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-service">Какой документ интересует</label>
-							<select class="form__input form__input--select" id="f-service" name="service" required data-form-service>
-								<option value="">Выберите документ</option>
-								<option>Медицинская справка</option>
-								<option>Справка о прививках 063/о</option>
-								<option>Справка для бассейна</option>
-								<option>Медосмотр 086/о</option>
-								<option selected>Справка о флюорографии</option>
-								<option>Медицинская книжка 1-ОМК</option>
-								<option>Справка водителя 083/о</option>
-								<option>Справка психиатрического осмотра 100-2/о</option>
-								<option>Другая справка</option>
-							</select>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-comment">Дополнительная информация <span class="visually-hidden">(необязательно)</span></label>
-							<textarea class="form__input form__input--textarea" id="f-comment" name="comment" rows="3" placeholder="Необязательно"></textarea>
+						<div class="form__grid">
+<div class="form__field" data-label="ФИО (на украинском языке)"><span class="form__label">ФИО (на украинском языке)</span><input class="form__input" type="text" name="f4" placeholder="ФИО (на украинском языке)" data-cond-field="4"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Дата рождения"><span class="form__label">Дата рождения</span><input class="form__input" type="date" name="f5" placeholder="Дата рождения" data-cond-field="5"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Полный адрес проживания"><span class="form__label">Полный адрес проживания</span><input class="form__input" type="text" name="f63" placeholder="Полный адрес проживания" data-cond-field="63"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Желаемый день/время прохождения флюорографии"><span class="form__label">Желаемый день/время прохождения флюорографии</span><input class="form__input" type="text" name="f64" placeholder="Желаемый день/время прохождения флюорографии" data-cond-field="64"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Номер телефона получателя"><span class="form__label">Номер телефона получателя</span><input class="form__input" type="tel" name="f23" placeholder="Номер телефона получателя" data-cond-field="23"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Город и номер отделения Новой Почты"><span class="form__label">Город и номер отделения Новой Почты</span><input class="form__input" type="text" name="f47" placeholder="Город и номер отделения Новой Почты" data-cond-field="47"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Дополнительная информация"><span class="form__label">Дополнительная информация</span><textarea class="form__input form__input--textarea" name="f26" rows="2" placeholder="Дополнительная информация" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
 						</div>
 						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
 						<div class="form__field">
@@ -318,19 +295,19 @@
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Возможность получения справки для работы, учёбы, путешествий или других нужд.</span></li>
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Конфиденциальность и профессиональное отношение к каждому клиенту.</span></li>
 						</ul>
-						<p class="features__outro">Не знаете, с чего начать? Просто оставьте заявку на сайте или в Telegram — и наш менеджер проконсультирует вас по оформлению.</p>
+						<p class="features__outro">Не знаете, с чего начать? Просто оставьте заявку на сайте или в Telegram — и наш менеджер проконсультирует вас по оформлению. Вы получите быстрое решение для ситуации, когда флюорография нужна уже сегодня.</p>
 					</article>
 					<article class="features__card features__card--dark" data-reveal>
 						<h2 class="title title--h3">Выгодное получение справки о флюорографии</h2>
 						<p class="features__text">Наша команда объединила профессиональную консультационную поддержку, скорость и официальность, чтобы вы могли получить флюорографию максимально комфортно, включая такие преимущества, как:</p>
 						<ul class="features__list">
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Гарантия соответствия документа действующему законодательству.</span></li>
-							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Быстрое оформление после обследования.</span></li>
+							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Быстрое изготовление — от нескольких часов.</span></li>
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Возможность подачи справки в любое учреждение или организацию.</span></li>
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Помощь с подбором других медицинских документов.</span></li>
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Прямая связь с консультантом для уточнений и деталей.</span></li>
 						</ul>
-						<p class="features__outro">Результат: официальная медицинская справка, которая решит ваш вопрос без очередей и потери времени.</p>
+						<p class="features__outro">Результат: официальная медицинская справка, которая пройдёт проверку в любом учреждении и решит ваш вопрос без очередей и потери времени.</p>
 					</article>
 				</div>
 			</div>
@@ -339,8 +316,8 @@
 		<section class="about">
 			<div class="about__container about__container--single">
 				<div class="about__content" data-reveal>
-					<h2 class="title title--h2">Справка о флюорографии без лишнего ожидания</h2>
-					<p class="about__text">Не тратьте время на очереди, повторные визиты в медучреждения и долгое ожидание результатов. Мы поможем записаться на обследование и оформить справку о флюорографии со всей необходимой информацией: личными данными, датой обследования, результатом флюорографии, заключением врача.</p>
+					<h2 class="title title--h2">Справка о флюорографии за 15 минут</h2>
+					<p class="about__text">Не тратьте время на очереди, повторные визиты в медучреждения и долгое ожидание результатов. Мы поможем организовать оформление справки о флюорографии в удобном формате и подготовить документ со всей необходимой информацией: личными данными, датой обследования, результатом флюорографии, заключением врача.</p>
 					<p class="about__text">Чтобы начать оформление, достаточно позвонить нам, написать в Telegram или оставить заявку на сайте. Менеджер уточнит у вас, для какой цели вам нужен документ, подскажет, какие данные необходимо предоставить, и поможет пройти все основные этапы без лишних сложностей.</p>
 					<p class="about__text">В итоге вы получаете готовую справку о флюорографии с подписью врача и печатью, которую можно использовать для трудоустройства, оформления санитарной книжки, поступления в учебное заведение, прохождения медкомиссии или в других случаях, когда необходим результат флюорографического обследования.</p>
 				</div>

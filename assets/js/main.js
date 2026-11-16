@@ -14,6 +14,7 @@ const I18N = {
 		errPhone: 'Вкажіть номер телефону повністю',
 		errService: 'Оберіть документ',
 		errConsent: 'Потрібна згода на обробку даних',
+		errRequired: 'Заповніть це поле',
 		fabOpen: 'Написати нам',
 		fabClose: 'Закрити список месенджерів',
 	},
@@ -25,6 +26,7 @@ const I18N = {
 		errPhone: 'Укажите номер телефона полностью',
 		errService: 'Выберите документ',
 		errConsent: 'Нужно согласие на обработку данных',
+		errRequired: 'Заполните это поле',
 		fabOpen: 'Написать нам',
 		fabClose: 'Закрыть список мессенджеров',
 	},
@@ -523,12 +525,139 @@ function initAnimations() {
 /* ==========================================================================
    Старт
    ========================================================================== */
+/* ==========================================================================
+   Анкета замовлення (сторінки послуг): умовні поля + відправка на send.php
+   ========================================================================== */
+function initOrderForms() {
+	document.querySelectorAll('[data-order]').forEach((form) => {
+		const wrappers = Array.from(form.querySelectorAll('[data-cond]'));
+
+		const value = (id) => {
+			const el = form.querySelector('[name="f' + id + '"]');
+			if (!el) return null;
+			if (el.type === 'checkbox' || el.type === 'radio') {
+				const checked = form.querySelector('[name="f' + id + '"]:checked');
+				return checked ? checked.value : null;
+			}
+			return el.value;
+		};
+		const matches = (c) => {
+			const v = value(c.f);
+			if (c.op === '==') return v === c.v;
+			if (c.op === '!=') return v !== c.v;
+			return false;
+		};
+		const evaluate = () => {
+			wrappers.forEach((w) => {
+				let groups;
+				try {
+					groups = JSON.parse(w.getAttribute('data-cond'));
+				} catch (err) {
+					return;
+				}
+				const show = groups.some((g) => g.every(matches));
+				w.hidden = !show;
+				if (!show) {
+					w.querySelectorAll('input,select,textarea').forEach((x) => {
+						if (x.type === 'checkbox' || x.type === 'radio') x.checked = false;
+						else x.value = '';
+					});
+					w.classList.remove('form__field--error');
+					const e = w.querySelector('[data-error]');
+					if (e) e.textContent = '';
+				}
+			});
+		};
+		form.addEventListener('change', evaluate);
+		form.addEventListener('input', evaluate);
+		evaluate();
+
+		const submit = form.querySelector('[type="submit"]');
+		const fail = form.querySelector('[data-form-fail]');
+		form.addEventListener('submit', async (ev) => {
+			ev.preventDefault();
+			let firstInvalid = null;
+			form.querySelectorAll('.form__field[data-required]').forEach((w) => {
+				if (w.hidden) return;
+				const control = w.querySelector('input,select,textarea');
+				let ok = false;
+				if (!control) ok = true;
+				else if (control.type === 'radio' || control.type === 'checkbox') {
+					ok = Boolean(form.querySelector('[name="' + control.name + '"]:checked'));
+				} else ok = control.value.trim() !== '';
+				w.classList.toggle('form__field--error', !ok);
+				const e = w.querySelector('[data-error]');
+				if (e) e.textContent = ok ? '' : t.errRequired;
+				if (!ok && !firstInvalid) firstInvalid = control;
+			});
+			const consent = form.querySelector('input[name="consent"]');
+			if (consent && !consent.checked) {
+				const f = consent.closest('.form__field');
+				f.classList.add('form__field--error');
+				const e = f.querySelector('[data-error]');
+				if (e) e.textContent = t.errConsent;
+				if (!firstInvalid) firstInvalid = consent;
+			}
+			if (firstInvalid) {
+				firstInvalid.focus();
+				return;
+			}
+
+			const details = [];
+			form.querySelectorAll('.form__field[data-label]').forEach((w) => {
+				if (w.hidden) return;
+				const label = w.getAttribute('data-label');
+				let v = '';
+				const radio = w.querySelector('input[type="radio"]:checked');
+				const checks = Array.from(w.querySelectorAll('input[type="checkbox"]:checked'));
+				if (radio) v = radio.value;
+				else if (checks.length) v = checks.map((c) => c.value).join(', ');
+				else {
+					const c = w.querySelector('input:not([type="radio"]):not([type="checkbox"]), select, textarea');
+					if (c) v = c.value.trim();
+				}
+				if (v) details.push({ label: label, value: v });
+			});
+
+			const data = new FormData(form);
+			data.set('details', JSON.stringify(details));
+			const phoneEl = form.querySelector('input[type="tel"]');
+			if (phoneEl && phoneEl.value.trim()) data.set('phone', phoneEl.value.trim());
+			const nameWrap = Array.from(form.querySelectorAll('.form__field[data-label]')).find((w) => /ПІБ|ФИО/i.test(w.getAttribute('data-label')));
+			if (nameWrap) {
+				const c = nameWrap.querySelector('input,select,textarea');
+				if (c && c.value.trim()) data.set('name', c.value.trim());
+			}
+
+			submit.disabled = true;
+			form.classList.add('form--loading');
+			if (fail) fail.hidden = true;
+			try {
+				const response = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+				const result = await response.json();
+				if (!response.ok || !result.ok) throw new Error(result.error || response.status);
+				form.classList.add('form--sent');
+				const success = form.querySelector('[data-form-success]');
+				if (success) success.hidden = false;
+				form.reset();
+				evaluate();
+			} catch (err) {
+				if (fail) fail.hidden = false;
+			} finally {
+				submit.disabled = false;
+				form.classList.remove('form--loading');
+			}
+		});
+	});
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	initHeader();
 	initMenu();
 	initServices();
 	initFaq();
 	initForms();
+	initOrderForms();
 	initContacts();
 	initCity();
 	initAnimations();

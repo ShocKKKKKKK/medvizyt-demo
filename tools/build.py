@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import content as content_uk  # noqa: E402
 import content_ru  # noqa: E402
 from i18n import UI  # noqa: E402
+import order_form  # noqa: E402
 
 LANGS = {'uk': content_uk, 'ru': content_ru}
 PREFIX = {'uk': '', 'ru': 'ru/'}
@@ -298,10 +299,89 @@ def tail(root):
 '''
 
 
-def request_section(root, selected=None, title=None, text=None):
+def order_form_html(root, slug):
+	"""Анкета замовлення для сторінки послуги (схема з order_form.py)."""
+	forms = order_form.FORMS_RU if LANG == 'ru' else order_form.FORMS_UK
+	fields = forms[slug]
+	rows = []
+	for f in fields:
+		fid, ftype, label = f['id'], f['type'], f['label']
+		req, opts, cond, content = f['required'], f['options'], f['cond'], f['content']
+		cond_attr = hidden = ''
+		if cond:
+			cond_attr = ' data-cond="' + e(json.dumps(cond, ensure_ascii=False)) + '"'
+			hidden = ' hidden'
+		req_attr = ' data-required="1"' if (req or ftype == 'select') else ''
+		if ftype == 'content':
+			rows.append(f'<div class="form__note"{cond_attr}{hidden}>{e(content)}</div>')
+			continue
+		if not label:
+			continue
+		name = 'f' + fid
+		star = ' <span class="form__req">*</span>' if req else ''
+		if ftype == 'select':
+			opt_html = '<option value="">— оберіть —</option>' + ''.join(
+				f'<option value="{e(o)}">{e(o)}</option>' for o in opts)
+			inner = (f'<span class="form__label">{e(label)}{star}</span>'
+			         f'<select class="form__input form__input--select" name="{name}" data-cond-field="{fid}">{opt_html}</select>')
+		elif ftype in ('radio', 'checkbox'):
+			chips = ''.join(
+				f'<label class="form__chip"><input type="{ftype}" name="{name}" value="{e(o)}" data-cond-field="{fid}"><span>{e(o)}</span></label>'
+				for o in opts)
+			inner = f'<span class="form__label">{e(label)}{star}</span><div class="form__chips">{chips}</div>'
+		elif ftype == 'textarea':
+			inner = (f'<span class="form__label">{e(label)}{star}</span>'
+			         f'<textarea class="form__input form__input--textarea" name="{name}" rows="2" placeholder="{e(label)}" data-cond-field="{fid}"></textarea>')
+		else:
+			it = 'tel' if ftype == 'phone' else 'number' if ftype == 'number' else 'date' if ftype == 'date-time' else 'text'
+			inner = (f'<span class="form__label">{e(label)}{star}</span>'
+			         f'<input class="form__input" type="{it}" name="{name}" placeholder="{e(label)}" data-cond-field="{fid}">')
+		rows.append(f'<div class="form__field" data-label="{e(label)}"{req_attr}{cond_attr}{hidden}>{inner}<p class="form__error" data-error></p></div>')
+	body = '\n'.join(rows)
+	return f'''<form class="form form--order" action="{root}send.php" method="post" novalidate data-order>
+						<input type="hidden" name="lang" value="{LANG}">
+						<div class="form__grid">
+{body}
+						</div>
+						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
+						<div class="form__field">
+							<label class="form__consent">
+								<input class="form__checkbox" type="checkbox" name="consent" required>
+								<span>{T['consent']}</span>
+							</label>
+							<p class="form__error" data-error></p>
+						</div>
+						<button class="button button--wide" type="submit">{T['submit']} {icon('arrow')}</button>
+						<p class="form__fail" hidden role="alert" data-form-fail>{T['fail_text']} <a href="{SITE['phone_href']}">{SITE['phone']}</a></p>
+						<div class="form__success" hidden role="status" data-form-success>
+							{icon('check')}
+							<h3 class="title title--h3">{T['ok_title']}</h3>
+							<p class="form__success-text">{T['ok_text']}</p>
+						</div>
+					</form>'''
+
+
+def request_section(root, selected=None, title=None, text=None, slug=None):
 	title = title or T['req_title']
 	text = text or T['req_text']
 	req_list = '\n'.join(f'\t\t\t\t\t\t\t<li>{icon("check")}{e(t)}</li>' for t in T['req_list'])
+	if slug and slug in (order_form.FORMS_RU if LANG == 'ru' else order_form.FORMS_UK):
+		return f'''		<section class="request" id="request">
+			<div class="request__container">
+				<div class="request__inner" data-reveal>
+					<div class="request__content">
+						<p class="eyebrow">{T['req_eyebrow']}</p>
+						<h2 class="title title--h2">{e(title)}</h2>
+						<p class="request__text">{e(text)}</p>
+						<ul class="request__list">
+{req_list}
+						</ul>
+					</div>
+					{order_form_html(root, slug)}
+				</div>
+			</div>
+		</section>
+'''
 	options = '\n'.join(
 		f'\t\t\t\t\t\t\t\t<option{" selected" if s["form_name"] == selected else ""}>{e(s["form_name"])}</option>' for s in SERVICES
 	)
@@ -557,7 +637,7 @@ def service_page(slug):
 		</section>
 
 {steps_section(p['step2'])}
-{request_section(root, selected=s['form_name'], title=T['order_title'])}
+{request_section(root, selected=s['form_name'], title=T['order_title'], slug=slug)}
 		<section class="features">
 			<div class="features__container">
 				<div class="features__grid">

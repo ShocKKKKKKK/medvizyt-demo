@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Медична довідка водія 083 — швидке оформлення | Med-assistant</title>
+	<title>Медична довідка водія 083 — отримати швидко без відвідування | Med-assistant</title>
 	<meta name="description" content="Оформіть довідку 083/о для водійських прав без черг. Медичне підтвердження придатності до керування авто — офіційно, швидко, із доставкою по Україні.">
 	<!-- Поки сайт лежить на тестовому хостингу, він закритий від індексації. При запуску на med-assistant.net повернути index, follow -->
 	<link rel="canonical" href="https://med-assistant.net/dovidka-vodia/">
@@ -17,7 +17,7 @@
 	<meta property="og:type" content="website">
 	<meta property="og:locale" content="uk_UA">
 	<meta property="og:site_name" content="Med-assistant">
-	<meta property="og:title" content="Медична довідка водія 083 — швидке оформлення | Med-assistant">
+	<meta property="og:title" content="Медична довідка водія 083 — отримати швидко без відвідування | Med-assistant">
 	<meta property="og:description" content="Оформіть довідку 083/о для водійських прав без черг. Медичне підтвердження придатності до керування авто — офіційно, швидко, із доставкою по Україні.">
 	<meta property="og:url" content="https://med-assistant.net/dovidka-vodia/">
 	<meta name="twitter:card" content="summary">
@@ -138,9 +138,9 @@
 						<a class="button button--ghost" href="#price">Переглянути ціни</a>
 					</div>
 					<ul class="service-hero__stats service-hero__stats--four" data-hero>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">Онлайн</span><span class="service-hero__stat-label">Консультація</span></li>
+						<li class="service-hero__stat"><span class="service-hero__stat-value">Без відвідування</span><span class="service-hero__stat-label">Замовляй</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Нова Пошта</span><span class="service-hero__stat-label">Доставка у ваше місто</span></li>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">A, B, C, D, E</span><span class="service-hero__stat-label">Категорії</span></li>
+						<li class="service-hero__stat"><span class="service-hero__stat-value">Гарантія</span><span class="service-hero__stat-label">Проходження</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">700 грн</span><span class="service-hero__stat-label">Вартість</span></li>
 					</ul>
 				</div>
@@ -224,7 +224,7 @@
 					</li>
 					<li class="steps__item" data-reveal>
 						<h3 class="title title--h3">Підготовка довідки 083</h3>
-						<p class="steps__text">Менеджер уточнить деталі та узгодить з вами огляд у медичному центрі. Документ оформлюється за його результатами.</p>
+						<p class="steps__text">Ми підготуємо та відправимо документ, відразу після підтвердження замовлення</p>
 					</li>
 					<li class="steps__item" data-reveal>
 						<h3 class="title title--h3">Доставка поштою</h3>
@@ -251,39 +251,19 @@
 							<li><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Доставимо документ Новою Поштою</li>
 						</ul>
 					</div>
-
-					<!-- Заявка йде на send.php, звідти в Telegram. Налаштування бота: tg-config.php (див. tg-config.example.php) -->
-					<form class="form" action="../send.php" method="post" novalidate data-form>
+					<form class="form form--order" action="../send.php" method="post" novalidate data-order>
 						<input type="hidden" name="lang" value="uk">
-						<div class="form__field">
-							<label class="form__label" for="f-name">ПІБ (українською мовою)</label>
-							<input class="form__input" id="f-name" name="name" type="text" autocomplete="name" placeholder="Прізвище, ім’я, по батькові" required>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-phone">Контактний телефон</label>
-							<input class="form__input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___ __ __" required>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-service">Який документ цікавить</label>
-							<select class="form__input form__input--select" id="f-service" name="service" required data-form-service>
-								<option value="">Оберіть документ</option>
-								<option>Медична довідка</option>
-								<option>Довідка про щеплення 063/о</option>
-								<option>Довідка для басейну</option>
-								<option>Медогляд 086/о</option>
-								<option>Довідка про флюорографію</option>
-								<option>Медична книжка 1-ОМК</option>
-								<option selected>Довідка водія 083/о</option>
-								<option>Довідка психіатричного огляду 100-2/о</option>
-								<option>Інша довідка</option>
-							</select>
-							<p class="form__error" data-error></p>
-						</div>
-						<div class="form__field">
-							<label class="form__label" for="f-comment">Додаткова інформація <span class="visually-hidden">(необов’язково)</span></label>
-							<textarea class="form__input form__input--textarea" id="f-comment" name="comment" rows="3" placeholder="Необов’язково"></textarea>
+						<div class="form__grid">
+<div class="form__field" data-label="ПІБ (українською мовою)"><span class="form__label">ПІБ (українською мовою)</span><input class="form__input" type="text" name="f4" placeholder="ПІБ (українською мовою)" data-cond-field="4"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Дата народження"><span class="form__label">Дата народження</span><input class="form__input" type="date" name="f66" placeholder="Дата народження" data-cond-field="66"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Місто народження"><span class="form__label">Місто народження</span><input class="form__input" type="text" name="f64" placeholder="Місто народження" data-cond-field="64"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Повна адреса проживання"><span class="form__label">Повна адреса проживання</span><input class="form__input" type="text" name="f67" placeholder="Повна адреса проживання" data-cond-field="67"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Категорія прав"><span class="form__label">Категорія прав</span><input class="form__input" type="text" name="f68" placeholder="Категорія прав" data-cond-field="68"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Група крові та резус-фактор"><span class="form__label">Група крові та резус-фактор</span><input class="form__input" type="text" name="f69" placeholder="Група крові та резус-фактор" data-cond-field="69"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Фото"><span class="form__label">Фото</span><input class="form__input" type="text" name="f70" placeholder="Фото" data-cond-field="70"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Номер телефону отримувача"><span class="form__label">Номер телефону отримувача</span><input class="form__input" type="tel" name="f23" placeholder="Номер телефону отримувача" data-cond-field="23"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Місто та номер відділення Нової Пошти"><span class="form__label">Місто та номер відділення Нової Пошти</span><input class="form__input" type="text" name="f47" placeholder="Місто та номер відділення Нової Пошти" data-cond-field="47"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Додаткова інформація"><span class="form__label">Додаткова інформація</span><textarea class="form__input form__input--textarea" name="f26" rows="2" placeholder="Додаткова інформація" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
 						</div>
 						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
 						<div class="form__field">
@@ -316,7 +296,7 @@
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Оформлення офіційної медичної довідки з усіма підписами, печатками та голограмами.</span></li>
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Дані з довідки повністю відповідають чинному законодавству України.</span></li>
 							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Актуальність для водіїв усіх категорій — A, B, C, D, E.</span></li>
-							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Документ на офіційному бланку встановленого зразка.</span></li>
+							<li class="features__item"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg><span>Гарантія проходження перевірок у будь-якій установі.</span></li>
 						</ul>
 						<p class="features__outro">Не знаєте, з чого почати оформлення? Замовте безкоштовну консультацію — ми зорієнтуємо щодо термінів та вартості.</p>
 					</article>
@@ -343,7 +323,7 @@
 					<p class="about__text">Довідка для водія <span class="nowrap">083/о</span> — це документ, без якого в багатьох випадках неможливо пройти процедури, пов’язані з отриманням, заміною чи відновленням водійського посвідчення. Вона підтверджує, що стан здоров’я дозволяє керувати транспортним засобом відповідної категорії, тому важливо, щоб довідка була оформлена правильно та містила всі необхідні дані.</p>
 					<p class="about__text">У документі зазначаються особисті дані водія, результати медичного огляду, висновки лікарів, дозволені категорії транспортних засобів та інші передбачені реквізити. Саме тому краще одразу подбати про коректне оформлення, щоб не втрачати час на виправлення помилок або повторне отримання довідки.</p>
 					<p class="about__text">Така форма може знадобитися під час звернення до сервісного центру МВС, медичного закладу, відкриття нової категорії або відновлення документів після втрати. Правильно оформлена довідка допоможе пройти ці етапи без зайвих затримок і додаткових питань.</p>
-					<p class="about__text">Якщо ви не хочете витрачати час на лікарняні черги, достатньо звернутися до наших фахівців. Ми пояснимо, які дані необхідно надати, щоб отримати довідку водія максимально швидко й зручно.</p>
+					<p class="about__text">Якщо ви не хочете витрачати час на лікарняні черги і проходити безліч лікарів, достатньо звернутися до наших фахівців. Ми пояснимо, які дані необхідно надати, щоб отримати довідку водія максимально швидко й зручно.</p>
 				</div>
 			</div>
 		</section>
