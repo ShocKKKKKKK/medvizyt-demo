@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shockkkkkkk.github.io/medvizyt-demo/sitemap.xml
+Sitemap: https://med-assistant.net/sitemap.xml

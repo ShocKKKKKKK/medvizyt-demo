@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	<url><loc>https://shockkkkkkk.github.io/medvizyt-demo/</loc></url>
-	<url><loc>https://shockkkkkkk.github.io/medvizyt-demo/dovidka-vodia/</loc></url>
-	<url><loc>https://shockkkkkkk.github.io/medvizyt-demo/medohliad/</loc></url>
-	<url><loc>https://shockkkkkkk.github.io/medvizyt-demo/shcheplennia/</loc></url>
-	<url><loc>https://shockkkkkkk.github.io/medvizyt-demo/medknigka/</loc></url>
-	<url><loc>https://shockkkkkkk.github.io/medvizyt-demo/dovidka-vid-narkologa/</loc></url>
-	<url><loc>https://shockkkkkkk.github.io/medvizyt-demo/basein/</loc></url>
-	<url><loc>https://shockkkkkkk.github.io/medvizyt-demo/fliuorohrafiia/</loc></url>
+	<url><loc>https://med-assistant.net/</loc></url>
+	<url><loc>https://med-assistant.net/meddovidky/</loc></url>
+	<url><loc>https://med-assistant.net/shcheplennia/</loc></url>
+	<url><loc>https://med-assistant.net/basein/</loc></url>
+	<url><loc>https://med-assistant.net/medohliad/</loc></url>
+	<url><loc>https://med-assistant.net/fliuorohrafiia/</loc></url>
+	<url><loc>https://med-assistant.net/medknigka/</loc></url>
+	<url><loc>https://med-assistant.net/dovidka-vodia/</loc></url>
+	<url><loc>https://med-assistant.net/dovidka-vid-narkologa/</loc></url>
 </urlset>
