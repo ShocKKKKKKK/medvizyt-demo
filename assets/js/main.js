@@ -4,6 +4,33 @@
 const html = document.documentElement;
 let bodyLockStatus = true;
 
+// Рядки, які скрипт підставляє сам. Мова береться з <html lang>
+const I18N = {
+	uk: {
+		openMenu: 'Відкрити меню',
+		closeMenu: 'Закрити меню',
+		shown: (n, total) => `Показано ${n} із ${total}`,
+		errName: 'Вкажіть ПІБ',
+		errPhone: 'Вкажіть номер телефону повністю',
+		errService: 'Оберіть документ',
+		errConsent: 'Потрібна згода на обробку даних',
+		fabOpen: 'Написати нам',
+		fabClose: 'Закрити список месенджерів',
+	},
+	ru: {
+		openMenu: 'Открыть меню',
+		closeMenu: 'Закрыть меню',
+		shown: (n, total) => `Показано ${n} из ${total}`,
+		errName: 'Укажите ФИО',
+		errPhone: 'Укажите номер телефона полностью',
+		errService: 'Выберите документ',
+		errConsent: 'Нужно согласие на обработку данных',
+		fabOpen: 'Написать нам',
+		fabClose: 'Закрыть список мессенджеров',
+	},
+};
+const t = I18N[html.lang] || I18N.uk;
+
 // Блокування скролу з компенсацією ширини скролбара (body + fixed-елементи [data-lp])
 function bodyLock(delay = 400) {
 	if (!bodyLockStatus) return;
@@ -58,7 +85,7 @@ function initMenu() {
 		if (!html.classList.contains('menu-open')) return;
 		html.classList.remove('menu-open');
 		burger.setAttribute('aria-expanded', 'false');
-		burger.setAttribute('aria-label', 'Відкрити меню');
+		burger.setAttribute('aria-label', t.openMenu);
 		bodyUnlock();
 	};
 
@@ -69,7 +96,7 @@ function initMenu() {
 		} else {
 			html.classList.add('menu-open');
 			burger.setAttribute('aria-expanded', 'true');
-			burger.setAttribute('aria-label', 'Закрити меню');
+			burger.setAttribute('aria-label', t.closeMenu);
 			bodyLock();
 		}
 	});
@@ -121,7 +148,7 @@ function initServices() {
 				item.hidden = !match;
 				if (match) shown++;
 			});
-			if (count) count.textContent = `Показано ${shown} із ${items.length}`;
+			if (count) count.textContent = t.shown(shown, items.length);
 			if (empty) empty.hidden = shown > 0;
 			if (window.ScrollTrigger) ScrollTrigger.refresh();
 		};
@@ -173,13 +200,13 @@ function initFaq() {
 }
 
 /* ==========================================================================
-   Форма заявки: перевірка полів. Обробник відправки ще не підключено.
+   Форма заявки: перевірка полів і відправка на send.php (звідти — у Telegram)
    ========================================================================== */
 function initForms() {
 	const rules = {
-		name: (v) => (v.trim().length >= 2 ? '' : 'Вкажіть ПІБ'),
-		phone: (v) => (v.replace(/\D/g, '').length >= 10 ? '' : 'Вкажіть номер телефону повністю'),
-		service: (v) => (v ? '' : 'Оберіть документ'),
+		name: (v) => (v.trim().length >= 2 ? '' : t.errName),
+		phone: (v) => (v.replace(/\D/g, '').length >= 10 ? '' : t.errPhone),
+		service: (v) => (v ? '' : t.errService),
 	};
 
 	document.querySelectorAll('[data-form]').forEach((form) => {
@@ -195,7 +222,7 @@ function initForms() {
 		const validate = (control) => {
 			let message = '';
 			if (control.type === 'checkbox') {
-				message = control.required && !control.checked ? 'Потрібна згода на обробку даних' : '';
+				message = control.required && !control.checked ? t.errConsent : '';
 			} else if (rules[control.name] && control.type !== 'hidden') {
 				message = rules[control.name](control.value);
 			}
@@ -210,7 +237,10 @@ function initForms() {
 			if (e.target.closest('.form__field--error')) validate(e.target);
 		});
 
-		form.addEventListener('submit', (e) => {
+		const submit = form.querySelector('[type="submit"]');
+		const fail = form.querySelector('[data-form-fail]');
+
+		form.addEventListener('submit', async (e) => {
 			e.preventDefault();
 			const controls = Array.from(form.querySelectorAll('input:not(.form__honeypot), select, textarea'));
 			const invalid = controls.filter((control) => !validate(control));
@@ -219,12 +249,27 @@ function initForms() {
 				return;
 			}
 
-			const data = Object.fromEntries(new FormData(form));
-			delete data.hp_note;
-			// TODO: підключити відправку (Telegram / пошта) — зараз дані нікуди не надсилаються
-			form.classList.add('form--sent');
-			const success = form.querySelector('[data-form-success]');
-			if (success) success.hidden = false;
+			const data = new FormData(form);
+			data.append('page', window.location.href);
+			submit.disabled = true;
+			form.classList.add('form--loading');
+			if (fail) fail.hidden = true;
+
+			try {
+				const response = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+				const result = await response.json();
+				if (!response.ok || !result.ok) throw new Error(result.error || response.status);
+				form.classList.add('form--sent');
+				const success = form.querySelector('[data-form-success]');
+				if (success) success.hidden = false;
+				form.reset();
+			} catch (error) {
+				// Немає PHP (сайт відкрито з диска або на GitHub Pages) чи Telegram не відповів — показуємо телефон
+				if (fail) fail.hidden = false;
+			} finally {
+				submit.disabled = false;
+				form.classList.remove('form--loading');
+			}
 		});
 	});
 }
@@ -240,7 +285,7 @@ function initContacts() {
 		const setOpen = (state) => {
 			fab.classList.toggle('fab--open', state);
 			toggle.setAttribute('aria-expanded', String(state));
-			toggle.setAttribute('aria-label', state ? 'Закрити список месенджерів' : 'Написати нам');
+			toggle.setAttribute('aria-label', state ? t.fabClose : t.fabOpen);
 		};
 		toggle.addEventListener('click', () => setOpen(!fab.classList.contains('fab--open')));
 		document.addEventListener('click', (e) => {
@@ -270,7 +315,8 @@ function initContacts() {
 /* ==========================================================================
    Вибір міста: вікно з пошуком по обласних центрах
    ========================================================================== */
-// Сторінки регіонів ще не створені. Коли замовник погодить адреси, вписати їх сюди:
+// Сторінки регіонів ще не створені. Коли замовник погодить адреси, вписати їх сюди
+// (ключ — українська назва міста, однакова для обох мов):
 // { 'Київ': '/kyiv/', 'Харків': '/kharkiv/', ... } — тоді вибір міста переводитиме на сторінку.
 const CITY_URLS = {};
 const CITY_KEY = 'ma-city';
@@ -298,10 +344,13 @@ function initCity() {
 			/* приватний режим — просто не запам'ятовуємо */
 		}
 	};
-	const show = (city) => {
-		labels.forEach((label) => (label.textContent = city));
-		modal.querySelectorAll('[data-city-item]').forEach((btn) => {
-			btn.classList.toggle('city__link--active', btn.dataset.cityItem === city);
+	// Зберігаємо id міста (українська назва), а показуємо назву мовою сторінки
+	const show = (id) => {
+		const current = Array.from(modal.querySelectorAll('[data-city-id]')).find((btn) => btn.dataset.cityId === id);
+		if (!current) return;
+		labels.forEach((label) => (label.textContent = current.dataset.cityItem));
+		modal.querySelectorAll('[data-city-id]').forEach((btn) => {
+			btn.classList.toggle('city__link--active', btn === current);
 		});
 	};
 
@@ -349,17 +398,17 @@ function initCity() {
 		if (e.key !== 'Enter') return;
 		e.preventDefault();
 		const first = items.find((li) => !li.hidden);
-		if (first) first.querySelector('[data-city-item]').click();
+		if (first) first.querySelector('[data-city-id]').click();
 	});
 
 	modal.addEventListener('click', (e) => {
-		const btn = e.target.closest('[data-city-item]');
+		const btn = e.target.closest('[data-city-id]');
 		if (!btn) return;
-		const city = btn.dataset.cityItem;
-		save(city);
-		show(city);
+		const id = btn.dataset.cityId;
+		save(id);
+		show(id);
 		close();
-		if (CITY_URLS[city]) window.location.href = CITY_URLS[city];
+		if (CITY_URLS[id]) window.location.href = CITY_URLS[id];
 	});
 
 	const stored = read();

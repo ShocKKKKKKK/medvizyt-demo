@@ -7,6 +7,9 @@
 	<meta name="description" content="Потрібна довідка про проходження флюорографії? Оформлюємо офіційний документ з печаткою та підписом лікаря для роботи, навчання чи госпіталізації. Швидко, законно, по всій Україні.">
 	<!-- Поки сайт лежить на тестовому хостингу, він закритий від індексації. При запуску на med-assistant.net повернути index, follow -->
 	<link rel="canonical" href="https://med-assistant.net/fliuorohrafiia/">
+	<link rel="alternate" hreflang="uk" href="https://med-assistant.net/fliuorohrafiia/">
+	<link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/fliuorohrafiia/">
+	<link rel="alternate" hreflang="x-default" href="https://med-assistant.net/fliuorohrafiia/">
 	<meta name="robots" content="noindex, nofollow">
 	<meta name="theme-color" content="#0a7f79">
 	<link rel="icon" href="../assets/img/brand/logo-32.webp" type="image/webp">
@@ -95,9 +98,11 @@
 					<li class="menu__item"><a class="menu__link" href="#contacts">Контакти</a></li>
 				</ul>
 				<a class="button button--wide menu__cta" href="#request">Залишити заявку</a>
+				<div class="menu__lang"><nav class="lang" aria-label="Мова сайту"><span class="lang__link lang__link--active" aria-current="true">UA</span><a class="lang__link" href="../ru/fliuorohrafiia/index.html" hreflang="ru" lang="ru">RU</a></nav></div>
 			</nav>
 
 			<div class="header__actions">
+				<nav class="lang" aria-label="Мова сайту"><span class="lang__link lang__link--active" aria-current="true">UA</span><a class="lang__link" href="../ru/fliuorohrafiia/index.html" hreflang="ru" lang="ru">RU</a></nav>
 				<button class="header__city" type="button" aria-haspopup="dialog" aria-controls="city" data-city-open>
 					<svg class="icon" aria-hidden="true"><use href="#pin"></use></svg>
 					<span data-city-label>Уся Україна</span>
@@ -177,7 +182,7 @@
 			</div>
 		</section>
 
-		<!-- БЛОК ЦІНИ: ціни з живого сайту, редагуються в tools/content.py -->
+		<!-- БЛОК ЦІНИ: ціни з живого сайту, редагуються в tools/content.py і tools/content_ru.py -->
 		<section class="prices" id="price">
 			<div class="prices__container">
 				<div class="section-head" data-reveal>
@@ -247,8 +252,9 @@
 						</ul>
 					</div>
 
-					<!-- Обробник відправки ще не підключено: форма перевіряє поля і показує підтвердження -->
-					<form class="form" novalidate data-form>
+					<!-- Заявка йде на send.php, звідти в Telegram. Налаштування бота: tg-config.php (див. tg-config.example.php) -->
+					<form class="form" action="../send.php" method="post" novalidate data-form>
+						<input type="hidden" name="lang" value="uk">
 						<div class="form__field">
 							<label class="form__label" for="f-name">ПІБ (українською мовою)</label>
 							<input class="form__input" id="f-name" name="name" type="text" autocomplete="name" placeholder="Прізвище, ім’я, по батькові" required>
@@ -288,6 +294,7 @@
 							<p class="form__error" data-error></p>
 						</div>
 						<button class="button button--wide" type="submit">Відправити <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+						<p class="form__fail" hidden role="alert" data-form-fail>Не вдалося надіслати заявку. Зателефонуйте нам або напишіть у Telegram. <a href="tel:+380732823488">+38 (073) 282-34-88</a></p>
 						<div class="form__success" hidden role="status" data-form-success>
 							<svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
 							<h3 class="title title--h3">Заявку прийнято</h3>
@@ -496,31 +503,31 @@
 			<input class="city__input" type="search" placeholder="Почніть вводити назву" autocomplete="off" data-city-search>
 		</label>
 		<ul class="city__list" data-city-list>
-				<li><button class="city__link" type="button" data-city-item="Київ" data-city-region="Київська область">Київ<small>Київська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Харків" data-city-region="Харківська область">Харків<small>Харківська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Одеса" data-city-region="Одеська область">Одеса<small>Одеська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Дніпро" data-city-region="Дніпропетровська область">Дніпро<small>Дніпропетровська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Запоріжжя" data-city-region="Запорізька область">Запоріжжя<small>Запорізька область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Львів" data-city-region="Львівська область">Львів<small>Львівська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Вінниця" data-city-region="Вінницька область">Вінниця<small>Вінницька область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Житомир" data-city-region="Житомирська область">Житомир<small>Житомирська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Івано-Франківськ" data-city-region="Івано-Франківська область">Івано-Франківськ<small>Івано-Франківська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Кропивницький" data-city-region="Кіровоградська область">Кропивницький<small>Кіровоградська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Луцьк" data-city-region="Волинська область">Луцьк<small>Волинська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Миколаїв" data-city-region="Миколаївська область">Миколаїв<small>Миколаївська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Полтава" data-city-region="Полтавська область">Полтава<small>Полтавська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Рівне" data-city-region="Рівненська область">Рівне<small>Рівненська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Суми" data-city-region="Сумська область">Суми<small>Сумська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Тернопіль" data-city-region="Тернопільська область">Тернопіль<small>Тернопільська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Ужгород" data-city-region="Закарпатська область">Ужгород<small>Закарпатська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Херсон" data-city-region="Херсонська область">Херсон<small>Херсонська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Хмельницький" data-city-region="Хмельницька область">Хмельницький<small>Хмельницька область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Черкаси" data-city-region="Черкаська область">Черкаси<small>Черкаська область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Чернівці" data-city-region="Чернівецька область">Чернівці<small>Чернівецька область</small></button></li>
-				<li><button class="city__link" type="button" data-city-item="Чернігів" data-city-region="Чернігівська область">Чернігів<small>Чернігівська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Київ" data-city-item="Київ" data-city-region="Київська область">Київ<small>Київська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Харків" data-city-item="Харків" data-city-region="Харківська область">Харків<small>Харківська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Одеса" data-city-item="Одеса" data-city-region="Одеська область">Одеса<small>Одеська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Дніпро" data-city-item="Дніпро" data-city-region="Дніпропетровська область">Дніпро<small>Дніпропетровська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Запоріжжя" data-city-item="Запоріжжя" data-city-region="Запорізька область">Запоріжжя<small>Запорізька область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Львів" data-city-item="Львів" data-city-region="Львівська область">Львів<small>Львівська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Вінниця" data-city-item="Вінниця" data-city-region="Вінницька область">Вінниця<small>Вінницька область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Житомир" data-city-item="Житомир" data-city-region="Житомирська область">Житомир<small>Житомирська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Івано-Франківськ" data-city-item="Івано-Франківськ" data-city-region="Івано-Франківська область">Івано-Франківськ<small>Івано-Франківська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Кропивницький" data-city-item="Кропивницький" data-city-region="Кіровоградська область">Кропивницький<small>Кіровоградська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Луцьк" data-city-item="Луцьк" data-city-region="Волинська область">Луцьк<small>Волинська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Миколаїв" data-city-item="Миколаїв" data-city-region="Миколаївська область">Миколаїв<small>Миколаївська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Полтава" data-city-item="Полтава" data-city-region="Полтавська область">Полтава<small>Полтавська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Рівне" data-city-item="Рівне" data-city-region="Рівненська область">Рівне<small>Рівненська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Суми" data-city-item="Суми" data-city-region="Сумська область">Суми<small>Сумська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Тернопіль" data-city-item="Тернопіль" data-city-region="Тернопільська область">Тернопіль<small>Тернопільська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Ужгород" data-city-item="Ужгород" data-city-region="Закарпатська область">Ужгород<small>Закарпатська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Херсон" data-city-item="Херсон" data-city-region="Херсонська область">Херсон<small>Херсонська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Хмельницький" data-city-item="Хмельницький" data-city-region="Хмельницька область">Хмельницький<small>Хмельницька область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Черкаси" data-city-item="Черкаси" data-city-region="Черкаська область">Черкаси<small>Черкаська область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Чернівці" data-city-item="Чернівці" data-city-region="Чернівецька область">Чернівці<small>Чернівецька область</small></button></li>
+				<li><button class="city__link" type="button" data-city-id="Чернігів" data-city-item="Чернігів" data-city-region="Чернігівська область">Чернігів<small>Чернігівська область</small></button></li>
 		</ul>
 		<p class="city__empty" hidden data-city-empty>Не знайшли? Оберіть «Уся Україна» — ми доставляємо в будь-яке місто.</p>
-		<button class="button button--ghost button--wide city__all" type="button" data-city-item="Уся Україна"><svg class="icon" aria-hidden="true"><use href="#pin"></use></svg>Уся Україна</button>
+		<button class="button button--ghost button--wide city__all" type="button" data-city-id="Уся Україна" data-city-item="Уся Україна"><svg class="icon" aria-hidden="true"><use href="#pin"></use></svg>Уся Україна</button>
 	</div>
 </div>
 

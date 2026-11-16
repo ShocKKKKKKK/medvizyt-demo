@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	<url><loc>https://med-assistant.net/</loc></url>
-	<url><loc>https://med-assistant.net/meddovidky/</loc></url>
-	<url><loc>https://med-assistant.net/shcheplennia/</loc></url>
-	<url><loc>https://med-assistant.net/basein/</loc></url>
-	<url><loc>https://med-assistant.net/medohliad/</loc></url>
-	<url><loc>https://med-assistant.net/fliuorohrafiia/</loc></url>
-	<url><loc>https://med-assistant.net/medknigka/</loc></url>
-	<url><loc>https://med-assistant.net/dovidka-vodia/</loc></url>
-	<url><loc>https://med-assistant.net/dovidka-vid-narkologa/</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+	<url><loc>https://med-assistant.net/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/"/></url>
+	<url><loc>https://med-assistant.net/ru/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/"/></url>
+	<url><loc>https://med-assistant.net/meddovidky/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/meddovidky/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/meddovidky/"/></url>
+	<url><loc>https://med-assistant.net/ru/meddovidky/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/meddovidky/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/meddovidky/"/></url>
+	<url><loc>https://med-assistant.net/shcheplennia/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/shcheplennia/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/shcheplennia/"/></url>
+	<url><loc>https://med-assistant.net/ru/shcheplennia/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/shcheplennia/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/shcheplennia/"/></url>
+	<url><loc>https://med-assistant.net/basein/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/basein/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/basein/"/></url>
+	<url><loc>https://med-assistant.net/ru/basein/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/basein/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/basein/"/></url>
+	<url><loc>https://med-assistant.net/medohliad/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/medohliad/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/medohliad/"/></url>
+	<url><loc>https://med-assistant.net/ru/medohliad/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/medohliad/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/medohliad/"/></url>
+	<url><loc>https://med-assistant.net/fliuorohrafiia/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/fliuorohrafiia/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/fliuorohrafiia/"/></url>
+	<url><loc>https://med-assistant.net/ru/fliuorohrafiia/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/fliuorohrafiia/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/fliuorohrafiia/"/></url>
+	<url><loc>https://med-assistant.net/medknigka/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/medknigka/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/medknigka/"/></url>
+	<url><loc>https://med-assistant.net/ru/medknigka/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/medknigka/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/medknigka/"/></url>
+	<url><loc>https://med-assistant.net/dovidka-vodia/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/dovidka-vodia/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/dovidka-vodia/"/></url>
+	<url><loc>https://med-assistant.net/ru/dovidka-vodia/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/dovidka-vodia/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/dovidka-vodia/"/></url>
+	<url><loc>https://med-assistant.net/dovidka-vid-narkologa/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/dovidka-vid-narkologa/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/dovidka-vid-narkologa/"/></url>
+	<url><loc>https://med-assistant.net/ru/dovidka-vid-narkologa/</loc><xhtml:link rel="alternate" hreflang="uk" href="https://med-assistant.net/dovidka-vid-narkologa/"/><xhtml:link rel="alternate" hreflang="ru" href="https://med-assistant.net/ru/dovidka-vid-narkologa/"/></url>
 </urlset>

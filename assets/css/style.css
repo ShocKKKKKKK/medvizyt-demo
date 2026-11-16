@@ -288,16 +288,7 @@ html[data-scroll-lock] body {
 	max-width: 720px;
 	margin-bottom: clamp(28px, 22.667px + 1.4815vw, 44px);
 }
-.section-head--split {
-	grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-	align-items: end;
-	gap: 16px clamp(24px, 12px + 3.3333vw, 60px);
-	max-width: none;
-}
-.section-head__main {
-	display: grid;
-	gap: 14px;
-}
+
 .section-head--center {
 	margin-left: auto;
 	margin-right: auto;
@@ -748,41 +739,6 @@ html[data-scroll-lock] body {
 }
 
 /* ==========================================================================
-   Цифри
-   ========================================================================== */
-.stats {
-	padding-bottom: var(--section-indent);
-}
-.stats__list {
-	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 1px;
-	border-radius: var(--radius-lg);
-	border: 1px solid var(--line);
-	overflow: hidden;
-	background: var(--line);
-}
-.stats__item {
-	display: grid;
-	align-content: start;
-	gap: 8px;
-	padding: clamp(18px, 14.667px + 0.9259vw, 28px);
-	background: var(--white);
-}
-.stats__value {
-	font-weight: 800;
-	font-size: clamp(22px, 16px + 1.6667vw, 40px);
-	line-height: 1;
-	letter-spacing: -0.03em;
-	white-space: nowrap;
-	color: var(--primary);
-}
-.stats__label {
-	font-size: 14px;
-	color: var(--muted);
-}
-
-/* ==========================================================================
    Послуги
    ========================================================================== */
 .services {
@@ -943,27 +899,7 @@ html[data-scroll-lock] body {
 	text-decoration: underline;
 	text-underline-offset: 3px;
 }
-.service-card--accent {
-	color: var(--white);
-	border-color: var(--deep);
-	background: var(--deep);
-}
-.service-card--accent .service-card__text {
-	color: rgba(255, 255, 255, 0.74);
-}
-.service-card--accent .service-card__icon,
-.service-card--accent:nth-child(even) .service-card__icon {
-	color: var(--white);
-	background: rgba(255, 255, 255, 0.12);
-}
-.service-card--accent .service-card__code {
-	color: rgba(255, 255, 255, 0.8);
-	border-color: rgba(255, 255, 255, 0.24);
-}
-.service-card--accent .service-card__arrow {
-	color: var(--deep);
-	background: var(--white);
-}
+
 @media (any-hover: hover) {
 	.service-card:hover {
 		transform: translateY(-6px);
@@ -1080,109 +1016,6 @@ html[data-scroll-lock] body {
 }
 .help__inner .button {
 	position: relative;
-}
-
-/* ==========================================================================
-   Переваги (bento)
-   ========================================================================== */
-.benefits {
-	padding: var(--section-indent) 0;
-}
-.benefits__grid {
-	display: grid;
-	grid-template-columns: 1.25fr 1fr 1fr;
-	grid-template-rows: auto auto;
-	gap: var(--gap);
-}
-.benefits__card {
-	display: grid;
-	align-content: start;
-	gap: 12px;
-	padding: var(--card-padding);
-	border-radius: var(--radius-lg);
-	border: 1px solid var(--line);
-	background: var(--white);
-}
-.benefits__card .icon {
-	width: 48px;
-	height: 48px;
-	padding: 12px;
-	border-radius: 15px;
-	color: var(--primary);
-	background: var(--mint);
-}
-.benefits__num {
-	font-size: 12px;
-	font-weight: 700;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
-	color: var(--primary);
-}
-.benefits__text {
-	color: var(--muted);
-}
-.benefits__card--big {
-	grid-row: span 2;
-	align-content: space-between;
-	min-height: 420px;
-	border-color: var(--mint);
-	background:
-		radial-gradient(circle at 85% 85%, rgba(10, 127, 121, 0.16) 0 26%, transparent 27%),
-		radial-gradient(circle at 85% 85%, rgba(10, 127, 121, 0.09) 0 44%, transparent 45%),
-		var(--mint);
-}
-.benefits__card--dark {
-	grid-column: span 2;
-	color: var(--white);
-	border-color: var(--deep);
-	background: var(--deep);
-}
-.benefits__card--dark .benefits__num {
-	color: #8fd9cf;
-}
-.benefits__card--dark .benefits__text {
-	color: rgba(255, 255, 255, 0.74);
-}
-.benefits__card--dark .icon {
-	color: var(--white);
-	background: rgba(255, 255, 255, 0.12);
-}
-.benefits__lines {
-	display: grid;
-	gap: 12px;
-}
-.benefits__tags {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin-top: 6px;
-}
-.benefits__tag {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	padding: 7px 12px;
-	border-radius: 100px;
-	font-size: 13px;
-	font-weight: 600;
-	background: rgba(255, 255, 255, 0.12);
-}
-.benefits__tag .icon {
-	width: 16px;
-	height: 16px;
-	padding: 0;
-	background: none;
-}
-.benefits__note {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin-top: 22px;
-	font-size: 14px;
-	color: var(--muted);
-}
-.benefits__note .icon {
-	color: var(--primary);
 }
 
 /* ==========================================================================
@@ -1415,10 +1248,7 @@ html[data-scroll-lock] body {
 	height: 1px;
 	opacity: 0;
 }
-.form__note {
-	font-size: 12px;
-	color: var(--muted);
-}
+
 .form__success {
 	display: grid;
 	justify-items: center;
@@ -1783,76 +1613,6 @@ html[data-scroll-lock] body {
 }
 
 /* Блок ціни — єдиний блок, що відрізняється між сторінками послуг */
-.price {
-	padding-bottom: var(--section-indent);
-}
-.price__inner {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
-	align-items: center;
-	gap: 24px 40px;
-	padding: clamp(22px, 12px + 2.7778vw, 48px);
-	border-radius: var(--radius-lg);
-	color: var(--white);
-	background: var(--deep);
-}
-.price__content {
-	display: grid;
-	gap: 12px;
-}
-.price__content .eyebrow {
-	color: #8fd9cf;
-}
-.price__includes {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin-top: 6px;
-}
-.price__include {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	padding: 7px 12px;
-	border-radius: 100px;
-	font-size: 13px;
-	font-weight: 600;
-	background: rgba(255, 255, 255, 0.12);
-}
-.price__include .icon {
-	width: 16px;
-	height: 16px;
-}
-.price__box {
-	display: grid;
-	justify-items: start;
-	gap: 14px;
-	min-width: 280px;
-	padding: 24px;
-	border-radius: var(--radius);
-	color: var(--ink);
-	background: var(--white);
-}
-.price__label {
-	font-size: 13px;
-	font-weight: 600;
-	color: var(--muted);
-}
-.price__value {
-	font-weight: 800;
-	font-size: clamp(34px, 30px + 1.1111vw, 46px);
-	line-height: 1;
-	letter-spacing: -0.02em;
-}
-.price__value small {
-	font-size: 0.45em;
-	font-weight: 700;
-	color: var(--muted);
-}
-.price__note {
-	font-size: 12px;
-	color: var(--muted);
-}
 
 .about {
 	padding-bottom: var(--section-indent);
@@ -1901,10 +1661,6 @@ html[data-scroll-lock] body {
 	color: var(--white);
 	background: var(--primary);
 }
-.docs__note {
-	font-size: 13px;
-	color: var(--muted);
-}
 
 .steps--soft {
 	background: var(--bg-soft);
@@ -1917,164 +1673,13 @@ html[data-scroll-lock] body {
 	background: none;
 }
 
-.related {
-	padding: var(--section-indent) 0;
-	background: var(--bg-soft);
-}
-.related__grid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 12px;
-}
-.related__link {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 14px;
-	padding: 18px 20px;
-	border-radius: var(--radius-sm);
-	border: 1px solid var(--line);
-	font-weight: 700;
-	font-size: 15px;
-	text-align: left;
-	background: var(--white);
-	transition:
-		border-color 0.3s,
-		transform 0.5s var(--ease);
-}
-.related__link .icon {
-	color: var(--primary);
-	transition: transform 0.5s var(--ease);
-}
-@media (any-hover: hover) {
-	.related__link:hover {
-		border-color: var(--primary);
-		transform: translateY(-3px);
-	}
-	.related__link:hover .icon {
-		transform: translateX(4px);
-	}
-}
-
-/* ==========================================================================
-   Відгуки
-   ========================================================================== */
-.reviews {
-	padding-bottom: var(--section-indent);
-}
-.reviews__grid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: var(--gap);
-}
-.reviews__card {
-	display: grid;
-	align-content: start;
-	gap: 16px;
-	padding: var(--card-padding);
-	border-radius: var(--radius-lg);
-	border: 1px solid var(--line);
-	background: var(--bg-soft);
-}
-.reviews__stars {
-	display: flex;
-	gap: 3px;
-	color: var(--sun);
-}
-.reviews__stars .icon {
-	width: 18px;
-	height: 18px;
-	fill: currentColor;
-}
-.reviews__text {
-	font-size: 17px;
-	font-weight: 500;
-	line-height: 1.5;
-}
-.reviews__author {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	margin-top: auto;
-	padding-top: 6px;
-}
-.reviews__avatar {
-	display: grid;
-	flex: 0 0 auto;
-	place-items: center;
-	width: 44px;
-	height: 44px;
-	border-radius: 50%;
-	font-weight: 800;
-	font-size: 14px;
-	color: var(--primary-dark);
-	background: var(--mint);
-}
-.reviews__name {
-	display: block;
-	font-weight: 800;
-	font-size: 15px;
-}
-.reviews__meta {
-	display: block;
-	font-size: 13px;
-	color: var(--muted);
-}
-.reviews__card--dark {
-	color: var(--white);
-	border-color: var(--deep);
-	background: var(--deep);
-}
-.reviews__card--dark .reviews__meta {
-	color: rgba(255, 255, 255, 0.7);
-}
-.reviews__card--dark .reviews__avatar {
-	color: var(--deep);
-	background: var(--white);
-}
-
 /* ==========================================================================
    Сторінка послуги: ситуації, підготовка
    ========================================================================== */
-.cases {
-	padding-bottom: var(--section-indent);
-}
-.cases__grid {
-	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: var(--gap);
-	counter-reset: case;
-}
-.cases__item {
-	display: grid;
-	align-content: start;
-	gap: 10px;
-	padding: var(--card-padding);
-	border-radius: var(--radius);
-	border: 1px solid var(--line);
-	counter-increment: case;
-}
-.cases__item::before {
-	content: '0' counter(case);
-	font-weight: 800;
-	font-size: 13px;
-	letter-spacing: 0.08em;
-	color: var(--primary);
-}
-.cases__text {
-	font-size: 14px;
-	color: var(--muted);
-}
+
 .about__aside {
 	display: grid;
 	gap: var(--gap);
-}
-.docs--plain {
-	background: var(--white);
-}
-.docs--plain .docs__item .icon {
-	color: var(--sun-ink);
-	background: var(--sun-soft);
 }
 
 /* ==========================================================================
@@ -2100,7 +1705,58 @@ html[data-scroll-lock] body {
    Med-assistant: блоки під ТЗ замовника
    ========================================================================== */
 
+/* Перемикач мови */
+.lang {
+	display: inline-flex;
+	padding: 3px;
+	border-radius: 12px;
+	border: 1px solid var(--line);
+	font-weight: 700;
+	font-size: 13px;
+}
+.lang__link {
+	display: grid;
+	place-items: center;
+	min-width: 36px;
+	height: 36px;
+	padding: 0 6px;
+	border-radius: 9px;
+	color: var(--muted);
+	transition:
+		background-color 0.3s,
+		color 0.3s;
+}
+.menu__lang {
+	display: none;
+}
+.lang__link--active {
+	color: var(--white);
+	background: var(--primary);
+}
+
+/* Відправка форми */
+.form--loading [type='submit'] {
+	opacity: 0.6;
+	pointer-events: none;
+}
+.form__fail {
+	padding: 12px 14px;
+	border-radius: 12px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #b03030;
+	background: #fff5f5;
+}
+.form__fail a {
+	white-space: nowrap;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
 /* Шапка: активний пункт меню, кнопка вибору міста */
+.menu__link {
+	white-space: nowrap;
+}
 .menu__sub-link--active {
 	color: var(--primary);
 }
@@ -2526,12 +2182,21 @@ html[data-scroll-lock] body {
 	.city__link:hover {
 		background: var(--bg-soft);
 	}
+	a.lang__link:hover {
+		color: var(--primary);
+	}
 	.city__close:hover {
 		color: var(--white);
 		background: var(--primary);
 	}
 }
 
+@media (max-width: 87.5em) {
+	/* Кнопка заявки дублюється в меню і в першому екрані — на вужчих екранах прибираємо її з шапки */
+	.header__cta {
+		display: none;
+	}
+}
 @media (max-width: 75em) {
 	.header__city {
 		max-width: 140px;
@@ -2561,6 +2226,15 @@ html[data-scroll-lock] body {
 	}
 }
 @media (max-width: 48em) {
+	/* На телефоні перемикач мови живе в меню, у шапці на нього немає місця */
+	.header__actions .lang {
+		display: none;
+	}
+	.menu__lang {
+		display: flex;
+		justify-content: center;
+		margin-top: 16px;
+	}
 	.header__city {
 		width: 44px;
 		padding: 0;
@@ -2712,9 +2386,7 @@ html[data-scroll-lock] body {
 	.hero__float--status {
 		right: 10px;
 	}
-	.cases__grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+
 	.services__grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
@@ -2781,12 +2453,7 @@ html[data-scroll-lock] body {
 		margin-top: 16px;
 	}
 
-	.section-head--split {
-		grid-template-columns: minmax(0, 1fr);
-	}
-	.reviews__grid {
-		grid-template-columns: minmax(0, 1fr);
-	}
+	
 	.hero__container,
 	.service-hero__container,
 	.faq__container,
@@ -2800,23 +2467,13 @@ html[data-scroll-lock] body {
 	.services__grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
-	.benefits__grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-	.benefits__card--big {
-		grid-column: span 2;
-		grid-row: auto;
-		min-height: 0;
-	}
+
+	
 	.footer__top {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
-	.price__inner {
-		grid-template-columns: minmax(0, 1fr);
-	}
-	.related__grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+
+	
 }
 @media (min-width: 62.0625em) {
 	.menu__cta {
@@ -2828,9 +2485,7 @@ html[data-scroll-lock] body {
 	:root {
 		--container-padding: 16px;
 	}
-	.stats__list {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+
 	.fab {
 		right: 14px;
 		bottom: 14px;
@@ -2872,24 +2527,15 @@ html[data-scroll-lock] body {
 		grid-row: span 2;
 		margin-bottom: 0;
 	}
-	.benefits__grid {
-		grid-template-columns: minmax(0, 1fr);
-	}
-	.benefits__card--big,
-	.benefits__card--dark {
-		grid-column: auto;
-	}
+
+	
 	.service-hero__stats:not(.service-hero__stats--four) {
 		grid-template-columns: minmax(0, 1fr);
-	}
-	.price__box {
-		min-width: 0;
 	}
 }
 
 @media (max-width: 36em) {
-	.quick__row,
-	.cases__grid {
+	.quick__row {
 		grid-template-columns: minmax(0, 1fr);
 	}
 	.logo__img {
@@ -2903,7 +2549,6 @@ html[data-scroll-lock] body {
 		font-size: 12px;
 	}
 	.services__grid,
-	.related__grid,
 	.footer__top {
 		grid-template-columns: minmax(0, 1fr);
 	}
