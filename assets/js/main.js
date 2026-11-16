@@ -15,6 +15,8 @@ const I18N = {
 		errService: 'Оберіть документ',
 		errConsent: 'Потрібна згода на обробку даних',
 		errRequired: 'Заповніть це поле',
+		search_ph: 'Пошук…',
+		select_ph: '— оберіть —',
 		fabOpen: 'Написати нам',
 		fabClose: 'Закрити список месенджерів',
 	},
@@ -27,6 +29,8 @@ const I18N = {
 		errService: 'Выберите документ',
 		errConsent: 'Нужно согласие на обработку данных',
 		errRequired: 'Заполните это поле',
+		search_ph: 'Поиск…',
+		select_ph: '— выберите —',
 		fabOpen: 'Написать нам',
 		fabClose: 'Закрыть список мессенджеров',
 	},
@@ -475,6 +479,111 @@ function initAnimations() {
 /* ==========================================================================
    Анкета замовлення (сторінки послуг): умовні поля + відправка на send.php
    ========================================================================== */
+/* ==========================================================================
+   Кастомний селект для анкети (у стилі сайту, з пошуком)
+   ========================================================================== */
+function initCustomSelects() {
+	document.querySelectorAll('[data-order] select.form__input--select').forEach((select) => {
+		if (select.dataset.cselect) return;
+		select.dataset.cselect = '1';
+
+		const wrap = document.createElement('div');
+		wrap.className = 'cselect';
+		select.parentNode.insertBefore(wrap, select);
+		wrap.appendChild(select);
+		select.classList.add('cselect__native');
+
+		const trigger = document.createElement('button');
+		trigger.type = 'button';
+		trigger.className = 'cselect__trigger';
+		trigger.setAttribute('aria-haspopup', 'listbox');
+		trigger.setAttribute('aria-expanded', 'false');
+		wrap.appendChild(trigger);
+
+		const panel = document.createElement('div');
+		panel.className = 'cselect__panel';
+		panel.hidden = true;
+		const search = document.createElement('input');
+		search.type = 'search';
+		search.className = 'cselect__search';
+		search.placeholder = t.search_ph;
+		search.autocomplete = 'off';
+		const list = document.createElement('ul');
+		list.className = 'cselect__list';
+		list.setAttribute('role', 'listbox');
+		panel.appendChild(search);
+		panel.appendChild(list);
+		wrap.appendChild(panel);
+
+		const placeholder = select.options[0] && !select.options[0].value ? select.options[0].textContent : t.select_ph;
+		const items = [];
+		Array.from(select.options).forEach((opt) => {
+			if (!opt.value) return;
+			const li = document.createElement('li');
+			li.className = 'cselect__option';
+			li.setAttribute('role', 'option');
+			li.textContent = opt.textContent;
+			li.dataset.value = opt.value;
+			list.appendChild(li);
+			items.push(li);
+		});
+
+		const filter = (q) => {
+			q = q.trim().toLowerCase();
+			items.forEach((li) => {
+				li.hidden = Boolean(q) && !li.textContent.toLowerCase().includes(q);
+			});
+		};
+		const sync = () => {
+			const sel = select.options[select.selectedIndex];
+			const isPlaceholder = !select.value;
+			trigger.textContent = isPlaceholder ? placeholder : sel.textContent;
+			trigger.classList.toggle('cselect__trigger--placeholder', isPlaceholder);
+			items.forEach((li) => li.setAttribute('aria-selected', li.dataset.value === select.value ? 'true' : 'false'));
+		};
+		const close = () => {
+			panel.hidden = true;
+			trigger.setAttribute('aria-expanded', 'false');
+		};
+		const open = () => {
+			panel.hidden = false;
+			trigger.setAttribute('aria-expanded', 'true');
+			search.value = '';
+			filter('');
+			search.focus();
+		};
+		const choose = (value) => {
+			select.value = value;
+			select.dispatchEvent(new Event('change', { bubbles: true }));
+			sync();
+			close();
+			trigger.focus();
+		};
+
+		items.forEach((li) => li.addEventListener('click', () => choose(li.dataset.value)));
+		trigger.addEventListener('click', () => (panel.hidden ? open() : close()));
+		search.addEventListener('input', () => filter(search.value));
+		search.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				const first = items.find((li) => !li.hidden);
+				if (first) choose(first.dataset.value);
+			}
+		});
+		document.addEventListener('click', (e) => {
+			if (!wrap.contains(e.target)) close();
+		});
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') close();
+		});
+		const form = select.closest('form');
+		if (form) form.addEventListener('reset', () => setTimeout(sync, 0));
+
+		sync();
+	});
+}
+
+
 function initOrderForms() {
 	document.querySelectorAll('[data-order]').forEach((form) => {
 		const wrappers = Array.from(form.querySelectorAll('[data-cond]'));
@@ -605,6 +714,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	initFaq();
 	initForms();
 	initOrderForms();
+	initCustomSelects();
 	initContacts();
 	initCity();
 	initStepsLine();

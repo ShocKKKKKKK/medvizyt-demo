@@ -1119,7 +1119,8 @@ html[data-scroll-lock] body {
 }
 .request__inner {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	grid-template-columns: minmax(0, 1fr);
+	justify-items: center;
 	gap: clamp(24px, 12px + 3.3333vw, 56px);
 	padding: clamp(22px, 12px + 2.7778vw, 56px);
 	border-radius: var(--radius-lg);
@@ -1132,9 +1133,15 @@ html[data-scroll-lock] body {
 	display: grid;
 	align-content: start;
 	gap: 16px;
+	width: 100%;
+	max-width: 640px;
 }
 .request__content .eyebrow {
 	color: #8fd9cf;
+}
+.request .form {
+	width: 100%;
+	max-width: 640px;
 }
 .request__text {
 	color: rgba(255, 255, 255, 0.76);
@@ -1276,23 +1283,22 @@ html[data-scroll-lock] body {
 
 /* Анкета замовлення (сторінки послуг) */
 .form--order {
-	gap: 18px;
+	gap: 20px;
 }
 .form__grid {
 	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 14px;
+	grid-template-columns: 1fr;
+	gap: 16px;
 }
 .form__field[hidden],
 .form__note[hidden] {
 	display: none;
 }
+.form--order .form__label {
+	font-size: 14px;
+}
 .form__req {
 	color: #d84747;
-}
-.form--order .form__field:has(select),
-.form--order .form__field:has(textarea) {
-	grid-column: 1 / -1;
 }
 .form__note {
 	grid-column: 1 / -1;
@@ -1350,6 +1356,122 @@ html[data-scroll-lock] body {
 }
 .form__field--error .form__chip {
 	border-color: #d84747;
+}
+
+/* Кастомний селект (анкета) */
+.cselect {
+	position: relative;
+}
+.cselect__native {
+	display: none;
+}
+.cselect__trigger {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	width: 100%;
+	height: 54px;
+	padding: 0 16px;
+	border-radius: 14px;
+	border: 1px solid var(--line);
+	background: var(--bg-soft);
+	font: inherit;
+	font-size: 15px;
+	color: var(--ink);
+	text-align: left;
+	cursor: pointer;
+	transition:
+		border-color 0.2s,
+		box-shadow 0.2s,
+		background-color 0.2s;
+}
+.cselect__trigger::after {
+	content: '';
+	flex: 0 0 auto;
+	width: 18px;
+	height: 18px;
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b2b30' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+	transition: transform 0.25s var(--ease, ease);
+}
+.cselect__trigger[aria-expanded='true']::after {
+	transform: rotate(180deg);
+}
+.cselect__trigger--placeholder {
+	color: var(--muted);
+}
+.cselect__trigger:hover {
+	border-color: var(--primary);
+}
+.cselect__trigger:focus-visible {
+	outline: none;
+	border-color: var(--primary);
+	background: var(--white);
+	box-shadow: 0 0 0 4px rgba(10, 127, 121, 0.12);
+}
+.form__field--error .cselect__trigger {
+	border-color: #d84747;
+	background: #fff5f5;
+}
+.cselect__panel {
+	position: absolute;
+	z-index: 30;
+	top: calc(100% + 6px);
+	left: 0;
+	right: 0;
+	max-height: 320px;
+	overflow-y: auto;
+	padding: 8px;
+	border-radius: 16px;
+	border: 1px solid var(--line);
+	background: var(--white);
+	box-shadow: 0 18px 40px rgba(11, 43, 48, 0.16);
+}
+.cselect__panel[hidden] {
+	display: none;
+}
+.cselect__search {
+	width: 100%;
+	height: 44px;
+	margin-bottom: 6px;
+	padding: 0 12px;
+	border-radius: 10px;
+	border: 1px solid var(--line);
+	background: var(--bg-soft);
+	font: inherit;
+	font-size: 14px;
+	color: var(--ink);
+}
+.cselect__search:focus {
+	outline: none;
+	border-color: var(--primary);
+	background: var(--white);
+}
+.cselect__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.cselect__option {
+	padding: 10px 12px;
+	border-radius: 10px;
+	font-size: 14px;
+	line-height: 1.35;
+	color: var(--ink);
+	cursor: pointer;
+}
+.cselect__option[hidden] {
+	display: none;
+}
+.cselect__option:hover,
+.cselect__option:focus-visible {
+	background: var(--mint);
+	outline: none;
+}
+.cselect__option[aria-selected='true'] {
+	background: var(--mint);
+	color: var(--primary-dark);
+	font-weight: 700;
 }
 @media (max-width: 48em) {
 	.form__grid {

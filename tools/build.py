@@ -320,7 +320,7 @@ def order_form_html(root, slug):
 		name = 'f' + fid
 		star = ' <span class="form__req">*</span>' if req else ''
 		if ftype == 'select':
-			opt_html = '<option value="">— оберіть —</option>' + ''.join(
+			opt_html = f'<option value="">{T["select_ph"]}</option>' + ''.join(
 				f'<option value="{e(o)}">{e(o)}</option>' for o in opts)
 			inner = (f'<span class="form__label">{e(label)}{star}</span>'
 			         f'<select class="form__input form__input--select" name="{name}" data-cond-field="{fid}">{opt_html}</select>')
@@ -331,11 +331,11 @@ def order_form_html(root, slug):
 			inner = f'<span class="form__label">{e(label)}{star}</span><div class="form__chips">{chips}</div>'
 		elif ftype == 'textarea':
 			inner = (f'<span class="form__label">{e(label)}{star}</span>'
-			         f'<textarea class="form__input form__input--textarea" name="{name}" rows="2" placeholder="{e(label)}" data-cond-field="{fid}"></textarea>')
+			         f'<textarea class="form__input form__input--textarea" name="{name}" rows="2" data-cond-field="{fid}"></textarea>')
 		else:
 			it = 'tel' if ftype == 'phone' else 'number' if ftype == 'number' else 'date' if ftype == 'date-time' else 'text'
 			inner = (f'<span class="form__label">{e(label)}{star}</span>'
-			         f'<input class="form__input" type="{it}" name="{name}" placeholder="{e(label)}" data-cond-field="{fid}">')
+			         f'<input class="form__input" type="{it}" name="{name}" data-cond-field="{fid}">')
 		rows.append(f'<div class="form__field" data-label="{e(label)}"{req_attr}{cond_attr}{hidden}>{inner}<p class="form__error" data-error></p></div>')
 	body = '\n'.join(rows)
 	return f'''<form class="form form--order" action="{root}send.php" method="post" novalidate data-order>
@@ -364,7 +364,6 @@ def order_form_html(root, slug):
 def request_section(root, selected=None, title=None, text=None, slug=None):
 	title = title or T['req_title']
 	text = text or T['req_text']
-	req_list = '\n'.join(f'\t\t\t\t\t\t\t<li>{icon("check")}{e(t)}</li>' for t in T['req_list'])
 	if slug and slug in (order_form.FORMS_RU if LANG == 'ru' else order_form.FORMS_UK):
 		return f'''		<section class="request" id="request">
 			<div class="request__container">
@@ -373,9 +372,6 @@ def request_section(root, selected=None, title=None, text=None, slug=None):
 						<p class="eyebrow">{T['req_eyebrow']}</p>
 						<h2 class="title title--h2">{e(title)}</h2>
 						<p class="request__text">{e(text)}</p>
-						<ul class="request__list">
-{req_list}
-						</ul>
 					</div>
 					{order_form_html(root, slug)}
 				</div>
@@ -392,9 +388,6 @@ def request_section(root, selected=None, title=None, text=None, slug=None):
 						<p class="eyebrow">{T['req_eyebrow']}</p>
 						<h2 class="title title--h2">{e(title)}</h2>
 						<p class="request__text">{e(text)}</p>
-						<ul class="request__list">
-{req_list}
-						</ul>
 					</div>
 
 					<!-- Заявка йде на send.php, звідти в Telegram. Налаштування бота: tg-config.php (див. tg-config.example.php) -->

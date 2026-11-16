@@ -313,19 +313,14 @@
 						<p class="eyebrow">Заявка</p>
 						<h2 class="title title--h2">Для заказа оставляйте заявку</h2>
 						<p class="request__text">мы свяжемся с вами в течение 5 минут!</p>
-						<ul class="request__list">
-							<li><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Подскажем, какая форма справки вам нужна</li>
-							<li><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Объясним требования и порядок оформления</li>
-							<li><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Доставим документ Новой Почтой</li>
-						</ul>
 					</div>
 					<form class="form form--order" action="../../send.php" method="post" novalidate data-order>
 						<input type="hidden" name="lang" value="ru">
 						<div class="form__grid">
-<div class="form__field" data-label="ФИО (на украинском языке)"><span class="form__label">ФИО (на украинском языке)</span><input class="form__input" type="text" name="f4" placeholder="ФИО (на украинском языке)" data-cond-field="4"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Контактный телефон"><span class="form__label">Контактный телефон</span><input class="form__input" type="tel" name="f23" placeholder="Контактный телефон" data-cond-field="23"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Какой документ интересует"><span class="form__label">Какой документ интересует</span><input class="form__input" type="text" name="f63" placeholder="Какой документ интересует" data-cond-field="63"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Дополнительная информация"><span class="form__label">Дополнительная информация</span><textarea class="form__input form__input--textarea" name="f26" rows="2" placeholder="Дополнительная информация" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="ФИО (на украинском языке)"><span class="form__label">ФИО (на украинском языке)</span><input class="form__input" type="text" name="f4" data-cond-field="4"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Контактный телефон"><span class="form__label">Контактный телефон</span><input class="form__input" type="tel" name="f23" data-cond-field="23"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Какой документ интересует"><span class="form__label">Какой документ интересует</span><input class="form__input" type="text" name="f63" data-cond-field="63"><p class="form__error" data-error></p></div>
+<div class="form__field" data-label="Дополнительная информация"><span class="form__label">Дополнительная информация</span><textarea class="form__input form__input--textarea" name="f26" rows="2" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
 						</div>
 						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
 						<div class="form__field">
