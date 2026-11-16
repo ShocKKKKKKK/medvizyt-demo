@@ -2,6 +2,33 @@
    Хелпери
    ========================================================================== */
 const html = document.documentElement;
+
+// Тексти інтерфейсу для двох мовних версій; мова береться з <html lang>
+const I18N = {
+	uk: {
+		menuOpen: 'Відкрити меню',
+		menuClose: 'Закрити меню',
+		shown: (shown, total) => `Показано ${shown} із ${total}`,
+		errName: "Вкажіть ім'я",
+		errPhone: 'Вкажіть номер телефону повністю',
+		errService: 'Оберіть послугу',
+		errConsent: 'Потрібна згода на обробку даних',
+		fabOpen: 'Написати нам',
+		fabClose: 'Закрити список месенджерів',
+	},
+	en: {
+		menuOpen: 'Open menu',
+		menuClose: 'Close menu',
+		shown: (shown, total) => `Showing ${shown} of ${total}`,
+		errName: 'Enter your name',
+		errPhone: 'Enter your full phone number',
+		errService: 'Choose a service',
+		errConsent: 'Consent to data processing is required',
+		fabOpen: 'Message us',
+		fabClose: 'Close messenger list',
+	},
+};
+const T = I18N[html.lang === 'en' ? 'en' : 'uk'];
 let bodyLockStatus = true;
 
 // Блокування скролу з компенсацією ширини скролбара (body + fixed-елементи [data-lp])
@@ -58,7 +85,7 @@ function initMenu() {
 		if (!html.classList.contains('menu-open')) return;
 		html.classList.remove('menu-open');
 		burger.setAttribute('aria-expanded', 'false');
-		burger.setAttribute('aria-label', 'Відкрити меню');
+		burger.setAttribute('aria-label', T.menuOpen);
 		bodyUnlock();
 	};
 
@@ -69,7 +96,7 @@ function initMenu() {
 		} else {
 			html.classList.add('menu-open');
 			burger.setAttribute('aria-expanded', 'true');
-			burger.setAttribute('aria-label', 'Закрити меню');
+			burger.setAttribute('aria-label', T.menuClose);
 			bodyLock();
 		}
 	});
@@ -121,7 +148,7 @@ function initServices() {
 				item.hidden = !match;
 				if (match) shown++;
 			});
-			if (count) count.textContent = `Показано ${shown} із ${items.length}`;
+			if (count) count.textContent = T.shown(shown, items.length);
 			if (empty) empty.hidden = shown > 0;
 			if (window.ScrollTrigger) ScrollTrigger.refresh();
 		};
@@ -177,9 +204,9 @@ function initFaq() {
    ========================================================================== */
 function initForms() {
 	const rules = {
-		name: (v) => (v.trim().length >= 2 ? '' : "Вкажіть ім'я"),
-		phone: (v) => (v.replace(/\D/g, '').length >= 10 ? '' : 'Вкажіть номер телефону повністю'),
-		service: (v) => (v ? '' : 'Оберіть послугу'),
+		name: (v) => (v.trim().length >= 2 ? '' : T.errName),
+		phone: (v) => (v.replace(/\D/g, '').length >= 10 ? '' : T.errPhone),
+		service: (v) => (v ? '' : T.errService),
 	};
 
 	document.querySelectorAll('[data-form]').forEach((form) => {
@@ -195,7 +222,7 @@ function initForms() {
 		const validate = (control) => {
 			let message = '';
 			if (control.type === 'checkbox') {
-				message = control.required && !control.checked ? 'Потрібна згода на обробку даних' : '';
+				message = control.required && !control.checked ? T.errConsent : '';
 			} else if (rules[control.name] && control.type !== 'hidden') {
 				message = rules[control.name](control.value);
 			}
@@ -240,7 +267,7 @@ function initContacts() {
 		const setOpen = (state) => {
 			fab.classList.toggle('fab--open', state);
 			toggle.setAttribute('aria-expanded', String(state));
-			toggle.setAttribute('aria-label', state ? 'Закрити список месенджерів' : 'Написати нам');
+			toggle.setAttribute('aria-label', state ? T.fabClose : T.fabOpen);
 		};
 		toggle.addEventListener('click', () => setOpen(!fab.classList.contains('fab--open')));
 		document.addEventListener('click', (e) => {

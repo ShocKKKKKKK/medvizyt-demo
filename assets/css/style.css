@@ -343,6 +343,37 @@ html[data-scroll-lock] body {
 	gap: 10px;
 	margin-left: auto;
 }
+.lang {
+	display: inline-flex;
+	padding: 3px;
+	border-radius: 12px;
+	font-size: 13px;
+	font-weight: 800;
+	background: var(--mint);
+}
+.lang__item {
+	display: grid;
+	place-items: center;
+	min-width: 38px;
+	height: 34px;
+	padding: 0 8px;
+	border-radius: 9px;
+	color: var(--muted);
+	transition:
+		color 0.3s,
+		background-color 0.3s;
+}
+.lang__item--active {
+	color: var(--ink);
+	background: var(--white);
+	box-shadow: var(--shadow-sm);
+}
+@media (any-hover: hover) {
+	a.lang__item:hover {
+		color: var(--primary);
+		background: rgba(255, 255, 255, 0.6);
+	}
+}
 .header__phone {
 	display: inline-flex;
 	align-items: center;
@@ -2361,6 +2392,20 @@ html[data-scroll-lock] body {
 	.header__container {
 		gap: 12px;
 		min-height: 64px;
+	}
+	.lang {
+		padding: 0;
+		background: none;
+	}
+	.lang__item--active {
+		display: none;
+	}
+	.lang__item {
+		width: 44px;
+		height: 44px;
+		border-radius: 12px;
+		color: var(--ink);
+		background: var(--mint);
 	}
 	.header__phone {
 		width: 44px;
