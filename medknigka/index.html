@@ -136,7 +136,7 @@
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Онлайн</span><span class="service-hero__stat-label">Консультація</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Нова Пошта</span><span class="service-hero__stat-label">Доставка у ваше місто</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Будь-які професії</span><span class="service-hero__stat-label">Для кого</span></li>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">від — грн</span><span class="service-hero__stat-label">Вартість</span></li>
+						<li class="service-hero__stat"><span class="service-hero__stat-value">від 400 грн</span><span class="service-hero__stat-label">Вартість</span></li>
 					</ul>
 				</div>
 
@@ -177,7 +177,7 @@
 			</div>
 		</section>
 
-		<!-- БЛОК ЦІНИ: ціни заповнює власник проєкту, зараз замість сум стоїть «—» -->
+		<!-- БЛОК ЦІНИ: ціни з живого сайту, редагуються в tools/content.py -->
 		<section class="prices" id="price">
 			<div class="prices__container">
 				<div class="section-head" data-reveal>
@@ -188,18 +188,84 @@
 					<table class="prices__table">
 						<thead>
 							<tr class="prices__row prices__row--head">
-								<th class="prices__name" scope="col">Послуга</th>
-								<th class="prices__value" scope="col">Ціна</th>
+								<th class="prices__cell prices__cell--name" scope="col">Вид довідки</th>
+								<th class="prices__cell" scope="col">Форма</th>
+								<th class="prices__cell" scope="col">Кількість</th>
+								<th class="prices__cell" scope="col">Ціна</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr class="prices__row">
-								<th class="prices__name" scope="row">Медична книжка на пів року <span class="prices__code"><span class="nowrap">1-ОМК</span></span></th>
-								<td class="prices__value">— грн</td>
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на пів року</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">1 шт.</td>
+								<td class="prices__cell" data-label="Ціна">600 грн/шт.</td>
 							</tr>
 							<tr class="prices__row">
-								<th class="prices__name" scope="row">Медична книжка на рік <span class="prices__code"><span class="nowrap">1-ОМК</span></span></th>
-								<td class="prices__value">— грн</td>
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на пів року</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">2–4 шт.</td>
+								<td class="prices__cell" data-label="Ціна">570 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на пів року</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">5–9 шт.</td>
+								<td class="prices__cell" data-label="Ціна">550 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на пів року</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">10+ шт.</td>
+								<td class="prices__cell" data-label="Ціна">520 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на пів року</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">20+ шт.</td>
+								<td class="prices__cell" data-label="Ціна">490 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на пів року</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">30+ шт.</td>
+								<td class="prices__cell" data-label="Ціна">470 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на рік</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">1 шт.</td>
+								<td class="prices__cell" data-label="Ціна">700 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на рік</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">2–4 шт.</td>
+								<td class="prices__cell" data-label="Ціна">670 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на рік</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">5–9 шт.</td>
+								<td class="prices__cell" data-label="Ціна">650 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на рік</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">10+ шт.</td>
+								<td class="prices__cell" data-label="Ціна">620 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на рік</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">20+ шт.</td>
+								<td class="prices__cell" data-label="Ціна">690 грн/шт.</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медична книжка на рік</th>
+								<td class="prices__cell" data-label="Форма"><span class="nowrap">1-ОМК</span></td>
+								<td class="prices__cell" data-label="Кількість">30+ шт.</td>
+								<td class="prices__cell" data-label="Ціна">670 грн/шт.</td>
 							</tr>
 						</tbody>
 					</table>

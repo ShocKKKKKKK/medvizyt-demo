@@ -136,7 +136,7 @@
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Онлайн</span><span class="service-hero__stat-label">Консультація</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Нова Пошта</span><span class="service-hero__stat-label">Доставка у ваше місто</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Навчання й робота</span><span class="service-hero__stat-label">Для чого</span></li>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">— грн</span><span class="service-hero__stat-label">Вартість</span></li>
+						<li class="service-hero__stat"><span class="service-hero__stat-value">800 грн</span><span class="service-hero__stat-label">Вартість</span></li>
 					</ul>
 				</div>
 
@@ -177,7 +177,7 @@
 			</div>
 		</section>
 
-		<!-- БЛОК ЦІНИ: ціни заповнює власник проєкту, зараз замість сум стоїть «—» -->
+		<!-- БЛОК ЦІНИ: ціни з живого сайту, редагуються в tools/content.py -->
 		<section class="prices" id="price">
 			<div class="prices__container">
 				<div class="section-head" data-reveal>
@@ -188,14 +188,30 @@
 					<table class="prices__table">
 						<thead>
 							<tr class="prices__row prices__row--head">
-								<th class="prices__name" scope="col">Послуга</th>
-								<th class="prices__value" scope="col">Ціна</th>
+								<th class="prices__cell prices__cell--name" scope="col">Вид довідки</th>
+								<th class="prices__cell" scope="col">Для роботи</th>
+								<th class="prices__cell" scope="col">Для дітей</th>
+								<th class="prices__cell" scope="col">Для абітурієнта</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr class="prices__row">
-								<th class="prices__name" scope="row">Медогляд <span class="prices__code"><span class="nowrap">086/о</span></span></th>
-								<td class="prices__value">— грн</td>
+								<th class="prices__cell prices__cell--name" scope="row">Довідка <span class="nowrap">086/о</span></th>
+								<td class="prices__cell" data-label="Для роботи">від 800 грн</td>
+								<td class="prices__cell" data-label="Для дітей">від 800 грн</td>
+								<td class="prices__cell" data-label="Для абітурієнта">від 800 грн</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Довідка <span class="nowrap">086-1/о</span></th>
+								<td class="prices__cell" data-label="Для роботи">—</td>
+								<td class="prices__cell" data-label="Для дітей">700 грн</td>
+								<td class="prices__cell" data-label="Для абітурієнта">—</td>
+							</tr>
+							<tr class="prices__row">
+								<th class="prices__cell prices__cell--name" scope="row">Медичний огляд працівників</th>
+								<td class="prices__cell" data-label="Для роботи">уточнюйте на консультації</td>
+								<td class="prices__cell" data-label="Для дітей">—</td>
+								<td class="prices__cell" data-label="Для абітурієнта">уточнюйте на консультації</td>
 							</tr>
 						</tbody>
 					</table>

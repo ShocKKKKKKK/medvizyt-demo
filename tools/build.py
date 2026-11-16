@@ -392,12 +392,20 @@ def service_page(slug):
 
 	intro = '\n'.join(f'\t\t\t\t\t\t<p class="intro__text">{nb(e(t))}</p>' for t in p['intro'])
 
+	table = p['prices']
+	price_head = '\n'.join(
+		f'\t\t\t\t\t\t\t\t<th class="prices__cell{" prices__cell--name" if i == 0 else ""}" scope="col">{e(h)}</th>'
+		for i, h in enumerate(table['head'])
+	)
 	price_rows = '\n'.join(
-		f'''							<tr class="prices__row">
-								<th class="prices__name" scope="row">{e(name)}{f' <span class="prices__code">{nb(e(code))}</span>' if code else ''}</th>
-								<td class="prices__value">{e(value)} грн</td>
-							</tr>'''
-		for name, code, value in p['prices']
+		'\t\t\t\t\t\t\t<tr class="prices__row">\n'
+		+ '\n'.join(
+			f'\t\t\t\t\t\t\t\t<th class="prices__cell prices__cell--name" scope="row">{nb(e(c))}</th>' if i == 0
+			else f'\t\t\t\t\t\t\t\t<td class="prices__cell" data-label="{e(table["head"][i])}">{nb(e(c))}</td>'
+			for i, c in enumerate(row)
+		)
+		+ '\n\t\t\t\t\t\t\t</tr>'
+		for row in table['rows']
 	)
 
 	features = []
@@ -475,7 +483,7 @@ def service_page(slug):
 			</div>
 		</section>
 
-		<!-- БЛОК ЦІНИ: ціни заповнює власник проєкту, зараз замість сум стоїть «—» -->
+		<!-- БЛОК ЦІНИ: ціни з живого сайту, редагуються в tools/content.py -->
 		<section class="prices" id="price">
 			<div class="prices__container">
 				<div class="section-head" data-reveal>
@@ -486,8 +494,7 @@ def service_page(slug):
 					<table class="prices__table">
 						<thead>
 							<tr class="prices__row prices__row--head">
-								<th class="prices__name" scope="col">Послуга</th>
-								<th class="prices__value" scope="col">Ціна</th>
+{price_head}
 							</tr>
 						</thead>
 						<tbody>

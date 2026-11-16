@@ -136,7 +136,7 @@
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Онлайн</span><span class="service-hero__stat-label">Консультація</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Нова Пошта</span><span class="service-hero__stat-label">Доставка у ваше місто</span></li>
 						<li class="service-hero__stat"><span class="service-hero__stat-value">Конфіденційно</span><span class="service-hero__stat-label">Захист даних</span></li>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">— грн</span><span class="service-hero__stat-label">Вартість</span></li>
+						<li class="service-hero__stat"><span class="service-hero__stat-value">1200 грн</span><span class="service-hero__stat-label">Вартість</span></li>
 					</ul>
 				</div>
 
@@ -177,7 +177,7 @@
 			</div>
 		</section>
 
-		<!-- БЛОК ЦІНИ: ціни заповнює власник проєкту, зараз замість сум стоїть «—» -->
+		<!-- БЛОК ЦІНИ: ціни з живого сайту, редагуються в tools/content.py -->
 		<section class="prices" id="price">
 			<div class="prices__container">
 				<div class="section-head" data-reveal>
@@ -188,14 +188,16 @@
 					<table class="prices__table">
 						<thead>
 							<tr class="prices__row prices__row--head">
-								<th class="prices__name" scope="col">Послуга</th>
-								<th class="prices__value" scope="col">Ціна</th>
+								<th class="prices__cell prices__cell--name" scope="col">Вид довідки</th>
+								<th class="prices__cell" scope="col">Форма</th>
+								<th class="prices__cell" scope="col">Ціна</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr class="prices__row">
-								<th class="prices__name" scope="row">Довідка психіатричного огляду <span class="prices__code"><span class="nowrap">100-2/о</span></span></th>
-								<td class="prices__value">— грн</td>
+								<th class="prices__cell prices__cell--name" scope="row">Довідка психіатричного огляду за формою</th>
+								<td class="prices__cell" data-label="Форма">ф. <span class="nowrap">100-2/о</span></td>
+								<td class="prices__cell" data-label="Ціна">1200 грн</td>
 							</tr>
 						</tbody>
 					</table>
