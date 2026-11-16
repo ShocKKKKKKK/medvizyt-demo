@@ -177,9 +177,9 @@ function initFaq() {
    ========================================================================== */
 function initForms() {
 	const rules = {
-		name: (v) => (v.trim().length >= 2 ? '' : "Вкажіть ім'я"),
+		name: (v) => (v.trim().length >= 2 ? '' : 'Вкажіть ПІБ'),
 		phone: (v) => (v.replace(/\D/g, '').length >= 10 ? '' : 'Вкажіть номер телефону повністю'),
-		service: (v) => (v ? '' : 'Оберіть послугу'),
+		service: (v) => (v ? '' : 'Оберіть документ'),
 	};
 
 	document.querySelectorAll('[data-form]').forEach((form) => {
@@ -212,7 +212,7 @@ function initForms() {
 
 		form.addEventListener('submit', (e) => {
 			e.preventDefault();
-			const controls = Array.from(form.querySelectorAll('input:not(.form__honeypot), select'));
+			const controls = Array.from(form.querySelectorAll('input:not(.form__honeypot), select, textarea'));
 			const invalid = controls.filter((control) => !validate(control));
 			if (invalid.length) {
 				invalid[0].focus();
@@ -265,10 +265,105 @@ function initContacts() {
 		});
 	}
 
-	// Посилання на месенджери ще не надані замовником
-	document.querySelectorAll('[data-todo-link]').forEach((link) => {
-		link.addEventListener('click', (e) => e.preventDefault());
+}
+
+/* ==========================================================================
+   Вибір міста: вікно з пошуком по обласних центрах
+   ========================================================================== */
+// Сторінки регіонів ще не створені. Коли замовник погодить адреси, вписати їх сюди:
+// { 'Київ': '/kyiv/', 'Харків': '/kharkiv/', ... } — тоді вибір міста переводитиме на сторінку.
+const CITY_URLS = {};
+const CITY_KEY = 'ma-city';
+
+function initCity() {
+	const modal = document.querySelector('[data-city]');
+	if (!modal) return;
+	const input = modal.querySelector('[data-city-search]');
+	const items = Array.from(modal.querySelectorAll('[data-city-list] li'));
+	const empty = modal.querySelector('[data-city-empty]');
+	const labels = document.querySelectorAll('[data-city-label]');
+	let opener = null;
+
+	const read = () => {
+		try {
+			return localStorage.getItem(CITY_KEY);
+		} catch (e) {
+			return null;
+		}
+	};
+	const save = (city) => {
+		try {
+			localStorage.setItem(CITY_KEY, city);
+		} catch (e) {
+			/* приватний режим — просто не запам'ятовуємо */
+		}
+	};
+	const show = (city) => {
+		labels.forEach((label) => (label.textContent = city));
+		modal.querySelectorAll('[data-city-item]').forEach((btn) => {
+			btn.classList.toggle('city__link--active', btn.dataset.cityItem === city);
+		});
+	};
+
+	const filter = () => {
+		const query = input.value.trim().toLowerCase();
+		let shown = 0;
+		items.forEach((li) => {
+			const btn = li.querySelector('[data-city-item]');
+			const text = (btn.dataset.cityItem + ' ' + btn.dataset.cityRegion).toLowerCase();
+			li.hidden = Boolean(query) && !text.includes(query);
+			if (!li.hidden) shown++;
+		});
+		empty.hidden = shown > 0;
+	};
+
+	const open = (trigger) => {
+		opener = trigger;
+		modal.hidden = false;
+		bodyLock(0);
+		input.value = '';
+		filter();
+		input.focus();
+	};
+	const close = () => {
+		if (modal.hidden) return;
+		modal.hidden = true;
+		bodyUnlock(0);
+		if (opener) opener.focus();
+	};
+
+	document.querySelectorAll('[data-city-open]').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			// На мобільному відкрите меню треба закрити, інакше вікно з'явиться під ним
+			if (html.classList.contains('menu-open')) document.querySelector('[data-burger]').click();
+			open(btn);
+		});
 	});
+	modal.querySelectorAll('[data-city-close]').forEach((btn) => btn.addEventListener('click', close));
+	document.addEventListener('keydown', (e) => {
+		if (e.code === 'Escape') close();
+	});
+	input.addEventListener('input', filter);
+	// Enter у пошуку обирає перше знайдене місто
+	input.addEventListener('keydown', (e) => {
+		if (e.key !== 'Enter') return;
+		e.preventDefault();
+		const first = items.find((li) => !li.hidden);
+		if (first) first.querySelector('[data-city-item]').click();
+	});
+
+	modal.addEventListener('click', (e) => {
+		const btn = e.target.closest('[data-city-item]');
+		if (!btn) return;
+		const city = btn.dataset.cityItem;
+		save(city);
+		show(city);
+		close();
+		if (CITY_URLS[city]) window.location.href = CITY_URLS[city];
+	});
+
+	const stored = read();
+	if (stored) show(stored);
 }
 
 /* ==========================================================================
@@ -385,5 +480,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	initFaq();
 	initForms();
 	initContacts();
+	initCity();
 	initAnimations();
 });

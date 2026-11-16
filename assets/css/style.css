@@ -397,43 +397,16 @@ html[data-scroll-lock] body {
 
 .logo {
 	display: inline-flex;
-	transition: color 0.3s;
-	font-weight: 800;
-	font-size: 26px;
-	line-height: 1;
-	letter-spacing: -0.045em;
-	white-space: nowrap;
+	flex: 0 0 auto;
+	transition: opacity 0.3s;
 }
-/* Крапку над «і» замінює медичний хрест */
-.logo__i {
-	position: relative;
-	display: inline-block;
-}
-.logo__i::before,
-.logo__i::after {
-	content: '';
-	position: absolute;
-	top: 0.14em;
-	left: 50%;
-	width: 0.27em;
-	height: 0.095em;
-	border-radius: 0.03em;
-	background: var(--primary);
-	transform: translate(-50%, -50%);
-	transition: transform 0.6s var(--ease);
-}
-.logo__i::after {
-	transform: translate(-50%, -50%) rotate(90deg);
+.logo__img {
+	width: auto;
+	height: 34px;
 }
 @media (any-hover: hover) {
-	.logo:hover .logo__i::before {
-		transform: translate(-50%, -50%) rotate(180deg);
-	}
-	.logo:hover .logo__i::after {
-		transform: translate(-50%, -50%) rotate(270deg);
-	}
 	.logo:hover {
-		color: var(--primary-dark);
+		opacity: 0.8;
 	}
 }
 
@@ -1545,22 +1518,8 @@ html[data-scroll-lock] body {
 	font-size: 13px;
 	color: var(--muted);
 }
-.footer__disclaimer {
-	flex: 1 1 100%;
-	font-size: 12px;
-}
-.footer__dev {
-	font-size: 12px;
-	color: var(--muted);
-}
-.footer__dev-link {
-	text-decoration: underline;
-	text-underline-offset: 3px;
-	transition: color 0.3s;
-}
 @media (any-hover: hover) {
-	.footer__link:hover,
-	.footer__dev-link:hover {
+	.footer__link:hover {
 		color: var(--primary);
 	}
 	.footer__social:hover {
@@ -1615,8 +1574,8 @@ html[data-scroll-lock] body {
 .fab__link--telegram {
 	color: #1b8ac4;
 }
-.fab__link--viber {
-	color: #7360f2;
+.fab__link--phone {
+	color: var(--primary);
 }
 .fab__toggle {
 	position: relative;
@@ -2138,6 +2097,514 @@ html[data-scroll-lock] body {
 }
 
 /* ==========================================================================
+   Med-assistant: блоки під ТЗ замовника
+   ========================================================================== */
+
+/* Шапка: активний пункт меню, кнопка вибору міста */
+.menu__sub-link--active {
+	color: var(--primary);
+}
+.header__city {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	max-width: 180px;
+	min-height: 44px;
+	padding: 0 14px;
+	border-radius: 12px;
+	font-weight: 700;
+	font-size: 14px;
+	white-space: nowrap;
+	background: var(--mint);
+	transition:
+		background-color 0.3s,
+		color 0.3s;
+}
+.header__city span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.header__city .icon {
+	flex: 0 0 auto;
+	width: 18px;
+	height: 18px;
+	color: var(--primary);
+}
+
+/* Перший екран головної */
+.hero__lead {
+	font-weight: 600;
+	color: var(--primary);
+}
+.hero__city {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-weight: 600;
+	color: var(--ink);
+	text-decoration: underline dashed;
+	text-underline-offset: 4px;
+	transition: color 0.3s;
+}
+
+/* Чотири переваги */
+.perks {
+	padding-bottom: var(--section-indent);
+}
+.perks__list {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--gap);
+}
+.perks__item {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 18px;
+	border-radius: var(--radius);
+	border: 1px solid var(--line);
+	background: var(--white);
+}
+.perks__icon {
+	display: grid;
+	flex: 0 0 auto;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 14px;
+	color: var(--primary);
+	background: var(--mint);
+}
+.perks__item:nth-child(even) .perks__icon {
+	color: var(--sun-ink);
+	background: var(--sun-soft);
+}
+.perks__text {
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 1.35;
+}
+
+/* Чотири показники у першому екрані послуги */
+.service-hero__stats--four {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	max-width: 520px;
+}
+
+/* Вступ про документ */
+.intro {
+	padding-bottom: var(--section-indent);
+}
+.intro__inner {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: 24px 48px;
+	padding: clamp(22px, 12px + 2.7778vw, 48px);
+	border-radius: var(--radius-lg);
+	color: var(--white);
+	background:
+		radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.07) 0 26%, transparent 27%),
+		var(--deep);
+}
+.intro__content {
+	display: grid;
+	gap: 14px;
+	max-width: 720px;
+}
+.intro__content .eyebrow {
+	color: #8fd9cf;
+}
+.intro__text {
+	color: rgba(255, 255, 255, 0.8);
+}
+.intro__aside {
+	display: grid;
+	justify-items: center;
+	gap: 14px;
+	min-width: 260px;
+}
+.intro__phone {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 700;
+	white-space: nowrap;
+	transition: color 0.3s;
+}
+.intro__phone .icon {
+	color: #8fd9cf;
+}
+
+/* Таблиця цін */
+.prices {
+	padding-bottom: var(--section-indent);
+}
+.prices__card {
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--line);
+	background: var(--white);
+}
+.prices__table {
+	width: 100%;
+	border-collapse: collapse;
+}
+.prices__row:not(:last-child) {
+	border-bottom: 1px solid var(--line);
+}
+.prices__row--head {
+	font-size: 13px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--muted);
+	background: var(--bg-soft);
+}
+.prices__name,
+.prices__value {
+	padding: 18px clamp(16px, 12px + 1.1111vw, 28px);
+	text-align: left;
+	vertical-align: middle;
+}
+.prices__name {
+	font-weight: 600;
+}
+.prices__code {
+	display: inline-block;
+	margin-left: 6px;
+	padding: 3px 8px;
+	border-radius: 100px;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--primary-dark);
+	background: var(--mint);
+}
+.prices__value {
+	width: 1%;
+	font-weight: 800;
+	white-space: nowrap;
+	text-align: right;
+}
+.prices__row--head .prices__value {
+	font-weight: 700;
+}
+
+/* Чотири кроки */
+.steps__list--four {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Два блоки-списки */
+.features {
+	padding-bottom: var(--section-indent);
+}
+.features__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--gap);
+}
+.features__card {
+	display: grid;
+	align-content: start;
+	gap: 16px;
+	padding: var(--card-padding);
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--line);
+	background: var(--bg-soft);
+}
+.features__text,
+.features__outro {
+	color: var(--muted);
+}
+.features__outro {
+	font-weight: 600;
+	color: var(--ink);
+}
+.features__list {
+	display: grid;
+	gap: 12px;
+}
+.features__item {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	font-weight: 600;
+	font-size: 15px;
+}
+.features__item .icon {
+	flex: 0 0 auto;
+	width: 24px;
+	height: 24px;
+	padding: 5px;
+	border-radius: 50%;
+	color: var(--white);
+	background: var(--primary);
+}
+.features__card--dark {
+	color: var(--white);
+	border-color: var(--deep);
+	background: var(--deep);
+}
+.features__card--dark .features__text {
+	color: rgba(255, 255, 255, 0.76);
+}
+.features__card--dark .features__outro {
+	color: var(--white);
+}
+.features__card--dark .features__item .icon {
+	color: var(--deep);
+	background: #8fd9cf;
+}
+
+/* SEO-текст на всю ширину */
+.about__container--single {
+	grid-template-columns: minmax(0, 1fr);
+}
+.about__container--single .about__content {
+	max-width: 860px;
+}
+.about--home {
+	padding-top: var(--section-indent);
+}
+.docs__item a {
+	transition: color 0.3s;
+}
+
+/* «Наші послуги» внизу сторінки послуги */
+.services--related .services__grid {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Форма: поле «Додаткова інформація» */
+.form__input--textarea {
+	height: auto;
+	min-height: 96px;
+	padding: 14px 16px;
+	resize: vertical;
+}
+
+/* Підвал: кнопка, що виглядає як посилання */
+.footer__link--button {
+	font-size: inherit;
+	text-align: left;
+}
+
+/* Карта */
+.map {
+	padding-bottom: var(--section-indent);
+}
+.map__frame {
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--line);
+	background: var(--mint);
+}
+.map__iframe {
+	display: block;
+	width: 100%;
+	height: clamp(320px, 260px + 16.6667vw, 460px);
+}
+
+/* Вибір міста */
+.city {
+	position: fixed;
+	inset: 0;
+	z-index: calc(var(--z-header) + 10);
+	display: grid;
+	place-items: center;
+	padding: 16px;
+}
+.city[hidden] {
+	display: none;
+}
+.city__overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(11, 43, 48, 0.55);
+	backdrop-filter: blur(4px);
+}
+.city__window {
+	position: relative;
+	display: grid;
+	gap: 14px;
+	width: 100%;
+	max-width: 560px;
+	max-height: calc(100dvh - 32px);
+	padding: clamp(22px, 18px + 1.1111vw, 32px);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border-radius: var(--radius-lg);
+	background: var(--white);
+	box-shadow: var(--shadow-md);
+}
+.city__close {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 12px;
+	background: var(--bg-soft);
+	transition:
+		background-color 0.3s,
+		color 0.3s;
+}
+.city__window .title {
+	padding-right: 48px;
+}
+.city__text {
+	font-size: 14px;
+	color: var(--muted);
+}
+.city__search {
+	position: relative;
+	display: block;
+}
+.city__search .icon {
+	position: absolute;
+	top: 50%;
+	left: 16px;
+	color: var(--muted);
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+.city__input {
+	height: 52px;
+	padding: 0 16px 0 48px;
+	border-radius: 14px;
+	border: 1px solid var(--line);
+	background: var(--bg-soft);
+	transition:
+		border-color 0.3s,
+		background-color 0.3s;
+}
+.city__input:focus {
+	outline: none;
+	border-color: var(--primary);
+	background-color: var(--white);
+}
+.city__list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 6px;
+}
+.city__list li[hidden] {
+	display: none;
+}
+.city__link {
+	display: grid;
+	width: 100%;
+	padding: 10px 14px;
+	border-radius: 12px;
+	font-weight: 700;
+	text-align: left;
+	transition:
+		background-color 0.3s,
+		color 0.3s;
+}
+.city__link small {
+	font-weight: 500;
+	font-size: 12px;
+	color: var(--muted);
+}
+.city__link--active {
+	color: var(--primary);
+	background: var(--mint);
+}
+.city__empty {
+	font-size: 14px;
+	color: var(--muted);
+}
+.city__all .icon {
+	color: var(--primary);
+}
+
+@media (any-hover: hover) {
+	.header__city:hover {
+		color: var(--white);
+		background: var(--primary);
+	}
+	.header__city:hover .icon {
+		color: inherit;
+	}
+	.hero__city:hover,
+	.intro__phone:hover,
+	.docs__item a:hover,
+	.city__link:hover {
+		color: var(--primary);
+	}
+	.city__link:hover {
+		background: var(--bg-soft);
+	}
+	.city__close:hover {
+		color: var(--white);
+		background: var(--primary);
+	}
+}
+
+@media (max-width: 75em) {
+	.header__city {
+		max-width: 140px;
+	}
+	.perks__list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (max-width: 62em) {
+	.intro__inner,
+	.features__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.intro__aside {
+		justify-items: start;
+		min-width: 0;
+	}
+	.steps__list--four {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		row-gap: 36px;
+	}
+	.steps__list--four .steps__line {
+		display: none;
+	}
+	.services--related .services__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (max-width: 48em) {
+	.header__city {
+		width: 44px;
+		padding: 0;
+		justify-content: center;
+	}
+	.header__city span {
+		display: none;
+	}
+	.steps__list--four {
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: 28px;
+	}
+	.steps__list--four .steps__line {
+		display: block;
+	}
+	.perks__list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+@media (max-width: 36em) {
+	.services--related .services__grid,
+	.city__list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.prices__code {
+		display: table;
+		margin: 6px 0 0;
+	}
+}
+
+/* ==========================================================================
    Відгук на наведення для всіх інтерактивних елементів
    ========================================================================== */
 .header__phone,
@@ -2157,7 +2624,7 @@ html[data-scroll-lock] body {
 		box-shadow 0.3s;
 }
 .fab__link--telegram,
-.fab__link--viber {
+.fab__link--phone {
 	transition:
 		transform 0.5s var(--ease),
 		color 0.3s,
@@ -2194,9 +2661,9 @@ html[data-scroll-lock] body {
 		color: var(--white);
 		background: #1b8ac4;
 	}
-	.fab__link--viber:hover {
+	.fab__link--phone:hover {
 		color: var(--white);
-		background: #7360f2;
+		background: var(--primary);
 	}
 	.fab__toggle:hover {
 		background: var(--primary-dark);
@@ -2402,7 +2869,7 @@ html[data-scroll-lock] body {
 	.benefits__card--dark {
 		grid-column: auto;
 	}
-	.service-hero__stats {
+	.service-hero__stats:not(.service-hero__stats--four) {
 		grid-template-columns: minmax(0, 1fr);
 	}
 	.price__box {
@@ -2415,8 +2882,8 @@ html[data-scroll-lock] body {
 	.cases__grid {
 		grid-template-columns: minmax(0, 1fr);
 	}
-	.logo {
-		font-size: 24px;
+	.logo__img {
+		height: 30px;
 	}
 	.booking__badge {
 		display: none;
@@ -2446,8 +2913,8 @@ html[data-scroll-lock] body {
 	.header__actions {
 		gap: 6px;
 	}
-	.logo {
-		font-size: 22px;
+	.logo__img {
+		height: 21px;
 	}
 }
 
