@@ -106,10 +106,10 @@ def head(root, slug, title, description):
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>{e(title)}</title>
 	<meta name="description" content="{e(description)}">
-	<!-- Поки сайт лежить на тестовому хостингу, він закритий від індексації. При запуску на med-assistant.net повернути index, follow -->
+	<!-- Сайт відкритий для індексації -->
 	<link rel="canonical" href="{url}">
 {alternates}
-	<meta name="robots" content="noindex, nofollow">
+	<meta name="robots" content="index, follow">
 	<meta name="theme-color" content="#0a7f79">
 	<link rel="icon" href="{root}assets/img/brand/logo-32.webp" type="image/webp">
 	<link rel="apple-touch-icon" href="{root}assets/img/brand/logo-180.webp">

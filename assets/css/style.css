@@ -783,7 +783,7 @@ html[data-scroll-lock] body {
 }
 .services__grid {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: var(--gap);
 }
 .services__empty {
@@ -2518,15 +2518,6 @@ html[data-scroll-lock] body {
 /* ==========================================================================
    Стартові стани анімацій (клас js-anim ставить синхронний скрипт у <head>)
    ========================================================================== */
-.js-anim [data-hero],
-.js-anim [data-hero-chip],
-.js-anim [data-reveal] {
-	opacity: 0;
-	visibility: hidden;
-}
-.js-anim .service-hero__visual {
-	clip-path: inset(0 0 100% 0 round 28px);
-}
 .js-anim .steps__line-fill {
 	transform: scaleX(0);
 }

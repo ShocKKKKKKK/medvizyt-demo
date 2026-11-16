@@ -421,6 +421,30 @@ function initCity() {
 /* ==========================================================================
    Анімації GSAP. Стартові стани задані в CSS під класом .js-anim
    ========================================================================== */
+function initStepsLine() {
+	const lists = Array.from(document.querySelectorAll('[data-steps]'));
+	if (!lists.length) return;
+	const update = () => {
+		const vh = window.innerHeight;
+		const vertical = window.matchMedia('(max-width: 48em)').matches;
+		lists.forEach((list) => {
+			const fill = list.querySelector('[data-steps-fill]');
+			if (!fill) return;
+			const rect = list.getBoundingClientRect();
+			const startTop = vh * 0.75;
+			const endTop = vh * 0.6 - rect.height;
+			const span = startTop - endTop;
+			let p = span > 0 ? (startTop - rect.top) / span : 0;
+			p = Math.max(0, Math.min(1, p));
+			fill.style.transform = vertical ? 'scaleY(' + p + ')' : 'scaleX(' + p + ')';
+		});
+	};
+	update();
+	window.addEventListener('scroll', update, { passive: true });
+	window.addEventListener('resize', update);
+}
+
+
 function initAnimations() {
 	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	if (reduced || !window.gsap || !window.ScrollTrigger) {
@@ -429,72 +453,11 @@ function initAnimations() {
 	}
 
 	gsap.registerPlugin(ScrollTrigger);
-	gsap.defaults({ ease: 'expo.out', duration: 1 });
+	gsap.defaults({ ease: 'power2.out', duration: 0.6 });
 
-	/* --- Перший екран --- */
-	const heroItems = gsap.utils.toArray('[data-hero]');
-	const heroVisual = document.querySelector('.service-hero__visual');
-	const pins = gsap.utils.toArray('.map__pin');
-	const chips = gsap.utils.toArray('[data-hero-chip]');
-	const counters = gsap.utils.toArray('[data-count]');
+	/* Лінія кроків рахується окремо в initStepsLine (без GSAP) */
 
-	// Лічильники обнуляємо одразу, поки елемент ще прихований
-	counters.forEach((el) => (el.textContent = '0'));
-	gsap.set(chips, { autoAlpha: 0 });
-
-	const tl = gsap.timeline({ delay: 0.1 });
-	tl.fromTo(heroItems, { y: 28, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: 0.09 }, 0);
-	if (heroVisual) {
-		tl.to(heroVisual, { clipPath: 'inset(0 0 0% 0 round 28px)', duration: 1.5 }, 0.15);
-	}
-	if (pins.length) {
-		tl.fromTo(
-			pins,
-			{ y: -26, scale: 0.4, opacity: 0, transformOrigin: '50% 100%' },
-			{ y: 0, scale: 1, opacity: 1, duration: 0.9, stagger: 0.14, ease: 'back.out(2)' },
-			0.8
-		);
-	}
-	tl.fromTo(chips, { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: 0.15 }, 0.9);
-	counters.forEach((el) => {
-		const state = { value: 0 };
-		tl.to(
-			state,
-			{
-				value: Number(el.dataset.count),
-				duration: 1.4,
-				ease: 'power2.out',
-				onUpdate: () => (el.textContent = Math.round(state.value)),
-			},
-			0.5
-		);
-	});
-
-	/* --- Поява блоків при скролі, каскад по ряду --- */
-	const revealItems = gsap.utils.toArray('[data-reveal]');
-	gsap.set(revealItems, { y: 36 });
-	ScrollTrigger.batch(revealItems, {
-		start: 'top 88%',
-		once: true,
-		batchMax: () => (window.innerWidth >= 1200 ? 4 : window.innerWidth >= 992 ? 3 : window.innerWidth >= 576 ? 2 : 1),
-		onEnter: (batch) => gsap.to(batch, { y: 0, autoAlpha: 1, stagger: 0.1, overwrite: true }),
-	});
-
-	/* --- Лінія кроків заповнюється разом зі скролом --- */
-	document.querySelectorAll('[data-steps]').forEach((list) => {
-		const fill = list.querySelector('[data-steps-fill]');
-		if (!fill) return;
-		const mm = gsap.matchMedia();
-		const scrollTrigger = { trigger: list, start: 'top 75%', end: 'bottom 60%', scrub: 0.6 };
-		mm.add('(min-width: 48.0625em)', () => {
-			gsap.fromTo(fill, { scaleX: 0, scaleY: 1 }, { scaleX: 1, ease: 'none', scrollTrigger });
-		});
-		mm.add('(max-width: 48em)', () => {
-			gsap.fromTo(fill, { scaleY: 0, scaleX: 1 }, { scaleY: 1, ease: 'none', scrollTrigger });
-		});
-	});
-
-	/* --- Легкий паралакс плаваючих карток першого екрана, лише десктоп --- */
+	/* Легкий паралакс плаваючих карток першого екрана, лише десктоп */
 	gsap.matchMedia().add('(min-width: 62.0625em)', () => {
 		gsap.utils.toArray('.hero__float').forEach((chip, i) => {
 			gsap.to(chip, {
@@ -504,22 +467,6 @@ function initAnimations() {
 			});
 		});
 	});
-
-	/* --- Страховка: якщо спостерігач не спрацював, показуємо все, що в зоні видимості --- */
-	setTimeout(() => {
-		document.querySelectorAll('[data-reveal], [data-hero], [data-hero-chip]').forEach((el) => {
-			const rect = el.getBoundingClientRect();
-			const style = getComputedStyle(el);
-			const hidden = style.opacity === '0' || style.visibility === 'hidden';
-			if (hidden && rect.top < window.innerHeight && rect.bottom > 0 && !gsap.isTweening(el)) {
-				gsap.set(el, { autoAlpha: 1, y: 0 });
-			}
-		});
-		if (heroVisual && !gsap.isTweening(heroVisual)) gsap.set(heroVisual, { clipPath: 'none' });
-		pins.forEach((pin) => {
-			if (!gsap.isTweening(pin)) gsap.set(pin, { opacity: 1 });
-		});
-	}, 4000);
 }
 
 /* ==========================================================================
@@ -660,5 +607,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	initOrderForms();
 	initContacts();
 	initCity();
+	initStepsLine();
 	initAnimations();
 });
