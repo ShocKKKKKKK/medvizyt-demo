@@ -277,6 +277,11 @@ def city_modal():
 
 def tail(root):
 	return f'''
+<!-- Нижня панель на телефоні: дзвінок і Telegram, як на скриншоті замовника -->
+<nav class="callbar" aria-label="{T['bar_label']}">
+	<a class="callbar__link" href="{SITE['phone_href']}">{icon('phone')}{T['bar_call']}</a>
+	<a class="callbar__link callbar__link--accent" href="{SITE['telegram']}" target="_blank" rel="noopener">{icon('telegram')}Telegram</a>
+</nav>
 <div class="fab" data-fab>
 	<div class="fab__list" id="fab-list">
 		<a class="fab__link fab__link--telegram" href="{SITE['telegram']}" target="_blank" rel="noopener" aria-label="{T['fab_tg']}">{icon('telegram')}</a>

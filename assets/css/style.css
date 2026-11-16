@@ -1705,6 +1705,11 @@ html[data-scroll-lock] body {
    Med-assistant: блоки під ТЗ замовника
    ========================================================================== */
 
+/* Нижня панель зв’язку: лише на телефоні */
+.callbar {
+	display: none;
+}
+
 /* Перемикач мови */
 .lang {
 	display: inline-flex;
@@ -2246,6 +2251,54 @@ html[data-scroll-lock] body {
 	}
 }
 @media (max-width: 48em) {
+	.callbar {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: var(--z-float);
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+		padding: 10px var(--container-padding) calc(10px + env(safe-area-inset-bottom));
+		background: rgba(255, 255, 255, 0.94);
+		backdrop-filter: blur(12px);
+		box-shadow: 0 -6px 20px rgba(13, 70, 68, 0.08);
+	}
+	.callbar__link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		min-height: 50px;
+		padding: 0 12px;
+		border-radius: 14px;
+		border: 1px solid var(--line);
+		font-weight: 700;
+		font-size: 15px;
+		white-space: nowrap;
+		color: var(--ink);
+		background: var(--white);
+	}
+	.callbar__link .icon {
+		flex: 0 0 auto;
+		color: var(--primary);
+	}
+	.callbar__link--accent {
+		border-color: var(--primary);
+		color: var(--white);
+		background: var(--primary);
+	}
+	.callbar__link--accent .icon {
+		color: inherit;
+	}
+	/* Плаваюча кнопка дублює панель — на телефоні її прибираємо, а низ сторінки не ховаємо під панеллю */
+	.fab {
+		display: none;
+	}
+	.wrapper {
+		padding-bottom: calc(70px + env(safe-area-inset-bottom));
+	}
 	/* На телефоні перемикач мови живе в меню, у шапці на нього немає місця */
 	.header__actions .lang {
 		display: none;
@@ -2591,6 +2644,15 @@ html[data-scroll-lock] body {
 @media (max-width: 23.4em) {
 	.header__actions {
 		gap: 6px;
+	}
+	.callbar {
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 8px;
+	}
+	.callbar__link {
+		gap: 6px;
+		padding: 0 8px;
+		font-size: 14px;
 	}
 	/* На найвужчих екранах лишається тільки значок міста */
 	.header__city {
