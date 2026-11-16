@@ -1762,9 +1762,11 @@ html[data-scroll-lock] body {
 }
 .header__city {
 	display: inline-flex;
+	flex: 0 1 auto;
 	align-items: center;
 	gap: 6px;
-	max-width: 180px;
+	min-width: 0;
+	max-width: 200px;
 	min-height: 44px;
 	padding: 0 14px;
 	border-radius: 12px;
@@ -2129,40 +2131,54 @@ html[data-scroll-lock] body {
 	border-color: var(--primary);
 	background-color: var(--white);
 }
+.city__label {
+	margin-bottom: -6px;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--primary-dark);
+}
 .city__list {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 6px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
 }
 .city__list li[hidden] {
 	display: none;
 }
 .city__link {
-	display: grid;
-	width: 100%;
-	padding: 10px 14px;
+	padding: 9px 16px;
 	border-radius: 12px;
-	font-weight: 700;
-	text-align: left;
+	border: 1px solid var(--line);
+	font-weight: 600;
+	font-size: 15px;
+	background: var(--white);
 	transition:
+		border-color 0.3s,
 		background-color 0.3s,
 		color 0.3s;
 }
-.city__link small {
-	font-weight: 500;
-	font-size: 12px;
-	color: var(--muted);
-}
 .city__link--active {
-	color: var(--primary);
+	border-color: var(--primary);
+	color: var(--primary-dark);
 	background: var(--mint);
 }
 .city__empty {
 	font-size: 14px;
 	color: var(--muted);
 }
-.city__all .icon {
+.city__all {
+	justify-self: start;
+	font-weight: 700;
 	color: var(--primary);
+	transition: color 0.3s;
+}
+.city__all.city__link--active {
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+.header__city-arrow {
+	width: 16px;
+	height: 16px;
 }
 
 @media (any-hover: hover) {
@@ -2175,12 +2191,15 @@ html[data-scroll-lock] body {
 	}
 	.hero__city:hover,
 	.intro__phone:hover,
-	.docs__item a:hover,
-	.city__link:hover {
+	.docs__item a:hover {
 		color: var(--primary);
 	}
+	.city__all:hover {
+		color: var(--primary-dark);
+	}
 	.city__link:hover {
-		background: var(--bg-soft);
+		border-color: var(--primary);
+		color: var(--primary-dark);
 	}
 	a.lang__link:hover {
 		color: var(--primary);
@@ -2191,15 +2210,16 @@ html[data-scroll-lock] body {
 	}
 }
 
-@media (max-width: 87.5em) {
-	/* Кнопка заявки дублюється в меню і в першому екрані — на вужчих екранах прибираємо її з шапки */
-	.header__cta {
-		display: none;
-	}
-}
 @media (max-width: 75em) {
-	.header__city {
-		max-width: 140px;
+	.header__container {
+		gap: 16px;
+	}
+	.header__actions {
+		min-width: 0;
+	}
+	/* Між планшетом і десктопом місця бракує — телефон лишається в плаваючій кнопці й підвалі */
+	.header__phone {
+		display: none;
 	}
 	.perks__list {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2235,13 +2255,13 @@ html[data-scroll-lock] body {
 		justify-content: center;
 		margin-top: 16px;
 	}
-	.header__city {
-		width: 44px;
-		padding: 0;
-		justify-content: center;
-	}
-	.header__city span {
+	.header__phone {
 		display: none;
+	}
+	.header__city {
+		padding: 0 12px;
+		background: none;
+		border: 1px solid var(--line);
 	}
 	.steps__list--four {
 		grid-template-columns: minmax(0, 1fr);
@@ -2255,8 +2275,7 @@ html[data-scroll-lock] body {
 	}
 }
 @media (max-width: 36em) {
-	.services--related .services__grid,
-	.city__list {
+	.services--related .services__grid {
 		grid-template-columns: minmax(0, 1fr);
 	}
 	.prices__table thead {
@@ -2398,9 +2417,6 @@ html[data-scroll-lock] body {
 @media (max-width: 62em) {
 	.header__burger {
 		display: block;
-	}
-	.header__cta {
-		display: none;
 	}
 	.menu {
 		position: fixed;
@@ -2564,9 +2580,26 @@ html[data-scroll-lock] body {
 	}
 }
 
+@media (max-width: 30em) {
+	.logo__img {
+		height: 22px;
+	}
+	.header__city-arrow {
+		display: none;
+	}
+}
 @media (max-width: 23.4em) {
 	.header__actions {
 		gap: 6px;
+	}
+	/* На найвужчих екранах лишається тільки значок міста */
+	.header__city {
+		width: 44px;
+		padding: 0;
+		justify-content: center;
+	}
+	.header__city span {
+		display: none;
 	}
 	.logo__img {
 		height: 21px;

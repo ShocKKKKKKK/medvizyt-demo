@@ -106,12 +106,12 @@
 				<button class="header__city" type="button" aria-haspopup="dialog" aria-controls="city" data-city-open>
 					<svg class="icon" aria-hidden="true"><use href="#pin"></use></svg>
 					<span data-city-label>Вся Украина</span>
+					<svg class="icon header__city-arrow" aria-hidden="true"><use href="#chevron"></use></svg>
 				</button>
 				<a class="header__phone" href="tel:+380732823488" aria-label="Позвонить">
 					<svg class="icon" aria-hidden="true"><use href="#phone"></use></svg>
 					<span>+38 (073) 282-34-88</span>
 				</a>
-				<a class="button button--small header__cta" href="#request">Оставить заявку</a>
 				<button class="header__burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="menu" data-burger><span></span></button>
 			</div>
 		</div>
@@ -513,37 +513,38 @@
 		<button class="city__close" type="button" aria-label="Закрыть" data-city-close><svg class="icon" aria-hidden="true"><use href="#close"></use></svg></button>
 		<h2 class="title title--h3" id="city-title">Выберите свой город</h2>
 		<p class="city__text">Выберите областной центр, чтобы перейти на страницу вашего региона.</p>
-		<label class="city__search">
-			<span class="visually-hidden">Город или область</span>
+		<label class="city__label" for="city-search">Город или область</label>
+		<div class="city__search">
 			<svg class="icon" aria-hidden="true"><use href="#search"></use></svg>
-			<input class="city__input" type="search" placeholder="Начните вводить название" autocomplete="off" data-city-search>
-		</label>
+			<input class="city__input" id="city-search" type="search" placeholder="Начните вводить название" autocomplete="off" data-city-search>
+		</div>
 		<ul class="city__list" data-city-list>
-				<li><button class="city__link" type="button" data-city-id="Київ" data-city-item="Киев" data-city-region="Киевская область">Киев<small>Киевская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Харків" data-city-item="Харьков" data-city-region="Харьковская область">Харьков<small>Харьковская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Одеса" data-city-item="Одесса" data-city-region="Одесская область">Одесса<small>Одесская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Дніпро" data-city-item="Днепр" data-city-region="Днепропетровская область">Днепр<small>Днепропетровская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Запоріжжя" data-city-item="Запорожье" data-city-region="Запорожская область">Запорожье<small>Запорожская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Львів" data-city-item="Львов" data-city-region="Львовская область">Львов<small>Львовская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Вінниця" data-city-item="Винница" data-city-region="Винницкая область">Винница<small>Винницкая область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Житомир" data-city-item="Житомир" data-city-region="Житомирская область">Житомир<small>Житомирская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Івано-Франківськ" data-city-item="Ивано-Франковск" data-city-region="Ивано-Франковская область">Ивано-Франковск<small>Ивано-Франковская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Кропивницький" data-city-item="Кропивницкий" data-city-region="Кировоградская область">Кропивницкий<small>Кировоградская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Луцьк" data-city-item="Луцк" data-city-region="Волынская область">Луцк<small>Волынская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Миколаїв" data-city-item="Николаев" data-city-region="Николаевская область">Николаев<small>Николаевская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Полтава" data-city-item="Полтава" data-city-region="Полтавская область">Полтава<small>Полтавская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Рівне" data-city-item="Ровно" data-city-region="Ровенская область">Ровно<small>Ровенская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Суми" data-city-item="Сумы" data-city-region="Сумская область">Сумы<small>Сумская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Тернопіль" data-city-item="Тернополь" data-city-region="Тернопольская область">Тернополь<small>Тернопольская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Ужгород" data-city-item="Ужгород" data-city-region="Закарпатская область">Ужгород<small>Закарпатская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Херсон" data-city-item="Херсон" data-city-region="Херсонская область">Херсон<small>Херсонская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Хмельницький" data-city-item="Хмельницкий" data-city-region="Хмельницкая область">Хмельницкий<small>Хмельницкая область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Черкаси" data-city-item="Черкассы" data-city-region="Черкасская область">Черкассы<small>Черкасская область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Чернівці" data-city-item="Черновцы" data-city-region="Черновицкая область">Черновцы<small>Черновицкая область</small></button></li>
-				<li><button class="city__link" type="button" data-city-id="Чернігів" data-city-item="Чернигов" data-city-region="Черниговская область">Чернигов<small>Черниговская область</small></button></li>
+				<li data-city-popular><button class="city__link" type="button" data-city-id="Київ" data-city-item="Киев" data-city-region="Киевская область">Киев</button></li>
+				<li data-city-popular><button class="city__link" type="button" data-city-id="Харків" data-city-item="Харьков" data-city-region="Харьковская область">Харьков</button></li>
+				<li data-city-popular><button class="city__link" type="button" data-city-id="Одеса" data-city-item="Одесса" data-city-region="Одесская область">Одесса</button></li>
+				<li data-city-popular><button class="city__link" type="button" data-city-id="Дніпро" data-city-item="Днепр" data-city-region="Днепропетровская область">Днепр</button></li>
+				<li data-city-popular><button class="city__link" type="button" data-city-id="Запоріжжя" data-city-item="Запорожье" data-city-region="Запорожская область">Запорожье</button></li>
+				<li data-city-popular><button class="city__link" type="button" data-city-id="Львів" data-city-item="Львов" data-city-region="Львовская область">Львов</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Вінниця" data-city-item="Винница" data-city-region="Винницкая область">Винница</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Житомир" data-city-item="Житомир" data-city-region="Житомирская область">Житомир</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Івано-Франківськ" data-city-item="Ивано-Франковск" data-city-region="Ивано-Франковская область">Ивано-Франковск</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Кропивницький" data-city-item="Кропивницкий" data-city-region="Кировоградская область">Кропивницкий</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Луцьк" data-city-item="Луцк" data-city-region="Волынская область">Луцк</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Миколаїв" data-city-item="Николаев" data-city-region="Николаевская область">Николаев</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Полтава" data-city-item="Полтава" data-city-region="Полтавская область">Полтава</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Рівне" data-city-item="Ровно" data-city-region="Ровенская область">Ровно</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Суми" data-city-item="Сумы" data-city-region="Сумская область">Сумы</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Тернопіль" data-city-item="Тернополь" data-city-region="Тернопольская область">Тернополь</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Ужгород" data-city-item="Ужгород" data-city-region="Закарпатская область">Ужгород</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Херсон" data-city-item="Херсон" data-city-region="Херсонская область">Херсон</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Хмельницький" data-city-item="Хмельницкий" data-city-region="Хмельницкая область">Хмельницкий</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Черкаси" data-city-item="Черкассы" data-city-region="Черкасская область">Черкассы</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Чернівці" data-city-item="Черновцы" data-city-region="Черновицкая область">Черновцы</button></li>
+				<li hidden><button class="city__link" type="button" data-city-id="Чернігів" data-city-item="Чернигов" data-city-region="Черниговская область">Чернигов</button></li>
 		</ul>
 		<p class="city__empty" hidden data-city-empty>Не нашли? Выберите «Вся Украина» — мы доставляем в любой город.</p>
-		<button class="button button--ghost button--wide city__all" type="button" data-city-id="Уся Україна" data-city-item="Вся Украина"><svg class="icon" aria-hidden="true"><use href="#pin"></use></svg>Вся Украина</button>
+		<button class="city__all" type="button" data-city-id="Уся Україна" data-city-item="Вся Украина">Вся Украина</button>
+		<button class="button button--ghost button--wide city__done" type="button" data-city-close>Закрыть</button>
 	</div>
 </div>
 

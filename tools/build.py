@@ -180,12 +180,12 @@ def header(root, current):
 				<button class="header__city" type="button" aria-haspopup="dialog" aria-controls="city" data-city-open>
 					{icon('pin')}
 					<span data-city-label>{T['all_country']}</span>
+					{icon('chevron', 'icon header__city-arrow')}
 				</button>
 				<a class="header__phone" href="{SITE['phone_href']}" aria-label="{T['call']}">
 					{icon('phone')}
 					<span>{SITE['phone']}</span>
 				</a>
-				<a class="button button--small header__cta" href="#request">{T['cta']}</a>
 				<button class="header__burger" type="button" aria-label="{T['open_menu']}" aria-expanded="false" aria-controls="menu" data-burger><span></span></button>
 			</div>
 		</div>
@@ -247,8 +247,9 @@ def footer(root, faq='#faq'):
 
 def city_modal():
 	items = '\n'.join(
-		f'\t\t\t\t<li><button class="city__link" type="button" data-city-id="{e(cid)}" data-city-item="{e(c)}" data-city-region="{e(r)}">{e(c)}<small>{e(r)}</small></button></li>'
-		for (cid, _), (c, r) in zip(content_uk.CITIES, CITIES)
+		# Перші 6 міст видно одразу, як на скриншоті замовника; решта обласних центрів — через пошук
+		f'\t\t\t\t<li{" data-city-popular" if i < 6 else " hidden"}><button class="city__link" type="button" data-city-id="{e(cid)}" data-city-item="{e(c)}" data-city-region="{e(r)}">{e(c)}</button></li>'
+		for i, ((cid, _), (c, r)) in enumerate(zip(content_uk.CITIES, CITIES))
 	)
 	return f'''
 <!-- Вибір міста. Адреси сторінок регіонів задаються в CITY_URLS у main.js -->
@@ -258,16 +259,17 @@ def city_modal():
 		<button class="city__close" type="button" aria-label="{T['close']}" data-city-close>{icon('close')}</button>
 		<h2 class="title title--h3" id="city-title">{T['city_title']}</h2>
 		<p class="city__text">{T['city_text']}</p>
-		<label class="city__search">
-			<span class="visually-hidden">{T['city_label']}</span>
+		<label class="city__label" for="city-search">{T['city_label']}</label>
+		<div class="city__search">
 			{icon('search')}
-			<input class="city__input" type="search" placeholder="{T['city_ph']}" autocomplete="off" data-city-search>
-		</label>
+			<input class="city__input" id="city-search" type="search" placeholder="{T['city_ph']}" autocomplete="off" data-city-search>
+		</div>
 		<ul class="city__list" data-city-list>
 {items}
 		</ul>
 		<p class="city__empty" hidden data-city-empty>{T['city_empty']}</p>
-		<button class="button button--ghost button--wide city__all" type="button" data-city-id="Уся Україна" data-city-item="{T['all_country']}">{icon('pin')}{T['all_country']}</button>
+		<button class="city__all" type="button" data-city-id="Уся Україна" data-city-item="{T['all_country']}">{T['all_country']}</button>
+		<button class="button button--ghost button--wide city__done" type="button" data-city-close>{T['close']}</button>
 	</div>
 </div>
 '''

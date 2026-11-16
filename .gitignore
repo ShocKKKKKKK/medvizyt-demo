@@ -1,2 +1,5 @@
 .claude/
 tg-config.php
+
+# Nilux project configuration
+.nilux/

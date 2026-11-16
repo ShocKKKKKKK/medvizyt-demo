@@ -360,10 +360,11 @@ function initCity() {
 		items.forEach((li) => {
 			const btn = li.querySelector('[data-city-item]');
 			const text = (btn.dataset.cityItem + ' ' + btn.dataset.cityRegion).toLowerCase();
-			li.hidden = Boolean(query) && !text.includes(query);
+			// Без запиту — лише популярні міста, з запитом — пошук по всіх обласних центрах і областях
+			li.hidden = query ? !text.includes(query) : !('cityPopular' in li.dataset);
 			if (!li.hidden) shown++;
 		});
-		empty.hidden = shown > 0;
+		empty.hidden = !query || shown > 0;
 	};
 
 	const open = (trigger) => {
