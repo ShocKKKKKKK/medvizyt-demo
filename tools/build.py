@@ -74,8 +74,10 @@ def lang_switch(root, slug):
 # --------------------------------------------------------------------------
 # Спільні частини
 # --------------------------------------------------------------------------
-def head(root, slug, title, description):
+def head(root, slug, title, description, with_datepicker=False):
 	url = page_url(slug)
+	datepicker_css = ('\n\t<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.css">'
+	                  if with_datepicker else '')
 	alternates = '\n'.join(
 		f'\t<link rel="alternate" hreflang="{UI[c]["html_lang"]}" href="{page_url(slug, c)}">' for c in LANGS
 	) + f'\n\t<link rel="alternate" hreflang="x-default" href="{page_url(slug, "uk")}">'
@@ -130,6 +132,7 @@ def head(root, slug, title, description):
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+{datepicker_css}
 	<link rel="stylesheet" href="{root}assets/css/style.css">
 </head>
 <body>
@@ -276,7 +279,9 @@ def city_modal():
 '''
 
 
-def tail(root):
+def tail(root, with_datepicker=False):
+	datepicker_js = ('\n<script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.js" defer></script>'
+	                 if with_datepicker else '')
 	return f'''
 <!-- Нижня панель на телефоні: дзвінок і Telegram, як на скриншоті замовника -->
 <nav class="callbar" aria-label="{T['bar_label']}">
@@ -293,6 +298,7 @@ def tail(root):
 {city_modal()}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+{datepicker_js}
 <script src="{root}assets/js/main.js" defer></script>
 </body>
 </html>
@@ -304,6 +310,7 @@ def order_form_html(root, slug):
 	forms = order_form.FORMS_RU if LANG == 'ru' else order_form.FORMS_UK
 	fields = forms[slug]
 	rows = []
+
 	for f in fields:
 		fid, ftype, label = f['id'], f['type'], f['label']
 		req, opts, cond, content = f['required'], f['options'], f['cond'], f['content']
@@ -311,19 +318,20 @@ def order_form_html(root, slug):
 		if cond:
 			cond_attr = ' data-cond="' + e(json.dumps(cond, ensure_ascii=False)) + '"'
 			hidden = ' hidden'
-		req_attr = ' data-required="1"' if (req or ftype == 'select') else ''
+		req_attr = ' data-required="1"' if req else ''
 		if ftype == 'content':
-			rows.append(f'<div class="form__note"{cond_attr}{hidden}>{e(content)}</div>')
+			rows.append(f'<div class="form__note" data-field-id="{fid}"{cond_attr}{hidden}>{e(content)}</div>')
 			continue
 		if not label:
 			continue
 		name = 'f' + fid
 		star = ' <span class="form__req">*</span>' if req else ''
 		if ftype == 'select':
+			gate_attr = ' data-order-gate' if slug == 'basein' and fid == '1' else ''
 			opt_html = f'<option value="">{T["select_ph"]}</option>' + ''.join(
 				f'<option value="{e(o)}">{e(o)}</option>' for o in opts)
 			inner = (f'<span class="form__label">{e(label)}{star}</span>'
-			         f'<select class="form__input form__input--select" name="{name}" data-cond-field="{fid}">{opt_html}</select>')
+			         f'<select class="form__input form__input--select" name="{name}" data-cond-field="{fid}"{gate_attr}>{opt_html}</select>')
 		elif ftype in ('radio', 'checkbox'):
 			chips = ''.join(
 				f'<label class="form__chip"><input type="{ftype}" name="{name}" value="{e(o)}" data-cond-field="{fid}"><span>{e(o)}</span></label>'
@@ -332,16 +340,75 @@ def order_form_html(root, slug):
 		elif ftype == 'textarea':
 			inner = (f'<span class="form__label">{e(label)}{star}</span>'
 			         f'<textarea class="form__input form__input--textarea" name="{name}" rows="2" data-cond-field="{fid}"></textarea>')
+		elif ftype == 'file':
+			inner = (f'<span class="form__label">{e(label)}{star}</span>'
+			         f'<input class="form__input form__input--file" type="file" name="{name}" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf" data-cond-field="{fid}">')
+		elif ftype == 'date-time':
+			birth_attr = ' data-datepicker-birth' if ('народжен' in label.lower() or 'рождени' in label.lower()) else ''
+			inner = (f'<span class="form__label">{e(label)}{star}</span>'
+			         f'<input class="form__input form__input--date" type="text" name="{name}" placeholder="ДД.ММ.РРРР" inputmode="numeric" autocomplete="off" data-datepicker{birth_attr} data-cond-field="{fid}">')
 		else:
-			it = 'tel' if ftype == 'phone' else 'number' if ftype == 'number' else 'date' if ftype == 'date-time' else 'text'
+			it = ('tel' if ftype == 'phone' else 'number' if ftype == 'number'
+			      else 'datetime-local' if ftype == 'datetime-local' else 'text')
 			inner = (f'<span class="form__label">{e(label)}{star}</span>'
 			         f'<input class="form__input" type="{it}" name="{name}" data-cond-field="{fid}">')
-		rows.append(f'<div class="form__field" data-label="{e(label)}"{req_attr}{cond_attr}{hidden}>{inner}<p class="form__error" data-error></p></div>')
-	body = '\n'.join(rows)
-	return f'''<form class="form form--order" action="{root}send.php" method="post" novalidate data-order>
+		rows.append(f'<div class="form__field" data-field-id="{fid}" data-label="{e(label)}"{req_attr}{cond_attr}{hidden}>{inner}<p class="form__error" data-error></p></div>')
+
+	rows_html = '\n'.join(rows)
+	gate_class = ' order-form--gated' if slug == 'basein' else ''
+	return f'''<form class="form form--order order-form{gate_class}" action="{root}send.php" method="post" enctype="multipart/form-data" novalidate data-order>
 						<input type="hidden" name="lang" value="{LANG}">
 						<div class="form__grid">
-{body}
+{rows_html}
+						</div>
+						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
+						<div class="form__field order-form__consent">
+							<label class="form__consent">
+								<input class="form__checkbox" type="checkbox" name="consent" required>
+								<span>{T['consent']}</span>
+							</label>
+							<p class="form__error" data-error></p>
+						</div>
+						<button class="button button--wide order-form__submit" type="submit">{T['submit']} {icon('arrow')}</button>
+						<p class="form__fail" hidden role="alert" data-form-fail>{T['fail_text']} <a href="{SITE['phone_href']}">{SITE['phone']}</a></p>
+						<div class="form__success" hidden role="status" data-form-success>
+							{icon('check')}
+							<h3 class="title title--h3">{T['ok_title']}</h3>
+							<p class="form__success-text">{T['ok_text']}</p>
+						</div>
+					</form>'''
+
+
+def simple_form_html(root, selected=None, prefix='f', comment_placeholder=None):
+	"""Короткая форма с главной страницы для обычного блока или диалога."""
+	comment_placeholder = comment_placeholder or T['optional_ph']
+	options = '\n'.join(
+		f'\t\t\t\t\t\t\t\t<option{" selected" if s["form_name"] == selected else ""}>{e(s["form_name"])}</option>' for s in SERVICES
+	)
+	return f'''<form class="form" action="{root}send.php" method="post" novalidate data-form>
+						<input type="hidden" name="lang" value="{LANG}">
+						<div class="form__field">
+							<label class="form__label" for="{prefix}-name">{T['f_name']}</label>
+							<input class="form__input" id="{prefix}-name" name="name" type="text" autocomplete="name" placeholder="{T['f_name_ph']}" required>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="{prefix}-phone">{T['f_phone']}</label>
+							<input class="form__input" id="{prefix}-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___ __ __" required>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="{prefix}-service">{T['f_service']}</label>
+							<select class="form__input form__input--select" id="{prefix}-service" name="service" required data-form-service>
+								<option value="">{T['f_service_ph']}</option>
+{options}
+								<option>{T['other']}</option>
+							</select>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="{prefix}-comment">{T['f_comment']} <span class="visually-hidden">{T['optional']}</span></label>
+							<textarea class="form__input form__input--textarea" id="{prefix}-comment" name="comment" rows="3" placeholder="{e(comment_placeholder)}"></textarea>
 						</div>
 						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
 						<div class="form__field">
@@ -367,7 +434,7 @@ def request_section(root, selected=None, title=None, text=None, slug=None):
 	if slug and slug in (order_form.FORMS_RU if LANG == 'ru' else order_form.FORMS_UK):
 		return f'''		<section class="request" id="request">
 			<div class="request__container">
-				<div class="request__inner" data-reveal>
+				<div class="request__inner request__inner--order" data-reveal>
 					<div class="request__content">
 						<p class="eyebrow">{T['req_eyebrow']}</p>
 						<h2 class="title title--h2">{e(title)}</h2>
@@ -475,12 +542,29 @@ def services_cards(root, exclude=None):
 	return '\n'.join(cards)
 
 
-def faq_section(items, title):
+def question_dialog(root, selected):
+	"""Небольшая форма вопроса, которая открывается из блока FAQ."""
+	return f'''<dialog class="form-dialog" id="question-dialog" aria-labelledby="question-dialog-title" data-dialog>
+	<div class="form-dialog__window">
+		<button class="form-dialog__close" type="button" aria-label="{T['close']}" data-dialog-close>{icon('close')}</button>
+		<div class="form-dialog__head">
+			<p class="eyebrow">{T['faq_eyebrow']}</p>
+			<h2 class="title title--h2" id="question-dialog-title">{T['question_title']}</h2>
+			<p class="form-dialog__text">{T['question_text']}</p>
+		</div>
+		<div class="form-dialog__body">
+			{simple_form_html(root, selected=selected, prefix='question', comment_placeholder=T['question_ph'])}
+		</div>
+	</div>
+</dialog>'''
+
+
+def faq_section(items, title, root, selected):
 	rows = []
 	for i, (q, a) in enumerate(items):
 		opened = ' faq__item--open" open' if i == 0 else '"'
 		rows.append(f'''					<details class="faq__item{opened} data-reveal>
-						<summary class="faq__question">{nb(e(q))}{icon('plus')}</summary>
+						<summary class="faq__question"><span class="faq__question-text">{nb(e(q))}</span>{icon('plus')}</summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">{nb(e(a))}</p></div></div>
 					</details>''')
 	rows = '\n'.join(rows)
@@ -489,13 +573,14 @@ def faq_section(items, title):
 				<div class="faq__aside" data-reveal>
 					<p class="eyebrow">{T['faq_eyebrow']}</p>
 					<h2 class="title title--h2">{title}</h2>
-					<a class="button button--ghost" href="#request">{T['faq_btn']}</a>
+					<button class="button button--ghost" type="button" aria-haspopup="dialog" aria-controls="question-dialog" data-dialog-open="question-dialog">{T['faq_btn']}</button>
 				</div>
 				<div class="faq__list">
 {rows}
 				</div>
 			</div>
 		</section>
+{question_dialog(root, selected)}
 '''
 
 
@@ -648,7 +733,7 @@ def service_page(slug):
 			</div>
 		</section>
 
-{faq_section(p['faq'], T['faq_title'])}
+{faq_section(p['faq'], T['faq_title'], root, s['form_name'])}
 		<section class="services services--related">
 			<div class="services__container">
 				<div class="section-head" data-reveal>
@@ -664,7 +749,7 @@ def service_page(slug):
 	</main>
 
 '''
-	return head(root, slug, p['title'], p['description']) + header(root, slug) + body + footer(root) + tail(root)
+	return head(root, slug, p['title'], p['description'], with_datepicker=True) + header(root, slug) + body + footer(root) + tail(root, with_datepicker=True)
 
 
 # --------------------------------------------------------------------------

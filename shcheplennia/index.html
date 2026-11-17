@@ -31,6 +31,8 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.css">
 	<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -245,41 +247,44 @@
 
 		<section class="request" id="request">
 			<div class="request__container">
-				<div class="request__inner" data-reveal>
+				<div class="request__inner request__inner--order" data-reveal>
 					<div class="request__content">
 						<p class="eyebrow">Заявка</p>
 						<h2 class="title title--h2">Для замовлення залишайте заявку</h2>
 						<p class="request__text">ми зв’яжемося з вами протягом 5 хвилин!</p>
 					</div>
-					<form class="form form--order" action="../send.php" method="post" novalidate data-order>
+					<form class="form form--order order-form" action="../send.php" method="post" enctype="multipart/form-data" novalidate data-order>
 						<input type="hidden" name="lang" value="uk">
 						<div class="form__grid">
-<div class="form__field" data-label="Виберіть" data-required="1"><span class="form__label">Виберіть</span><select class="form__input form__input--select" name="f1" data-cond-field="1"><option value="">— оберіть —</option><option value="Карта щеплень (ф.063/о)">Карта щеплень (ф.063/о)</option><option value="Карта щеплень для дитини до 16 років (ф.063/о)">Карта щеплень для дитини до 16 років (ф.063/о)</option><option value="Довідка про проведення окремого виду(видів) профілактичного щеплення">Довідка про проведення окремого виду(видів) профілактичного щеплення</option></select><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="ПІБ (українською мовою)" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">ПІБ (українською мовою)</span><input class="form__input" type="text" name="f4" data-cond-field="4"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Дата народження" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Дата народження</span><input class="form__input" type="date" name="f5" data-cond-field="5"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Дата народження дитини" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}]]" hidden><span class="form__label">Дата народження дитини</span><input class="form__input" type="date" name="f46" data-cond-field="46"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Повна адреса проживання" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Повна адреса проживання</span><input class="form__input" type="text" name="f6" data-cond-field="6"><p class="form__error" data-error></p></div>
-<div class="form__note" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden>Для пришвидшення обробки Вашого замовлення, напишіть наступне: Напишіть який саме вид щеплення потрібен, його назву, дату вакцинування, повний вік при вакцинуванні, якщо відомо дозу та серію препарату. Якщо потрібно окремо декілька щеплень, вкажіть їх по порядку!</div>
-<div class="form__field" data-label="Які щеплення необхідні:" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}]]" hidden><span class="form__label">Які щеплення необхідні:</span><div class="form__chips"><label class="form__chip"><input type="radio" name="f27" value="проставити всі обовязкові щеплення по віку до" data-cond-field="27"><span>проставити всі обовязкові щеплення по віку до</span></label><label class="form__chip"><input type="radio" name="f27" value="додати існуючі щеплення:" data-cond-field="27"><span>додати існуючі щеплення:</span></label></div><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="кількість років" data-cond="[[{&quot;f&quot;: &quot;27&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;проставити всі обовязкові щеплення по віку до&quot;}]]" hidden><span class="form__label">кількість років</span><input class="form__input" type="number" name="f8" data-cond-field="8"><p class="form__error" data-error></p></div>
-<div class="form__note" data-cond="[[{&quot;f&quot;: &quot;27&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;додати існуючі щеплення:&quot;}]]" hidden>Для пришвидшення обробки Вашого замовлення, напишіть наступне: Напишіть який саме вид щеплення потрібен, його назву, дату вакцинування, повний вік при вакцинуванні, якщо відомо дозу та серію препарату. Якщо потрібно окремо декілька щеплень, вкажіть їх по порядку!</div>
-<div class="form__field" data-label="Щеплення, на які потрібна ревакцинація у дорослому віці:" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}]]" hidden><span class="form__label">Щеплення, на які потрібна ревакцинація у дорослому віці:</span><div class="form__chips"><label class="form__chip"><input type="radio" name="f28" value="проставити всі обовязкові щеплення по віку" data-cond-field="28"><span>проставити всі обовязкові щеплення по віку</span></label><label class="form__chip"><input type="radio" name="f28" value="не потрібна ревакцинація" data-cond-field="28"><span>не потрібна ревакцинація</span></label><label class="form__chip"><input type="radio" name="f28" value="проставити потрібні щеплення:" data-cond-field="28"><span>проставити потрібні щеплення:</span></label></div><p class="form__error" data-error></p></div>
-<div class="form__note" data-cond="[[{&quot;f&quot;: &quot;28&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;проставити потрібні щеплення:&quot;}]]" hidden>Для пришвидшення обробки Вашого замовлення, напишіть наступне: Напишіть який саме вид щеплення потрібен, його назву, дату вакцинування, повний вік при вакцинуванні, якщо відомо дозу та серію препарату. Якщо потрібно окремо декілька щеплень, вкажіть їх по порядку!</div>
-<div class="form__field" data-label="кількість років" data-cond="[[{&quot;f&quot;: &quot;28&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;проставити всі обовязкові щеплення по віку&quot;}]]" hidden><span class="form__label">кількість років</span><input class="form__input" type="number" name="f29" data-cond-field="29"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="ПІБ отримувача на відділенні НП" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">ПІБ отримувача на відділенні НП</span><input class="form__input" type="text" name="f25" data-cond-field="25"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Номер телефону отримувача" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Номер телефону отримувача</span><input class="form__input" type="tel" name="f23" data-cond-field="23"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Місто та номер відділення Нової Пошти" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Місто та номер відділення Нової Пошти</span><input class="form__input" type="text" name="f47" data-cond-field="47"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Додаткова інформація" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Додаткова інформація</span><textarea class="form__input form__input--textarea" name="f26" rows="2" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="1" data-label="Виберіть" data-required="1"><span class="form__label">Виберіть <span class="form__req">*</span></span><select class="form__input form__input--select" name="f1" data-cond-field="1"><option value="">— оберіть —</option><option value="Карта щеплень (ф.063/о)">Карта щеплень (ф.063/о)</option><option value="Карта щеплень для дитини до 16 років (ф.063/о)">Карта щеплень для дитини до 16 років (ф.063/о)</option><option value="Довідка про проведення окремого виду(видів) профілактичного щеплення">Довідка про проведення окремого виду(видів) профілактичного щеплення</option></select><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="4" data-label="ПІБ (українською мовою)" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">ПІБ (українською мовою) <span class="form__req">*</span></span><input class="form__input" type="text" name="f4" data-cond-field="4"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="5" data-label="Дата народження" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Дата народження <span class="form__req">*</span></span><input class="form__input form__input--date" type="text" name="f5" placeholder="ДД.ММ.РРРР" inputmode="numeric" autocomplete="off" data-datepicker data-datepicker-birth data-cond-field="5"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="46" data-label="Дата народження дитини" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}]]" hidden><span class="form__label">Дата народження дитини <span class="form__req">*</span></span><input class="form__input form__input--date" type="text" name="f46" placeholder="ДД.ММ.РРРР" inputmode="numeric" autocomplete="off" data-datepicker data-datepicker-birth data-cond-field="46"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="6" data-label="Повна адреса проживання" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Повна адреса проживання <span class="form__req">*</span></span><input class="form__input" type="text" name="f6" data-cond-field="6"><p class="form__error" data-error></p></div>
+<div class="form__note" data-field-id="45" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden>Для пришвидшення обробки Вашого замовлення, напишіть наступне: Напишіть який саме вид щеплення потрібен, його назву, дату вакцинування, повний вік при вакцинуванні, якщо відомо дозу та серію препарату. Якщо потрібно окремо декілька щеплень, вкажіть їх по порядку!</div>
+<div class="form__field" data-field-id="41" data-label="Дані про щеплення" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Дані про щеплення <span class="form__req">*</span></span><textarea class="form__input form__input--textarea" name="f41" rows="2" data-cond-field="41"></textarea><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="27" data-label="Які щеплення необхідні:" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}]]" hidden><span class="form__label">Які щеплення необхідні: <span class="form__req">*</span></span><div class="form__chips"><label class="form__chip"><input type="radio" name="f27" value="проставити всі обовязкові щеплення по віку до" data-cond-field="27"><span>проставити всі обовязкові щеплення по віку до</span></label><label class="form__chip"><input type="radio" name="f27" value="додати існуючі щеплення:" data-cond-field="27"><span>додати існуючі щеплення:</span></label></div><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="8" data-label="кількість років" data-cond="[[{&quot;f&quot;: &quot;27&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;проставити всі обовязкові щеплення по віку до&quot;}]]" hidden><span class="form__label">кількість років</span><input class="form__input" type="number" name="f8" data-cond-field="8"><p class="form__error" data-error></p></div>
+<div class="form__note" data-field-id="51" data-cond="[[{&quot;f&quot;: &quot;27&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;додати існуючі щеплення:&quot;}]]" hidden>Для пришвидшення обробки Вашого замовлення, напишіть наступне: Напишіть який саме вид щеплення потрібен, його назву, дату вакцинування, повний вік при вакцинуванні, якщо відомо дозу та серію препарату. Якщо потрібно окремо декілька щеплень, вкажіть їх по порядку!</div>
+<div class="form__field" data-field-id="50" data-label="Дані про щеплення" data-required="1" data-cond="[[{&quot;f&quot;: &quot;27&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;додати існуючі щеплення:&quot;}]]" hidden><span class="form__label">Дані про щеплення <span class="form__req">*</span></span><textarea class="form__input form__input--textarea" name="f50" rows="2" data-cond-field="50"></textarea><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="28" data-label="Щеплення, на які потрібна ревакцинація у дорослому віці:" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}]]" hidden><span class="form__label">Щеплення, на які потрібна ревакцинація у дорослому віці: <span class="form__req">*</span></span><div class="form__chips"><label class="form__chip"><input type="radio" name="f28" value="проставити всі обовязкові щеплення по віку" data-cond-field="28"><span>проставити всі обовязкові щеплення по віку</span></label><label class="form__chip"><input type="radio" name="f28" value="не потрібна ревакцинація" data-cond-field="28"><span>не потрібна ревакцинація</span></label><label class="form__chip"><input type="radio" name="f28" value="проставити потрібні щеплення:" data-cond-field="28"><span>проставити потрібні щеплення:</span></label></div><p class="form__error" data-error></p></div>
+<div class="form__note" data-field-id="52" data-cond="[[{&quot;f&quot;: &quot;28&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;проставити потрібні щеплення:&quot;}]]" hidden>Для пришвидшення обробки Вашого замовлення, напишіть наступне: Напишіть який саме вид щеплення потрібен, його назву, дату вакцинування, повний вік при вакцинуванні, якщо відомо дозу та серію препарату. Якщо потрібно окремо декілька щеплень, вкажіть їх по порядку!</div>
+<div class="form__field" data-field-id="53" data-label="Дані про щеплення" data-required="1" data-cond="[[{&quot;f&quot;: &quot;28&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;проставити потрібні щеплення:&quot;}]]" hidden><span class="form__label">Дані про щеплення <span class="form__req">*</span></span><textarea class="form__input form__input--textarea" name="f53" rows="2" data-cond-field="53"></textarea><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="29" data-label="кількість років" data-cond="[[{&quot;f&quot;: &quot;28&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;проставити всі обовязкові щеплення по віку&quot;}]]" hidden><span class="form__label">кількість років</span><input class="form__input" type="number" name="f29" data-cond-field="29"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="25" data-label="ПІБ отримувача на відділенні НП" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">ПІБ отримувача на відділенні НП <span class="form__req">*</span></span><input class="form__input" type="text" name="f25" data-cond-field="25"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="23" data-label="Номер телефону отримувача" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Номер телефону отримувача <span class="form__req">*</span></span><input class="form__input" type="tel" name="f23" data-cond-field="23"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="47" data-label="Місто та номер відділення Нової Пошти" data-required="1" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Місто та номер відділення Нової Пошти <span class="form__req">*</span></span><input class="form__input" type="text" name="f47" data-cond-field="47"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="26" data-label="Додаткова інформація" data-cond="[[{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Карта щеплень для дитини до 16 років (ф.063/о)&quot;}], [{&quot;f&quot;: &quot;1&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проведення окремого виду(видів) профілактичного щеплення&quot;}]]" hidden><span class="form__label">Додаткова інформація</span><textarea class="form__input form__input--textarea" name="f26" rows="2" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
 						</div>
 						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
-						<div class="form__field">
+						<div class="form__field order-form__consent">
 							<label class="form__consent">
 								<input class="form__checkbox" type="checkbox" name="consent" required>
 								<span>Погоджуюся на обробку персональних даних</span>
 							</label>
 							<p class="form__error" data-error></p>
 						</div>
-						<button class="button button--wide" type="submit">Відправити <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+						<button class="button button--wide order-form__submit" type="submit">Відправити <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
 						<p class="form__fail" hidden role="alert" data-form-fail>Не вдалося надіслати заявку. Зателефонуйте нам або напишіть у Telegram. <a href="tel:+380732823488">+38 (073) 282-34-88</a></p>
 						<div class="form__success" hidden role="status" data-form-success>
 							<svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
@@ -339,36 +344,96 @@
 				<div class="faq__aside" data-reveal>
 					<p class="eyebrow">Питання та відповіді</p>
 					<h2 class="title title--h2">Часті <span class="title__accent">питання</span></h2>
-					<a class="button button--ghost" href="#request">Поставити своє запитання</a>
+					<button class="button button--ghost" type="button" aria-haspopup="dialog" aria-controls="question-dialog" data-dialog-open="question-dialog">Поставити своє запитання</button>
 				</div>
 				<div class="faq__list">
 					<details class="faq__item faq__item--open" open data-reveal>
-						<summary class="faq__question">Для чого потрібна довідка про щеплення?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Для чого потрібна довідка про щеплення?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Документ обов’язковий для прийому до навчальних закладів (садок, школа, університет), виїзду на оздоровлення або за кордон, роботи у дитячих та медичних установах, проходження медогляду і отримання відповідних сертифікатів.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Чи потрібна довідка 063 для дитячих таборів або поїздки за кордон?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Чи потрібна довідка 063 для дитячих таборів або поїздки за кордон?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Так, багато дитячих таборів вимагають довідку 063 для підтвердження вакцинацій. Для поїздок за кордон цей документ може також знадобитися при оформленні медичної карти або підтвердженні імунізації.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Скільки часу потрібно для отримання довідки?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Скільки часу потрібно для отримання довідки?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Після повної обробки заявки документ може бути готовий за 1 день. Процес включає збір даних та оформлення форми з відповідністю стандартам.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Чи можна отримати довідку 063, якщо втрачено попередню карту щеплень?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Чи можна отримати довідку 063, якщо втрачено попередню карту щеплень?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Так, можливо відновити інформацію про щеплення за наявності записів у реєстрі або амбулаторній картці дитини. Наші спеціалісти допоможуть узгодити всі деталі при оформленні.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Як переконатися, що документ легальний?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Як переконатися, що документ легальний?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Легітимність підтверджується оформленням на офіційному бланку, підписом та печаткою лікаря, дотриманням законодавчих норм і відображенням повної інформації про вакцинації або відмови.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Чи можна оформити довідку 063 для дитини, яка вакцинована частково?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Чи можна оформити довідку 063 для дитини, яка вакцинована частково?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Так, довідка 063 може містити інформацію лише про проведені щеплення на момент оформлення. У ній буде вказано, які саме вакцини введено, та рекомендовані наступні дати вакцинації.</p></div></div>
 					</details>
 				</div>
 			</div>
 		</section>
+<dialog class="form-dialog" id="question-dialog" aria-labelledby="question-dialog-title" data-dialog>
+	<div class="form-dialog__window">
+		<button class="form-dialog__close" type="button" aria-label="Закрити" data-dialog-close><svg class="icon" aria-hidden="true"><use href="#close"></use></svg></button>
+		<div class="form-dialog__head">
+			<p class="eyebrow">Питання та відповіді</p>
+			<h2 class="title title--h2" id="question-dialog-title">Поставте своє запитання</h2>
+			<p class="form-dialog__text">Залиште контакти та коротко опишіть питання — менеджер підкаже, який документ потрібен і як його оформити.</p>
+		</div>
+		<div class="form-dialog__body">
+			<form class="form" action="../send.php" method="post" novalidate data-form>
+						<input type="hidden" name="lang" value="uk">
+						<div class="form__field">
+							<label class="form__label" for="question-name">ПІБ (українською мовою)</label>
+							<input class="form__input" id="question-name" name="name" type="text" autocomplete="name" placeholder="Прізвище, ім’я, по батькові" required>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="question-phone">Контактний телефон</label>
+							<input class="form__input" id="question-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___ __ __" required>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="question-service">Який документ цікавить</label>
+							<select class="form__input form__input--select" id="question-service" name="service" required data-form-service>
+								<option value="">Оберіть документ</option>
+								<option>Медична довідка</option>
+								<option selected>Довідка про щеплення 063/о</option>
+								<option>Довідка для басейну</option>
+								<option>Медогляд 086/о</option>
+								<option>Довідка про флюорографію</option>
+								<option>Медична книжка 1-ОМК</option>
+								<option>Довідка водія 083/о</option>
+								<option>Довідка психіатричного огляду 100-2/о</option>
+								<option>Інша довідка</option>
+							</select>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="question-comment">Додаткова інформація <span class="visually-hidden">(необов’язково)</span></label>
+							<textarea class="form__input form__input--textarea" id="question-comment" name="comment" rows="3" placeholder="Напишіть своє запитання"></textarea>
+						</div>
+						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
+						<div class="form__field">
+							<label class="form__consent">
+								<input class="form__checkbox" type="checkbox" name="consent" required>
+								<span>Погоджуюся на обробку персональних даних</span>
+							</label>
+							<p class="form__error" data-error></p>
+						</div>
+						<button class="button button--wide" type="submit">Відправити <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+						<p class="form__fail" hidden role="alert" data-form-fail>Не вдалося надіслати заявку. Зателефонуйте нам або напишіть у Telegram. <a href="tel:+380732823488">+38 (073) 282-34-88</a></p>
+						<div class="form__success" hidden role="status" data-form-success>
+							<svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
+							<h3 class="title title--h3">Заявку прийнято</h3>
+							<p class="form__success-text">Менеджер зв’яжеться з вами найближчим часом.</p>
+						</div>
+					</form>
+		</div>
+	</div>
+</dialog>
 
 		<section class="services services--related">
 			<div class="services__container">
@@ -534,6 +599,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+
+<script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.js" defer></script>
 <script src="../assets/js/main.js" defer></script>
 </body>
 </html>

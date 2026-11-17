@@ -31,6 +31,8 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.css">
 	<link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body>
@@ -308,29 +310,29 @@
 
 		<section class="request" id="request">
 			<div class="request__container">
-				<div class="request__inner" data-reveal>
+				<div class="request__inner request__inner--order" data-reveal>
 					<div class="request__content">
 						<p class="eyebrow">Заявка</p>
 						<h2 class="title title--h2">Для заказа оставляйте заявку</h2>
 						<p class="request__text">мы свяжемся с вами в течение 5 минут!</p>
 					</div>
-					<form class="form form--order" action="../../send.php" method="post" novalidate data-order>
+					<form class="form form--order order-form" action="../../send.php" method="post" enctype="multipart/form-data" novalidate data-order>
 						<input type="hidden" name="lang" value="ru">
 						<div class="form__grid">
-<div class="form__field" data-label="ФИО (на украинском языке)"><span class="form__label">ФИО (на украинском языке)</span><input class="form__input" type="text" name="f4" data-cond-field="4"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Контактный телефон"><span class="form__label">Контактный телефон</span><input class="form__input" type="tel" name="f23" data-cond-field="23"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Какой документ интересует"><span class="form__label">Какой документ интересует</span><input class="form__input" type="text" name="f63" data-cond-field="63"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Дополнительная информация"><span class="form__label">Дополнительная информация</span><textarea class="form__input form__input--textarea" name="f26" rows="2" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="4" data-label="ФИО (на украинском языке)" data-required="1"><span class="form__label">ФИО (на украинском языке) <span class="form__req">*</span></span><input class="form__input" type="text" name="f4" data-cond-field="4"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="23" data-label="Контактный телефон" data-required="1"><span class="form__label">Контактный телефон <span class="form__req">*</span></span><input class="form__input" type="tel" name="f23" data-cond-field="23"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="63" data-label="Какой документ интересует" data-required="1"><span class="form__label">Какой документ интересует <span class="form__req">*</span></span><input class="form__input" type="text" name="f63" data-cond-field="63"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="26" data-label="Дополнительная информация"><span class="form__label">Дополнительная информация</span><textarea class="form__input form__input--textarea" name="f26" rows="2" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
 						</div>
 						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
-						<div class="form__field">
+						<div class="form__field order-form__consent">
 							<label class="form__consent">
 								<input class="form__checkbox" type="checkbox" name="consent" required>
 								<span>Соглашаюсь на обработку персональных данных</span>
 							</label>
 							<p class="form__error" data-error></p>
 						</div>
-						<button class="button button--wide" type="submit">Отправить <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+						<button class="button button--wide order-form__submit" type="submit">Отправить <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
 						<p class="form__fail" hidden role="alert" data-form-fail>Не удалось отправить заявку. Позвоните нам или напишите в Telegram. <a href="tel:+380732823488">+38 (073) 282-34-88</a></p>
 						<div class="form__success" hidden role="status" data-form-success>
 							<svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
@@ -390,28 +392,88 @@
 				<div class="faq__aside" data-reveal>
 					<p class="eyebrow">Вопросы и ответы</p>
 					<h2 class="title title--h2">Частые <span class="title__accent">вопросы</span></h2>
-					<a class="button button--ghost" href="#request">Задать свой вопрос</a>
+					<button class="button button--ghost" type="button" aria-haspopup="dialog" aria-controls="question-dialog" data-dialog-open="question-dialog">Задать свой вопрос</button>
 				</div>
 				<div class="faq__list">
 					<details class="faq__item faq__item--open" open data-reveal>
-						<summary class="faq__question">Какая информация указывается в медицинской книжке?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Какая информация указывается в медицинской книжке?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">В медицинской книжке фиксируются данные о прохождении медкомиссии, результаты анализов, прививок, заключения профильных специалистов (терапевт, дерматолог, стоматолог, гинеколог и т. д.), а также штамп о прохождении санитарного минимума.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Как часто нужно обновлять медкнижку?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Как часто нужно обновлять медкнижку?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">В большинстве случаев медицинскую книжку нужно обновлять ежегодно. Однако частота может меняться в зависимости от отрасли трудоустройства или внутренних требований компании.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Принимаются ли такие медкнижки государственными учреждениями?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Принимаются ли такие медкнижки государственными учреждениями?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Да, при условии правильного оформления: документ должен быть официального образца, содержать подписи врачей, штампы, печати и результаты анализов — такая медицинская книжка принимается как в частных, так и в государственных структурах.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Можно ли оформить медкнижку без регистрации по месту жительства?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Можно ли оформить медкнижку без регистрации по месту жительства?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Да, большинство частных медицинских центров не требуют местной прописки. Вы можете оформить медкнижку в удобном для вас городе, независимо от вашей регистрации.</p></div></div>
 					</details>
 				</div>
 			</div>
 		</section>
+<dialog class="form-dialog" id="question-dialog" aria-labelledby="question-dialog-title" data-dialog>
+	<div class="form-dialog__window">
+		<button class="form-dialog__close" type="button" aria-label="Закрыть" data-dialog-close><svg class="icon" aria-hidden="true"><use href="#close"></use></svg></button>
+		<div class="form-dialog__head">
+			<p class="eyebrow">Вопросы и ответы</p>
+			<h2 class="title title--h2" id="question-dialog-title">Задайте свой вопрос</h2>
+			<p class="form-dialog__text">Оставьте контакты и кратко опишите вопрос — менеджер подскажет, какой документ нужен и как его оформить.</p>
+		</div>
+		<div class="form-dialog__body">
+			<form class="form" action="../../send.php" method="post" novalidate data-form>
+						<input type="hidden" name="lang" value="ru">
+						<div class="form__field">
+							<label class="form__label" for="question-name">ФИО (на украинском языке)</label>
+							<input class="form__input" id="question-name" name="name" type="text" autocomplete="name" placeholder="Фамилия, имя, отчество" required>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="question-phone">Контактный телефон</label>
+							<input class="form__input" id="question-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___ __ __" required>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="question-service">Какой документ интересует</label>
+							<select class="form__input form__input--select" id="question-service" name="service" required data-form-service>
+								<option value="">Выберите документ</option>
+								<option>Медицинская справка</option>
+								<option>Справка о прививках 063/о</option>
+								<option>Справка для бассейна</option>
+								<option>Медосмотр 086/о</option>
+								<option>Справка о флюорографии</option>
+								<option selected>Медицинская книжка 1-ОМК</option>
+								<option>Справка водителя 083/о</option>
+								<option>Справка психиатрического осмотра 100-2/о</option>
+								<option>Другая справка</option>
+							</select>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="question-comment">Дополнительная информация <span class="visually-hidden">(необязательно)</span></label>
+							<textarea class="form__input form__input--textarea" id="question-comment" name="comment" rows="3" placeholder="Напишите свой вопрос"></textarea>
+						</div>
+						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
+						<div class="form__field">
+							<label class="form__consent">
+								<input class="form__checkbox" type="checkbox" name="consent" required>
+								<span>Соглашаюсь на обработку персональных данных</span>
+							</label>
+							<p class="form__error" data-error></p>
+						</div>
+						<button class="button button--wide" type="submit">Отправить <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+						<p class="form__fail" hidden role="alert" data-form-fail>Не удалось отправить заявку. Позвоните нам или напишите в Telegram. <a href="tel:+380732823488">+38 (073) 282-34-88</a></p>
+						<div class="form__success" hidden role="status" data-form-success>
+							<svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
+							<h3 class="title title--h3">Заявка принята</h3>
+							<p class="form__success-text">Менеджер свяжется с вами в ближайшее время.</p>
+						</div>
+					</form>
+		</div>
+	</div>
+</dialog>
 
 		<section class="services services--related">
 			<div class="services__container">
@@ -577,6 +639,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+
+<script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.js" defer></script>
 <script src="../../assets/js/main.js" defer></script>
 </body>
 </html>

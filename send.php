@@ -56,6 +56,31 @@ if (!is_array($details)) {
 	$details = [];
 }
 
+$upload = null;
+foreach ($_FILES as $file) {
+	$error = (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE);
+	if ($error === UPLOAD_ERR_NO_FILE) {
+		continue;
+	}
+	if ($error !== UPLOAD_ERR_OK || !is_uploaded_file((string) ($file['tmp_name'] ?? ''))) {
+		reply(422, ['ok' => false, 'error' => 'upload']);
+	}
+	if ((int) ($file['size'] ?? 0) > 8 * 1024 * 1024) {
+		reply(413, ['ok' => false, 'error' => 'file_size']);
+	}
+	$mime = (new finfo(FILEINFO_MIME_TYPE))->file((string) $file['tmp_name']);
+	$allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif', 'application/pdf'];
+	if (!in_array($mime, $allowed, true)) {
+		reply(415, ['ok' => false, 'error' => 'file_type']);
+	}
+	$upload = [
+		'tmp_name' => (string) $file['tmp_name'],
+		'name' => mb_substr(basename((string) ($file['name'] ?? 'photo')), 0, 120),
+		'mime' => $mime,
+	];
+	break;
+}
+
 if (strlen(preg_replace('/\D/', '', $phone)) < 10 || (empty($details) && $service === '')) {
 	reply(422, ['ok' => false, 'error' => 'fields']);
 }
@@ -100,26 +125,48 @@ if (mb_strlen($text) > 3800) {
 	$text = mb_substr($text, 0, 3800) . '…';
 }
 
-$payload = http_build_query([
+function telegramRequest(string $token, string $method, array $payload): bool
+{
+	$ch = curl_init('https://api.telegram.org/bot' . $token . '/' . $method);
+	curl_setopt_array($ch, [
+		CURLOPT_POST => true,
+		CURLOPT_POSTFIELDS => $payload,
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_TIMEOUT => 15,
+	]);
+	$response = curl_exec($ch);
+	$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	curl_close($ch);
+	$result = json_decode((string) $response, true);
+	return $status === 200 && !empty($result['ok']);
+}
+
+// Сначала отправляем вложение: если Telegram его не принял, заявка не считается завершённой.
+if ($upload !== null) {
+	$captionParts = ['Вкладення до нової заявки'];
+	if ($name !== '') {
+		$captionParts[] = $name;
+	}
+	if ($phone !== '') {
+		$captionParts[] = $phone;
+	}
+	$fileSent = telegramRequest($token, 'sendDocument', [
+		'chat_id' => $chatId,
+		'document' => new CURLFile($upload['tmp_name'], $upload['mime'], $upload['name']),
+		'caption' => implode(' · ', $captionParts),
+	]);
+	if (!$fileSent) {
+		reply(502, ['ok' => false, 'error' => 'telegram_file']);
+	}
+}
+
+$messageSent = telegramRequest($token, 'sendMessage', [
 	'chat_id' => $chatId,
 	'text' => $text,
 	'parse_mode' => 'HTML',
 	'disable_web_page_preview' => 'true',
 ]);
-
-$ch = curl_init('https://api.telegram.org/bot' . $token . '/sendMessage');
-curl_setopt_array($ch, [
-	CURLOPT_POST => true,
-	CURLOPT_POSTFIELDS => $payload,
-	CURLOPT_RETURNTRANSFER => true,
-	CURLOPT_TIMEOUT => 10,
-]);
-$response = curl_exec($ch);
-$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
-
-$result = json_decode((string) $response, true);
-if ($status !== 200 || empty($result['ok'])) {
+if (!$messageSent) {
 	reply(502, ['ok' => false, 'error' => 'telegram']);
 }
 

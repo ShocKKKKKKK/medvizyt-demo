@@ -31,6 +31,8 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.css">
 	<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -240,34 +242,33 @@
 
 		<section class="request" id="request">
 			<div class="request__container">
-				<div class="request__inner" data-reveal>
+				<div class="request__inner request__inner--order" data-reveal>
 					<div class="request__content">
 						<p class="eyebrow">Заявка</p>
 						<h2 class="title title--h2">Для замовлення залишайте заявку</h2>
 						<p class="request__text">ми зв’яжемося з вами протягом 5 хвилин!</p>
 					</div>
-					<form class="form form--order" action="../send.php" method="post" novalidate data-order>
+					<form class="form form--order order-form" action="../send.php" method="post" enctype="multipart/form-data" novalidate data-order>
 						<input type="hidden" name="lang" value="uk">
 						<div class="form__grid">
-<div class="form__field" data-label="Виберіть" data-required="1"><span class="form__label">Виберіть</span><select class="form__input form__input--select" name="f66" data-cond-field="66"><option value="">— оберіть —</option><option value="Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)">Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)</option><option value="Сертифікати нарколога та психіатра">Сертифікати нарколога та психіатра</option></select><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="ПІБ (українською мовою)" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">ПІБ (українською мовою)</span><input class="form__input" type="text" name="f4" data-cond-field="4"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Дата народження" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Дата народження</span><input class="form__input" type="date" name="f71" data-cond-field="71"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Повна адреса проживання" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Повна адреса проживання</span><input class="form__input" type="text" name="f68" data-cond-field="68"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Посада (або вимоги на роботі)" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Посада (або вимоги на роботі)</span><input class="form__input" type="text" name="f69" data-cond-field="69"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Який документ потрібний:" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Який документ потрібний:</span><div class="form__chips"><label class="form__chip"><input type="checkbox" name="f70" value="Сертифікат нарколога (ф. 140/о)" data-cond-field="70"><span>Сертифікат нарколога (ф. 140/о)</span></label><label class="form__chip"><input type="checkbox" name="f70" value="Сертифікат психіатра (ф. 122-2/о)" data-cond-field="70"><span>Сертифікат психіатра (ф. 122-2/о)</span></label><label class="form__chip"><input type="checkbox" name="f70" value="Обидва" data-cond-field="70"><span>Обидва</span></label></div><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Номер телефону отримувача" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Номер телефону отримувача</span><input class="form__input" type="tel" name="f23" data-cond-field="23"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Місто та номер відділення Нової Пошти" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Місто та номер відділення Нової Пошти</span><input class="form__input" type="text" name="f47" data-cond-field="47"><p class="form__error" data-error></p></div>
-<div class="form__field" data-label="Додаткова інформація" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}], [{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Сертифікати нарколога та психіатра&quot;}]]" hidden><span class="form__label">Додаткова інформація</span><textarea class="form__input form__input--textarea" name="f26" rows="2" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="66" data-label="Виберіть" data-required="1"><span class="form__label">Виберіть <span class="form__req">*</span></span><select class="form__input form__input--select" name="f66" data-cond-field="66"><option value="">— оберіть —</option><option value="Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)">Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)</option></select><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="4" data-label="ПІБ (українською мовою)" data-required="1" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}]]" hidden><span class="form__label">ПІБ (українською мовою) <span class="form__req">*</span></span><input class="form__input" type="text" name="f4" data-cond-field="4"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="71" data-label="Дата народження" data-required="1" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}]]" hidden><span class="form__label">Дата народження <span class="form__req">*</span></span><input class="form__input form__input--date" type="text" name="f71" placeholder="ДД.ММ.РРРР" inputmode="numeric" autocomplete="off" data-datepicker data-datepicker-birth data-cond-field="71"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="68" data-label="Повна адреса проживання" data-required="1" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}]]" hidden><span class="form__label">Повна адреса проживання <span class="form__req">*</span></span><input class="form__input" type="text" name="f68" data-cond-field="68"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="69" data-label="Посада (або вимоги на роботі)" data-required="1" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}]]" hidden><span class="form__label">Посада (або вимоги на роботі) <span class="form__req">*</span></span><input class="form__input" type="text" name="f69" data-cond-field="69"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="23" data-label="Номер телефону отримувача" data-required="1" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}]]" hidden><span class="form__label">Номер телефону отримувача <span class="form__req">*</span></span><input class="form__input" type="tel" name="f23" data-cond-field="23"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="47" data-label="Місто та номер відділення Нової Пошти" data-required="1" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}]]" hidden><span class="form__label">Місто та номер відділення Нової Пошти <span class="form__req">*</span></span><input class="form__input" type="text" name="f47" data-cond-field="47"><p class="form__error" data-error></p></div>
+<div class="form__field" data-field-id="26" data-label="Додаткова інформація" data-cond="[[{&quot;f&quot;: &quot;66&quot;, &quot;op&quot;: &quot;==&quot;, &quot;v&quot;: &quot;Довідка про проходження попереднього, періодичного та позачергового психіатричних оглядів (ф.100-2/о)&quot;}]]" hidden><span class="form__label">Додаткова інформація</span><textarea class="form__input form__input--textarea" name="f26" rows="2" data-cond-field="26"></textarea><p class="form__error" data-error></p></div>
 						</div>
 						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
-						<div class="form__field">
+						<div class="form__field order-form__consent">
 							<label class="form__consent">
 								<input class="form__checkbox" type="checkbox" name="consent" required>
 								<span>Погоджуюся на обробку персональних даних</span>
 							</label>
 							<p class="form__error" data-error></p>
 						</div>
-						<button class="button button--wide" type="submit">Відправити <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+						<button class="button button--wide order-form__submit" type="submit">Відправити <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
 						<p class="form__fail" hidden role="alert" data-form-fail>Не вдалося надіслати заявку. Зателефонуйте нам або напишіть у Telegram. <a href="tel:+380732823488">+38 (073) 282-34-88</a></p>
 						<div class="form__success" hidden role="status" data-form-success>
 							<svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
@@ -327,28 +328,88 @@
 				<div class="faq__aside" data-reveal>
 					<p class="eyebrow">Питання та відповіді</p>
 					<h2 class="title title--h2">Часті <span class="title__accent">питання</span></h2>
-					<a class="button button--ghost" href="#request">Поставити своє запитання</a>
+					<button class="button button--ghost" type="button" aria-haspopup="dialog" aria-controls="question-dialog" data-dialog-open="question-dialog">Поставити своє запитання</button>
 				</div>
 				<div class="faq__list">
 					<details class="faq__item faq__item--open" open data-reveal>
-						<summary class="faq__question">Скільки часу дійсні сертифікати нарколога та психіатра?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Скільки часу дійсні сертифікати нарколога та психіатра?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Стандартний термін дії таких сертифікатів — 1 рік з моменту видачі, але в окремих випадках, наприклад, для деяких конкурсів або вакансій, термін може бути скорочено до 6 місяців.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Які форми використовуються для проходження нарко- та психіатричного огляду?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Які форми використовуються для проходження нарко- та психіатричного огляду?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Використовуються стандартні форми медичних довідок, зокрема форма №<span class="nowrap">140/о</span>, №<span class="nowrap">122-2/о</span> та №<span class="nowrap">100-2/о</span>, залежно від мети отримання — водійські права, працевлаштування, віза тощо.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Чи можна отримати сертифікати без реєстрації у державних установах?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Чи можна отримати сертифікати без реєстрації у державних установах?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">Так, багато приватних медцентрів мають право видавати сертифікати без необхідності постановки на облік чи проходження складних процедур. Головне — переконатися, що клініка має ліцензію, а довідки приймаються потрібною вам організацією.</p></div></div>
 					</details>
 					<details class="faq__item" data-reveal>
-						<summary class="faq__question">Як швидко можна отримати сертифікат нарколога або психіатра?<svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
+						<summary class="faq__question"><span class="faq__question-text">Як швидко можна отримати сертифікат нарколога або психіатра?</span><svg class="icon" aria-hidden="true"><use href="#plus"></use></svg></summary>
 						<div class="faq__answer"><div class="faq__answer-inner"><p class="faq__text">У приватних медичних центрах довідку можна оформити протягом 1 робочого дня, іноді навіть за 1–2 години. У державних установах цей процес може зайняти кілька днів, з урахуванням черг та запису на прийом.</p></div></div>
 					</details>
 				</div>
 			</div>
 		</section>
+<dialog class="form-dialog" id="question-dialog" aria-labelledby="question-dialog-title" data-dialog>
+	<div class="form-dialog__window">
+		<button class="form-dialog__close" type="button" aria-label="Закрити" data-dialog-close><svg class="icon" aria-hidden="true"><use href="#close"></use></svg></button>
+		<div class="form-dialog__head">
+			<p class="eyebrow">Питання та відповіді</p>
+			<h2 class="title title--h2" id="question-dialog-title">Поставте своє запитання</h2>
+			<p class="form-dialog__text">Залиште контакти та коротко опишіть питання — менеджер підкаже, який документ потрібен і як його оформити.</p>
+		</div>
+		<div class="form-dialog__body">
+			<form class="form" action="../send.php" method="post" novalidate data-form>
+						<input type="hidden" name="lang" value="uk">
+						<div class="form__field">
+							<label class="form__label" for="question-name">ПІБ (українською мовою)</label>
+							<input class="form__input" id="question-name" name="name" type="text" autocomplete="name" placeholder="Прізвище, ім’я, по батькові" required>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="question-phone">Контактний телефон</label>
+							<input class="form__input" id="question-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___ __ __" required>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="question-service">Який документ цікавить</label>
+							<select class="form__input form__input--select" id="question-service" name="service" required data-form-service>
+								<option value="">Оберіть документ</option>
+								<option>Медична довідка</option>
+								<option>Довідка про щеплення 063/о</option>
+								<option>Довідка для басейну</option>
+								<option>Медогляд 086/о</option>
+								<option>Довідка про флюорографію</option>
+								<option>Медична книжка 1-ОМК</option>
+								<option>Довідка водія 083/о</option>
+								<option selected>Довідка психіатричного огляду 100-2/о</option>
+								<option>Інша довідка</option>
+							</select>
+							<p class="form__error" data-error></p>
+						</div>
+						<div class="form__field">
+							<label class="form__label" for="question-comment">Додаткова інформація <span class="visually-hidden">(необов’язково)</span></label>
+							<textarea class="form__input form__input--textarea" id="question-comment" name="comment" rows="3" placeholder="Напишіть своє запитання"></textarea>
+						</div>
+						<input class="form__honeypot" type="text" name="hp_note" tabindex="-1" autocomplete="new-password" aria-hidden="true">
+						<div class="form__field">
+							<label class="form__consent">
+								<input class="form__checkbox" type="checkbox" name="consent" required>
+								<span>Погоджуюся на обробку персональних даних</span>
+							</label>
+							<p class="form__error" data-error></p>
+						</div>
+						<button class="button button--wide" type="submit">Відправити <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+						<p class="form__fail" hidden role="alert" data-form-fail>Не вдалося надіслати заявку. Зателефонуйте нам або напишіть у Telegram. <a href="tel:+380732823488">+38 (073) 282-34-88</a></p>
+						<div class="form__success" hidden role="status" data-form-success>
+							<svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
+							<h3 class="title title--h3">Заявку прийнято</h3>
+							<p class="form__success-text">Менеджер зв’яжеться з вами найближчим часом.</p>
+						</div>
+					</form>
+		</div>
+	</div>
+</dialog>
 
 		<section class="services services--related">
 			<div class="services__container">
@@ -514,6 +575,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+
+<script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.js" defer></script>
 <script src="../assets/js/main.js" defer></script>
 </body>
 </html>

@@ -15,6 +15,9 @@ const I18N = {
 		errService: 'Оберіть документ',
 		errConsent: 'Потрібна згода на обробку даних',
 		errRequired: 'Заповніть це поле',
+		errDate: 'Вкажіть коректну дату у форматі ДД.ММ.РРРР',
+		orderStep: 'Крок',
+		orderStepOf: 'з',
 		search_ph: 'Пошук…',
 		select_ph: '— оберіть —',
 		fabOpen: 'Написати нам',
@@ -29,6 +32,9 @@ const I18N = {
 		errService: 'Выберите документ',
 		errConsent: 'Нужно согласие на обработку данных',
 		errRequired: 'Заполните это поле',
+		errDate: 'Укажите корректную дату в формате ДД.ММ.ГГГГ',
+		orderStep: 'Шаг',
+		orderStepOf: 'из',
 		search_ph: 'Поиск…',
 		select_ph: '— выберите —',
 		fabOpen: 'Написать нам',
@@ -36,6 +42,34 @@ const I18N = {
 	},
 };
 const t = I18N[html.lang] || I18N.uk;
+
+const DATEPICKER_LOCALES = {
+	uk: {
+		days: ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'Пʼятниця', 'Субота'],
+		daysShort: ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+		daysMin: ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+		months: ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'],
+		monthsShort: ['Січ', 'Лют', 'Бер', 'Кві', 'Тра', 'Чер', 'Лип', 'Сер', 'Вер', 'Жов', 'Лис', 'Гру'],
+		today: 'Сьогодні',
+		clear: 'Очистити',
+		dateFormat: 'dd.MM.yyyy',
+		timeFormat: 'HH:mm',
+		firstDay: 1,
+	},
+	ru: {
+		days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+		daysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+		daysMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+		months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+		monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+		today: 'Сегодня',
+		clear: 'Очистить',
+		dateFormat: 'dd.MM.yyyy',
+		timeFormat: 'HH:mm',
+		firstDay: 1,
+	},
+};
+const datepickerInstances = new WeakMap();
 
 // Блокування скролу з компенсацією ширини скролбара (body + fixed-елементи [data-lp])
 function bodyLock(delay = 400) {
@@ -319,6 +353,50 @@ function initContacts() {
 }
 
 /* ==========================================================================
+   Небольшая форма вопроса в нативном диалоге
+   ========================================================================== */
+function initDialogs() {
+	const dialogs = Array.from(document.querySelectorAll('[data-dialog]'));
+	if (!dialogs.length) return;
+
+	const syncScrollLock = () => {
+		const hasOpenDialog = dialogs.some((dialog) => dialog.open);
+		const cityIsOpen = Boolean(document.querySelector('[data-city]:not([hidden])'));
+		if (hasOpenDialog && !html.hasAttribute('data-scroll-lock') && bodyLockStatus) {
+			bodyLock(0);
+		} else if (!hasOpenDialog && !cityIsOpen && !html.classList.contains('menu-open') && html.hasAttribute('data-scroll-lock')) {
+			if (bodyLockStatus) bodyUnlock(0);
+			else setTimeout(syncScrollLock, 50);
+		}
+	};
+
+	document.addEventListener('click', (event) => {
+		const openButton = event.target.closest('[data-dialog-open]');
+		if (openButton) {
+			const dialog = document.getElementById(openButton.dataset.dialogOpen);
+			if (dialog && !dialog.open) {
+				dialog.showModal();
+				syncScrollLock();
+			}
+			return;
+		}
+
+		const closeButton = event.target.closest('[data-dialog-close]');
+		if (closeButton) {
+			const dialog = closeButton.closest('dialog');
+			if (dialog) dialog.close();
+		}
+	});
+
+	dialogs.forEach((dialog) => {
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+		new MutationObserver(syncScrollLock).observe(dialog, { attributes: true, attributeFilter: ['open'] });
+	});
+}
+
+/* ==========================================================================
    Вибір міста: вікно з пошуком по обласних центрах
    ========================================================================== */
 // Сторінки регіонів ще не створені. Коли замовник погодить адреси, вписати їх сюди
@@ -498,6 +576,9 @@ function initCustomSelects() {
 		trigger.className = 'cselect__trigger';
 		trigger.setAttribute('aria-haspopup', 'listbox');
 		trigger.setAttribute('aria-expanded', 'false');
+		const triggerValue = document.createElement('span');
+		triggerValue.className = 'cselect__value';
+		trigger.appendChild(triggerValue);
 		wrap.appendChild(trigger);
 
 		const panel = document.createElement('div');
@@ -537,7 +618,9 @@ function initCustomSelects() {
 		const sync = () => {
 			const sel = select.options[select.selectedIndex];
 			const isPlaceholder = !select.value;
-			trigger.textContent = isPlaceholder ? placeholder : sel.textContent;
+			const text = isPlaceholder ? placeholder : sel.textContent;
+			triggerValue.textContent = text;
+			trigger.title = isPlaceholder ? '' : text;
 			trigger.classList.toggle('cselect__trigger--placeholder', isPlaceholder);
 			items.forEach((li) => li.setAttribute('aria-selected', li.dataset.value === select.value ? 'true' : 'false'));
 		};
@@ -562,6 +645,7 @@ function initCustomSelects() {
 
 		items.forEach((li) => li.addEventListener('click', () => choose(li.dataset.value)));
 		trigger.addEventListener('click', () => (panel.hidden ? open() : close()));
+		select.addEventListener('change', sync);
 		search.addEventListener('input', () => filter(search.value));
 		search.addEventListener('keydown', (e) => {
 			if (e.key === 'Enter') {
@@ -584,9 +668,129 @@ function initCustomSelects() {
 }
 
 
+function parseDateValue(value) {
+	const normalized = String(value || '').trim();
+	let parts = normalized.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+	if (!parts) {
+		const iso = normalized.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+		if (!iso) return null;
+		parts = [iso[0], iso[3], iso[2], iso[1]];
+	}
+
+	const day = Number(parts[1]);
+	const month = Number(parts[2]);
+	const year = Number(parts[3]);
+	const date = new Date(year, month - 1, day);
+	if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
+	return date;
+}
+
+function formatDateValue(date) {
+	const pad = (value) => String(value).padStart(2, '0');
+	return `${pad(date.getDate())}.${pad(date.getMonth() + 1)}.${date.getFullYear()}`;
+}
+
+function isValidDateInput(input) {
+	const date = parseDateValue(input.value);
+	if (!date) return false;
+	if (!input.hasAttribute('data-datepicker-birth')) return true;
+	const today = new Date();
+	today.setHours(23, 59, 59, 999);
+	return date <= today;
+}
+
+function initDatepickers() {
+	const fields = document.querySelectorAll('[data-datepicker]');
+	if (!fields.length) return;
+
+	if (typeof window.AirDatepicker !== 'function') {
+		const now = new Date();
+		const pad = (value) => String(value).padStart(2, '0');
+		const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+		fields.forEach((input) => {
+			input.type = 'date';
+			input.placeholder = '';
+			if (input.hasAttribute('data-datepicker-birth')) input.max = today;
+		});
+		return;
+	}
+
+	const locale = DATEPICKER_LOCALES[html.lang] || DATEPICKER_LOCALES.uk;
+	const mobile = window.matchMedia('(max-width: 48em)').matches;
+	fields.forEach((input) => {
+		const isBirthDate = input.hasAttribute('data-datepicker-birth');
+		const initialDate = parseDateValue(input.value);
+		const validInitialDate = initialDate && (!isBirthDate || isValidDateInput(input));
+		const options = {
+			locale,
+			autoClose: true,
+			dateFormat: 'dd.MM.yyyy',
+			view: isBirthDate ? 'years' : 'days',
+			keyboardNav: true,
+			toggleSelected: false,
+			isMobile: mobile,
+		};
+		if (isBirthDate) {
+			options.maxDate = new Date();
+			options.startDate = validInitialDate ? initialDate : new Date(1990, 0, 1);
+		}
+		if (validInitialDate) options.selectedDates = [initialDate];
+		else if (input.value) input.value = '';
+
+		const picker = new window.AirDatepicker(input, options);
+		datepickerInstances.set(input, picker);
+		if (initialDate && (!isBirthDate || initialDate <= new Date())) input.value = formatDateValue(initialDate);
+		input.addEventListener('blur', () => {
+			const date = parseDateValue(input.value);
+			if (!date || (isBirthDate && !isValidDateInput(input))) return;
+			picker.selectDate(date, { silent: true });
+			input.value = formatDateValue(date);
+		});
+
+		const form = input.closest('form');
+		if (form) form.addEventListener('reset', () => setTimeout(() => picker.clear({ silent: true }), 0));
+	});
+}
+
+
 function initOrderForms() {
 	document.querySelectorAll('[data-order]').forEach((form) => {
 		const wrappers = Array.from(form.querySelectorAll('[data-cond]'));
+		const gate = form.querySelector('[data-order-gate]');
+		const syncGate = () => {
+			if (gate) form.classList.toggle('order-form--expanded', gate.value !== '');
+		};
+
+		const focusControl = (control) => {
+			const customTrigger = control.closest('.cselect') && control.closest('.cselect').querySelector('.cselect__trigger');
+			(customTrigger || control).focus();
+		};
+
+		const validateVisibleFields = () => {
+			let firstInvalid = null;
+			form.querySelectorAll('.form__field').forEach((wrapper) => {
+				if (wrapper.hidden) return;
+				const control = wrapper.querySelector('input,select,textarea');
+				const isRequired = wrapper.hasAttribute('data-required');
+				const isDate = control && control.matches('[data-datepicker]');
+				if (!isRequired && !isDate) return;
+				let valid = false;
+				if (!control) valid = true;
+				else if (control.type === 'radio' || control.type === 'checkbox') {
+					valid = Boolean(form.querySelector('[name="' + control.name + '"]:checked'));
+				} else if (isDate) {
+					valid = control.value.trim() === '' ? !isRequired : isValidDateInput(control);
+				} else valid = control.value.trim() !== '';
+				wrapper.classList.toggle('form__field--error', !valid);
+				const error = wrapper.querySelector('[data-error]');
+				if (error) {
+					const empty = !control || control.value.trim() === '';
+					error.textContent = valid ? '' : isDate && !empty ? t.errDate : t.errRequired;
+				}
+				if (!valid && !firstInvalid) firstInvalid = control;
+			});
+			return firstInvalid;
+		};
 
 		const value = (id) => {
 			const el = form.querySelector('[name="f' + id + '"]');
@@ -616,7 +820,12 @@ function initOrderForms() {
 				if (!show) {
 					w.querySelectorAll('input,select,textarea').forEach((x) => {
 						if (x.type === 'checkbox' || x.type === 'radio') x.checked = false;
-						else x.value = '';
+						else {
+							const datepicker = datepickerInstances.get(x);
+							if (datepicker) datepicker.clear({ silent: true });
+							x.value = '';
+							if (x.tagName === 'SELECT') x.dispatchEvent(new Event('change'));
+						}
 					});
 					w.classList.remove('form__field--error');
 					const e = w.querySelector('[data-error]');
@@ -624,28 +833,30 @@ function initOrderForms() {
 				}
 			});
 		};
-		form.addEventListener('change', evaluate);
-		form.addEventListener('input', evaluate);
+		const fail = form.querySelector('[data-form-fail]');
+		const clearFail = () => {
+			if (fail) fail.hidden = true;
+		};
+		form.addEventListener('change', () => {
+			clearFail();
+			evaluate();
+			syncGate();
+		});
+		form.addEventListener('input', () => {
+			clearFail();
+			evaluate();
+		});
+		form.addEventListener('reset', () => setTimeout(() => {
+			evaluate();
+			syncGate();
+		}, 0));
 		evaluate();
+		syncGate();
 
 		const submit = form.querySelector('[type="submit"]');
-		const fail = form.querySelector('[data-form-fail]');
 		form.addEventListener('submit', async (ev) => {
 			ev.preventDefault();
-			let firstInvalid = null;
-			form.querySelectorAll('.form__field[data-required]').forEach((w) => {
-				if (w.hidden) return;
-				const control = w.querySelector('input,select,textarea');
-				let ok = false;
-				if (!control) ok = true;
-				else if (control.type === 'radio' || control.type === 'checkbox') {
-					ok = Boolean(form.querySelector('[name="' + control.name + '"]:checked'));
-				} else ok = control.value.trim() !== '';
-				w.classList.toggle('form__field--error', !ok);
-				const e = w.querySelector('[data-error]');
-				if (e) e.textContent = ok ? '' : t.errRequired;
-				if (!ok && !firstInvalid) firstInvalid = control;
-			});
+			let firstInvalid = validateVisibleFields();
 			const consent = form.querySelector('input[name="consent"]');
 			if (consent && !consent.checked) {
 				const f = consent.closest('.form__field');
@@ -655,7 +866,11 @@ function initOrderForms() {
 				if (!firstInvalid) firstInvalid = consent;
 			}
 			if (firstInvalid) {
-				firstInvalid.focus();
+				focusControl(firstInvalid);
+				firstInvalid.closest('.form__field').scrollIntoView({
+					behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+					block: 'center',
+				});
 				return;
 			}
 
@@ -670,7 +885,8 @@ function initOrderForms() {
 				else if (checks.length) v = checks.map((c) => c.value).join(', ');
 				else {
 					const c = w.querySelector('input:not([type="radio"]):not([type="checkbox"]), select, textarea');
-					if (c) v = c.value.trim();
+					if (c && c.type === 'file') v = c.files && c.files[0] ? c.files[0].name : '';
+					else if (c) v = c.value.trim();
 				}
 				if (v) details.push({ label: label, value: v });
 			});
@@ -713,9 +929,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	initServices();
 	initFaq();
 	initForms();
+	initDatepickers();
 	initOrderForms();
 	initCustomSelects();
 	initContacts();
+	initDialogs();
 	initCity();
 	initStepsLine();
 	initAnimations();
