@@ -179,7 +179,27 @@ date_default_timezone_set('Europe/Kyiv');
 $sentAt = date('d.m.Y H:i:s');
 $subjectLabel = $formTitle !== '' ? $formTitle : ($pageTitle !== '' ? $pageTitle : 'форма сайту');
 $subjectLabel = preg_replace('/[\r\n]+/', ' ', $subjectLabel) ?? 'форма сайту';
-$subject = 'Нова заявка з сайту — ' . $subjectLabel;
+
+// Тема письма: назва сторінки, тип форми і мова — щоб заявки було видно ще у списку листів.
+$pageNames = [
+	'' => 'Головна',
+	'meddovidky' => 'Медична довідка',
+	'shcheplennia' => 'Довідка про щеплення 063/о',
+	'basein' => 'Довідка для басейну',
+	'medohliad' => 'Медогляд 086/о',
+	'fliuorohrafiia' => 'Довідка про флюорографію',
+	'medknigka' => 'Медична книжка 1-ОМК',
+	'dovidka-vodia' => 'Довідка водія 083/о',
+	'dovidka-vid-narkologa' => 'Довідка психіатричного огляду 100-2/о',
+];
+$pagePath = trim((string) parse_url($page, PHP_URL_PATH), '/');
+$pagePath = preg_replace('~(^|/)index\.html$~', '', $pagePath) ?? '';
+$isRu = $pagePath === 'ru' || strpos($pagePath, 'ru/') === 0;
+$slug = $isRu ? trim(substr($pagePath, 2), '/') : $pagePath;
+$pageName = $page !== '' && isset($pageNames[$slug]) ? $pageNames[$slug] : $subjectLabel;
+$subject = 'Нова заявка — ' . $pageName
+	. ' · ' . ($formKind === 'order' ? 'анкета' : 'коротка форма')
+	. ($isRu ? ' (RU)' : '');
 
 $rows = [];
 if ($cleanDetails !== []) {
