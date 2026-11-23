@@ -1,0 +1,39 @@
+# .htaccess статического сайта med-assistant.net
+# Заменяет .htaccess от WordPress. Сохраняет старые адреса и закрывает служебные хвосты WP.
+
+DirectoryIndex index.html index.php
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# www -> без www (раньше это делал WordPress)
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# /page/index.html -> /page/ (внутренние ссылки сайта ведут на index.html)
+RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.(html|php)[\s?] [NC]
+RewriteRule ^(.*/)?index\.(html|php)$ /$1 [R=301,L]
+
+# Служебные адреса старого WordPress -> главная или карта сайта
+RewriteRule ^wp-sitemap.*\.xml$ /sitemap.xml [R=301,L]
+RewriteRule ^(elementor-hf|author|category|tag|feed|comments)(/.*)?$ / [R=301,L]
+RewriteRule ^wp-(admin|login\.php|json)(/.*)?$ / [R=301,L]
+RewriteRule ^xmlrpc\.php$ - [F,L]
+
+# Старый поиск WordPress (?s=...) -> главная без параметров
+RewriteCond %{QUERY_STRING} (^|&)(s|p|page_id)= [NC]
+RewriteRule ^$ /? [R=301,L]
+</IfModule>
+
+# Старая пустая категория WordPress
+Redirect 301 /без-категорії/ https://med-assistant.net/
+
+# Конфиг SMTP не отдаётся наружу
+<Files "config.php">
+	Require all denied
+</Files>
+<Files "config.example.php">
+	Require all denied
+</Files>

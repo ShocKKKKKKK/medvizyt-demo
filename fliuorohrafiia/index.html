@@ -31,9 +31,10 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@14/swiper-bundle.min.css">
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.css">
-	<link rel="stylesheet" href="../assets/css/style.css">
+	<link rel="stylesheet" href="../assets/css/style.css?v=reviews-author-wrap-fix">
 </head>
 <body>
 <!-- Спрайт іконок вбудовано: зовнішній <use> не працює при відкритті з диска. Іконки: Lucide (ISC), Simple Icons (CC0) -->
@@ -62,6 +63,7 @@
 	<symbol id="help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3" /></symbol>
 	<symbol id="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol>
 	<symbol id="star-fill" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol>
+	<symbol id="google" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20H42V20H24v8h11.303C33.654 32.657 29.223 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.047 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-4z" /><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.047 6.053 29.268 4 24 4c-7.682 0-14.344 4.337-17.694 10.691z" /><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" /><path fill="#1976D2" d="M43.611 20H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-4z" /></symbol>
 	<symbol id="clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="M12 11h4" /><path d="M12 16h4" /><path d="M8 11h.01" /><path d="M8 16h.01" /></symbol>
 	<symbol id="telegram" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></symbol>
 	<symbol id="viber" viewBox="0 0 24 24" fill="currentColor"><path d="M11.4 0C9.473.028 5.333.344 3.02 2.467 1.302 4.187.696 6.7.633 9.817.57 12.933.488 18.776 6.12 20.36h.003l-.004 2.416s-.037.977.61 1.177c.777.242 1.234-.5 1.98-1.302.407-.44.972-1.084 1.397-1.58 3.85.326 6.812-.416 7.15-.525.776-.252 5.176-.816 5.892-6.657.74-6.02-.36-9.83-2.34-11.546-.596-.55-3.006-2.3-8.375-2.323 0 0-.395-.025-1.037-.017zm.058 1.693c.545-.004.88.017.88.017 4.542.02 6.717 1.388 7.222 1.846 1.675 1.435 2.53 4.868 1.906 9.897v.002c-.604 4.878-4.174 5.184-4.832 5.395-.28.09-2.882.737-6.153.524 0 0-2.436 2.94-3.197 3.704-.12.12-.26.167-.352.144-.13-.033-.166-.188-.165-.414l.02-4.018c-4.762-1.32-4.485-6.292-4.43-8.895.054-2.604.543-4.738 1.996-6.173 1.96-1.773 5.474-2.018 7.11-2.03zm.38 2.602c-.167 0-.303.135-.304.302 0 .167.133.303.3.305 1.624.01 2.946.537 4.028 1.592 1.073 1.046 1.62 2.468 1.633 4.334.002.167.14.3.307.3.166-.002.3-.138.3-.304-.014-1.984-.618-3.596-1.816-4.764-1.19-1.16-2.692-1.753-4.447-1.765zm-3.96.695c-.19-.032-.4.005-.616.117l-.01.002c-.43.247-.816.562-1.146.932-.002.004-.006.004-.008.008-.267.323-.42.638-.46.948-.008.046-.01.093-.007.14 0 .136.022.27.065.4l.013.01c.135.48.473 1.276 1.205 2.604.42.768.903 1.5 1.446 2.186.27.344.56.673.87.984l.132.132c.31.308.64.6.984.87.686.543 1.418 1.027 2.186 1.447 1.328.733 2.126 1.07 2.604 1.206l.01.014c.13.042.265.064.402.063.046.002.092 0 .138-.008.31-.036.627-.19.948-.46.004 0 .003-.002.008-.005.37-.33.683-.72.93-1.148l.003-.01c.225-.432.15-.842-.18-1.12-.004 0-.698-.58-1.037-.83-.36-.255-.73-.492-1.113-.71-.51-.285-1.032-.106-1.248.174l-.447.564c-.23.283-.657.246-.657.246-3.12-.796-3.955-3.955-3.955-3.955s-.037-.426.248-.656l.563-.448c.277-.215.456-.737.17-1.248-.217-.383-.454-.756-.71-1.115-.25-.34-.826-1.033-.83-1.035-.137-.165-.31-.265-.502-.297zm4.49.88c-.158.002-.29.124-.3.282-.01.167.115.312.282.324 1.16.085 2.017.466 2.645 1.15.63.688.93 1.524.906 2.57-.002.168.13.306.3.31.166.003.305-.13.31-.297.025-1.175-.334-2.193-1.067-2.994-.74-.81-1.777-1.253-3.05-1.346h-.024zm.463 1.63c-.16.002-.29.127-.3.287-.008.167.12.31.288.32.523.028.875.175 1.113.422.24.245.388.62.416 1.164.01.167.15.295.318.287.167-.008.295-.15.287-.317-.03-.644-.215-1.178-.58-1.557-.367-.378-.893-.574-1.52-.607h-.018z"/></symbol>
@@ -77,7 +79,7 @@
 		<div class="header__container">
 			<a class="logo" href="../index.html" aria-label="Med-assistant — на головну"><img class="logo__img" src="../assets/img/brand/logo.webp" width="415" height="69" alt="med-assistant"></a>
 
-			<nav class="menu" id="menu" aria-label="Головне меню" data-lp>
+			<nav class="menu" id="menu" aria-label="Головне меню">
 				<ul class="menu__list">
 					<li class="menu__item"><a class="menu__link" href="../index.html">Головна</a></li>
 					<li class="menu__item">
@@ -139,12 +141,6 @@
 						<a class="button" href="#request">Залишити заявку <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></a>
 						<a class="button button--ghost" href="#price">Переглянути ціни</a>
 					</div>
-					<ul class="service-hero__stats service-hero__stats--four" data-hero>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">Без відвідування</span><span class="service-hero__stat-label">Замовляй</span></li>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">Нова Пошта</span><span class="service-hero__stat-label">Доставка у ваше місто</span></li>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">Будь-які цілі</span><span class="service-hero__stat-label">Для чого</span></li>
-						<li class="service-hero__stat"><span class="service-hero__stat-value">400 грн</span><span class="service-hero__stat-label">Вартість</span></li>
-					</ul>
 				</div>
 
 				<div class="service-hero__visual" aria-hidden="true">
@@ -156,9 +152,10 @@
 							</div>
 							<span class="sheet__mark"><svg class="icon" aria-hidden="true"><use href="#scan"></use></svg></span>
 						</div>
-						<p class="sheet__row"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Дата обстеження</p>
-						<p class="sheet__row"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Висновок рентгенолога</p>
-						<p class="sheet__row"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Підпис і печатка</p>
+						<p class="sheet__row"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Замовляй без відвідування</p>
+						<p class="sheet__row"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>З доставкою у ваше місто</p>
+						<p class="sheet__row"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Для будь-яких цілей</p>
+						<p class="sheet__row"><svg class="icon" aria-hidden="true"><use href="#check"></use></svg>Вартість 400 грн</p>
 						<div class="sheet__line"></div>
 						<div class="sheet__line sheet__line--short"></div>
 						<span class="sheet__stamp">Офіційний<br>бланк</span>
@@ -177,8 +174,8 @@
 						<p class="intro__text">Довідка про флюорографію підтверджує проходження обстеження органів грудної клітки з метою виявлення патологій, зокрема туберкульозу. Містить лікарський висновок, дату обстеження та офіційну печатку медичного закладу.</p>
 					</div>
 					<div class="intro__aside">
-						<a class="button button--light button--wide" href="#request">Залишити заявку <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></a>
-						<a class="intro__phone" href="tel:+380732823488"><svg class="icon" aria-hidden="true"><use href="#phone"></use></svg>+38 (073) 282-34-88</a>
+						<a class="button button--telegram button--wide" href="https://t.me/dovidki_online" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#telegram"></use></svg>Написати в Telegram</a>
+						<a class="button button--light button--wide" href="tel:+380732823488"><svg class="icon" aria-hidden="true"><use href="#phone"></use></svg>Зателефонувати</a>
 					</div>
 				</div>
 			</div>
@@ -203,8 +200,8 @@
 						<tbody>
 							<tr class="prices__row">
 								<th class="prices__cell prices__cell--name" scope="row">Довідка про флюорографію</th>
-								<td class="prices__cell" data-label="Для роботи">400 грн</td>
-								<td class="prices__cell" data-label="Для навчання">400 грн</td>
+								<td class="prices__cell" data-label="Для роботи"><span class="prices__value">400 грн</span></td>
+								<td class="prices__cell" data-label="Для навчання"><span class="prices__value">400 грн</span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -248,8 +245,9 @@
 						<h2 class="title title--h2">Для замовлення залишайте заявку</h2>
 						<p class="request__text">ми зв’яжемося з вами протягом 5 хвилин!</p>
 					</div>
-					<form class="form form--order order-form" action="../send.php" method="post" enctype="multipart/form-data" novalidate data-order>
+					<form class="form form--order order-form" action="../send.php" method="post" enctype="multipart/form-data" novalidate data-order data-form-title="Довідка про флюорографію">
 						<input type="hidden" name="lang" value="uk">
+						<input type="hidden" name="form_started_at" value="">
 						<div class="form__grid">
 <div class="form__field" data-field-id="4" data-label="ПІБ (українською мовою)" data-required="1"><span class="form__label">ПІБ (українською мовою) <span class="form__req">*</span></span><input class="form__input" type="text" name="f4" data-cond-field="4"><p class="form__error" data-error></p></div>
 <div class="form__field" data-field-id="5" data-label="Дата народження" data-required="1"><span class="form__label">Дата народження <span class="form__req">*</span></span><input class="form__input form__input--date" type="text" name="f5" placeholder="ДД.ММ.РРРР" inputmode="numeric" autocomplete="off" data-datepicker data-datepicker-birth data-cond-field="5"><p class="form__error" data-error></p></div>
@@ -272,8 +270,7 @@
 						<p class="form__fail" hidden role="alert" data-form-fail>Не вдалося надіслати заявку. Зателефонуйте нам або напишіть у Telegram. <a href="tel:+380732823488">+38 (073) 282-34-88</a></p>
 						<div class="form__success" hidden role="status" data-form-success>
 							<svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
-							<h3 class="title title--h3">Заявку прийнято</h3>
-							<p class="form__success-text">Менеджер зв’яжеться з вами найближчим часом.</p>
+							<p class="title title--h3 form__success-text">Дякуємо! Ми зв'яжемося з вами найближчим часом</p>
 						</div>
 					</form>
 				</div>
@@ -322,6 +319,117 @@
 			</div>
 		</section>
 
+		<section class="reviews" aria-labelledby="reviews-title">
+			<div class="reviews__container">
+				<div class="section-head section-head--center" data-reveal>
+					<p class="eyebrow">Відгуки</p>
+					<h2 class="title title--h2" id="reviews-title">Відгуки клієнтів</h2>
+				</div>
+				<div class="reviews__slider swiper" data-reviews-slider>
+					<div class="reviews__wrapper swiper-wrapper">
+					<article class="reviews__card swiper-slide">
+						<a class="reviews__link" href="https://maps.app.goo.gl/7otPuzSgCWm7yBvWA" target="_blank" rel="noopener">
+							<div class="reviews__meta">
+								<img class="reviews__avatar" src="../assets/img/reviews/ivan.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
+								<div class="reviews__details">
+									<div class="reviews__author-line">
+										<div class="reviews__author">
+											<svg class="reviews__google" aria-hidden="true"><use href="#google"></use></svg>
+											<h3 class="reviews__name">Іван</h3>
+										</div>
+										<span class="reviews__stars" aria-label="5 з 5 зірок"><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg></span>
+									</div>
+									<div class="reviews__date"><svg class="icon" aria-hidden="true"><use href="#calendar"></use></svg><time datetime="2026-11-18">18 листопада 2026</time></div>
+								</div>
+							</div>
+							<p class="reviews__text">Дякую, довідка оригінальна, на роботі забрали без питань.</p>
+						</a>
+					</article>
+					<article class="reviews__card swiper-slide">
+						<a class="reviews__link" href="https://maps.app.goo.gl/7otPuzSgCWm7yBvWA" target="_blank" rel="noopener">
+							<div class="reviews__meta">
+								<img class="reviews__avatar" src="../assets/img/reviews/roman.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
+								<div class="reviews__details">
+									<div class="reviews__author-line">
+										<div class="reviews__author">
+											<svg class="reviews__google" aria-hidden="true"><use href="#google"></use></svg>
+											<h3 class="reviews__name">Роман</h3>
+										</div>
+										<span class="reviews__stars" aria-label="5 з 5 зірок"><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg></span>
+									</div>
+									<div class="reviews__date"><svg class="icon" aria-hidden="true"><use href="#calendar"></use></svg><time datetime="2026-11-15">15 листопада 2026</time></div>
+								</div>
+							</div>
+							<p class="reviews__text">В универе справка 095 прошла. Доставили как и обещали за день.</p>
+						</a>
+					</article>
+					<article class="reviews__card swiper-slide">
+						<a class="reviews__link" href="https://maps.app.goo.gl/7otPuzSgCWm7yBvWA" target="_blank" rel="noopener">
+							<div class="reviews__meta">
+								<img class="reviews__avatar" src="../assets/img/reviews/marina.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
+								<div class="reviews__details">
+									<div class="reviews__author-line">
+										<div class="reviews__author">
+											<svg class="reviews__google" aria-hidden="true"><use href="#google"></use></svg>
+											<h3 class="reviews__name">Марина</h3>
+										</div>
+										<span class="reviews__stars" aria-label="5 з 5 зірок"><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg></span>
+									</div>
+									<div class="reviews__date"><svg class="icon" aria-hidden="true"><use href="#calendar"></use></svg><time datetime="2026-11-12">12 листопада 2026</time></div>
+								</div>
+							</div>
+							<p class="reviews__text">Зробили довідку за день, ціна маленька, на роботі прийняли.</p>
+						</a>
+					</article>
+					<article class="reviews__card swiper-slide">
+						<a class="reviews__link" href="https://maps.app.goo.gl/7otPuzSgCWm7yBvWA" target="_blank" rel="noopener">
+							<div class="reviews__meta">
+								<img class="reviews__avatar" src="../assets/img/reviews/olga.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
+								<div class="reviews__details">
+									<div class="reviews__author-line">
+										<div class="reviews__author">
+											<svg class="reviews__google" aria-hidden="true"><use href="#google"></use></svg>
+											<h3 class="reviews__name">Ольга</h3>
+										</div>
+										<span class="reviews__stars" aria-label="5 з 5 зірок"><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg></span>
+									</div>
+									<div class="reviews__date"><svg class="icon" aria-hidden="true"><use href="#calendar"></use></svg><time datetime="2026-11-10">10 листопада 2026</time></div>
+								</div>
+							</div>
+							<p class="reviews__text">Роблю книжку в цьому мед центрі не перший рік. Всім задоволений.</p>
+						</a>
+					</article>
+					<article class="reviews__card swiper-slide">
+						<a class="reviews__link" href="https://maps.app.goo.gl/7otPuzSgCWm7yBvWA" target="_blank" rel="noopener">
+							<div class="reviews__meta">
+								<img class="reviews__avatar" src="../assets/img/reviews/denis.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
+								<div class="reviews__details">
+									<div class="reviews__author-line">
+										<div class="reviews__author">
+											<svg class="reviews__google" aria-hidden="true"><use href="#google"></use></svg>
+											<h3 class="reviews__name">Денис</h3>
+										</div>
+										<span class="reviews__stars" aria-label="5 з 5 зірок"><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg><svg class="icon" aria-hidden="true"><use href="#star-fill"></use></svg></span>
+									</div>
+									<div class="reviews__date"><svg class="icon" aria-hidden="true"><use href="#calendar"></use></svg><time datetime="2026-11-08">8 листопада 2026</time></div>
+								</div>
+							</div>
+							<p class="reviews__text">Рекомендували вас, колеги с роботи. Зробили все чітко та на наступний день забрав сан книжку.</p>
+						</a>
+					</article>
+					</div>
+				</div>
+				<div class="reviews__controls">
+					<button class="reviews__arrow reviews__arrow--prev" type="button" aria-label="Попередній відгук" data-reviews-prev><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+					<div class="reviews__pagination" data-reviews-pagination></div>
+					<button class="reviews__arrow reviews__arrow--next" type="button" aria-label="Наступний відгук" data-reviews-next><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+				</div>
+				<div class="reviews__footer">
+					<a class="button button--ghost" href="https://maps.app.goo.gl/7otPuzSgCWm7yBvWA" target="_blank" rel="noopener">Дивитися всі відгуки в Google <svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></a>
+				</div>
+			</div>
+		</section>
+
 		<section class="faq faq--plain" id="faq">
 			<div class="faq__container">
 				<div class="faq__aside" data-reveal>
@@ -358,8 +466,9 @@
 			<p class="form-dialog__text">Залиште контакти та коротко опишіть питання — менеджер підкаже, який документ потрібен і як його оформити.</p>
 		</div>
 		<div class="form-dialog__body">
-			<form class="form" action="../send.php" method="post" novalidate data-form>
+			<form class="form" action="../send.php" method="post" novalidate data-form data-form-title="Довідка про флюорографію">
 						<input type="hidden" name="lang" value="uk">
+						<input type="hidden" name="form_started_at" value="">
 						<div class="form__field">
 							<label class="form__label" for="question-name">ПІБ (українською мовою)</label>
 							<input class="form__input" id="question-name" name="name" type="text" autocomplete="name" placeholder="Прізвище, ім’я, по батькові" required>
@@ -402,8 +511,7 @@
 						<p class="form__fail" hidden role="alert" data-form-fail>Не вдалося надіслати заявку. Зателефонуйте нам або напишіть у Telegram. <a href="tel:+380732823488">+38 (073) 282-34-88</a></p>
 						<div class="form__success" hidden role="status" data-form-success>
 							<svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
-							<h3 class="title title--h3">Заявку прийнято</h3>
-							<p class="form__success-text">Менеджер зв’яжеться з вами найближчим часом.</p>
+							<p class="title title--h3 form__success-text">Дякуємо! Ми зв'яжемося з вами найближчим часом</p>
 						</div>
 					</form>
 		</div>
@@ -416,49 +524,56 @@
 					<p class="eyebrow">Інші послуги</p>
 					<h2 class="title title--h2">Наші послуги</h2>
 				</div>
-				<div class="services__grid">
-					<article class="service-card" data-reveal data-service-item>
+				<div class="services__slider swiper" data-services-slider>
+					<div class="services__grid swiper-wrapper">
+					<article class="service-card swiper-slide" data-reveal data-service-item>
 						<div class="service-card__top"><span class="service-card__icon"><svg class="icon" aria-hidden="true"><use href="#doc"></use></svg></span><span class="service-card__code">30+ форм</span></div>
 						<h3 class="title title--h3"><a class="service-card__link" href="../meddovidky/index.html">Медичні довідки</a></h3>
 						<p class="service-card__text">Понад 30 форм: довідка про хворобу (095), для водіїв (083), щеплення (063), медогляд (086), флюорографія, довідка для спорту/басейну тощо.</p>
 						<p class="service-card__footer"><span class="service-card__price">Перейти до послуги</span><span class="service-card__arrow"><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></span></p>
 					</article>
-					<article class="service-card" data-reveal data-service-item>
+					<article class="service-card swiper-slide" data-reveal data-service-item>
 						<div class="service-card__top"><span class="service-card__icon"><svg class="icon" aria-hidden="true"><use href="#syringe"></use></svg></span><span class="service-card__code"><span class="nowrap">063/о</span></span></div>
 						<h3 class="title title--h3"><a class="service-card__link" href="../shcheplennia/index.html">Довідка про щеплення</a></h3>
 						<p class="service-card__text">Медична довідка форми 063 про щеплення для школи, садка чи виїзду за кордон. Актуальна інформація, точність і офіційне оформлення.</p>
 						<p class="service-card__footer"><span class="service-card__price">Перейти до послуги</span><span class="service-card__arrow"><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></span></p>
 					</article>
-					<article class="service-card" data-reveal data-service-item>
+					<article class="service-card swiper-slide" data-reveal data-service-item>
 						<div class="service-card__top"><span class="service-card__icon"><svg class="icon" aria-hidden="true"><use href="#waves"></use></svg></span><span class="service-card__code">Басейн</span></div>
 						<h3 class="title title--h3"><a class="service-card__link" href="../basein/index.html">Довідка для басейну</a></h3>
 						<p class="service-card__text">Довідка для басейну з усіма необхідними аналізами та відмітками. Відповідає чинним санітарним вимогам МОЗ.</p>
 						<p class="service-card__footer"><span class="service-card__price">Перейти до послуги</span><span class="service-card__arrow"><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></span></p>
 					</article>
-					<article class="service-card" data-reveal data-service-item>
+					<article class="service-card swiper-slide" data-reveal data-service-item>
 						<div class="service-card__top"><span class="service-card__icon"><svg class="icon" aria-hidden="true"><use href="#stethoscope"></use></svg></span><span class="service-card__code"><span class="nowrap">086/о</span></span></div>
 						<h3 class="title title--h3"><a class="service-card__link" href="../medohliad/index.html">Медогляд «086/о»</a></h3>
 						<p class="service-card__text">Швидке проходження медогляду форми <span class="nowrap">086/о</span> для вступу, працевлаштування чи водіїв. Оформлення довідки всього за 1 день.</p>
 						<p class="service-card__footer"><span class="service-card__price">Перейти до послуги</span><span class="service-card__arrow"><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></span></p>
 					</article>
-					<article class="service-card" data-reveal data-service-item>
+					<article class="service-card swiper-slide" data-reveal data-service-item>
 						<div class="service-card__top"><span class="service-card__icon"><svg class="icon" aria-hidden="true"><use href="#book"></use></svg></span><span class="service-card__code"><span class="nowrap">1-ОМК</span></span></div>
 						<h3 class="title title--h3"><a class="service-card__link" href="../medknigka/index.html">Медична книжка «1-ОМК»</a></h3>
 						<p class="service-card__text">Оформлення особистої медичної книжки для роботи у сфері харчування, освіти, медицини тощо. Включає всі необхідні аналізи та штампи.</p>
 						<p class="service-card__footer"><span class="service-card__price">Перейти до послуги</span><span class="service-card__arrow"><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></span></p>
 					</article>
-					<article class="service-card" data-reveal data-service-item>
+					<article class="service-card swiper-slide" data-reveal data-service-item>
 						<div class="service-card__top"><span class="service-card__icon"><svg class="icon" aria-hidden="true"><use href="#car"></use></svg></span><span class="service-card__code"><span class="nowrap">083/о</span></span></div>
 						<h3 class="title title--h3"><a class="service-card__link" href="../dovidka-vodia/index.html">Довідка водія</a></h3>
 						<p class="service-card__text">Медична довідка для отримання або заміни водійських прав. Повністю відповідає формі <span class="nowrap">083/о</span> та чинним вимогам.</p>
 						<p class="service-card__footer"><span class="service-card__price">Перейти до послуги</span><span class="service-card__arrow"><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></span></p>
 					</article>
-					<article class="service-card" data-reveal data-service-item>
+					<article class="service-card swiper-slide" data-reveal data-service-item>
 						<div class="service-card__top"><span class="service-card__icon"><svg class="icon" aria-hidden="true"><use href="#brain"></use></svg></span><span class="service-card__code"><span class="nowrap">100-2/о</span></span></div>
 						<h3 class="title title--h3"><a class="service-card__link" href="../dovidka-vid-narkologa/index.html">Довідка психіатричного огляду</a></h3>
 						<p class="service-card__text">Оформлення форми <span class="nowrap">100-2/о</span> для підтвердження стану здоров’я на роботу і працевлаштування. Всі документи заповнюються згідно з вимогами МОЗ.</p>
 						<p class="service-card__footer"><span class="service-card__price">Перейти до послуги</span><span class="service-card__arrow"><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></span></p>
 					</article>
+					</div>
+				</div>
+				<div class="services__controls">
+					<button class="services__arrow services__arrow--prev" type="button" aria-label="Попередні послуги" data-services-prev><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
+					<div class="services__pagination" data-services-pagination></div>
+					<button class="services__arrow services__arrow--next" type="button" aria-label="Наступні послуги" data-services-next><svg class="icon" aria-hidden="true"><use href="#arrow"></use></svg></button>
 				</div>
 			</div>
 		</section>
@@ -470,7 +585,7 @@
 			<div class="footer__top">
 				<div class="footer__about">
 					<a class="logo" href="../index.html" aria-label="Med-assistant — на головну"><img class="logo__img" src="../assets/img/brand/logo.webp" width="415" height="69" alt="med-assistant"></a>
-					<p class="footer__text">Оформлення медичних довідок по всій Україні: консультація, підбір форми та доставка Новою Поштою.</p>
+					<p class="footer__text">Консультація та оформлення медичних довідок по всій Україні, доставка Новою Поштою.</p>
 					<div class="footer__socials">
 						<a class="footer__social" href="https://t.me/dovidki_online" target="_blank" rel="noopener" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="#telegram"></use></svg></a>
 						<a class="footer__social" href="tel:+380732823488" aria-label="Зателефонувати"><svg class="icon" aria-hidden="true"><use href="#phone"></use></svg></a>
@@ -574,8 +689,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@14/swiper-bundle.min.js" defer></script>
 
 <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.js" defer></script>
-<script src="../assets/js/main.js" defer></script>
+<script src="../assets/js/main.js?v=form-elapsed-1" defer></script>
 </body>
 </html>

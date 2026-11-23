@@ -190,6 +190,11 @@ function initServices() {
 			});
 			if (count) count.textContent = t.shown(shown, items.length);
 			if (empty) empty.hidden = shown > 0;
+			const slider = input.closest('.services')?.querySelector('[data-services-slider]');
+			if (slider?.swiper) {
+				slider.swiper.update();
+				slider.swiper.slideToLoop(0, 0);
+			}
 			if (window.ScrollTrigger) ScrollTrigger.refresh();
 		};
 		input.addEventListener('input', update);
@@ -240,7 +245,26 @@ function initFaq() {
 }
 
 /* ==========================================================================
-   Форма заявки: перевірка полів і відправка на send.php (звідти — у Telegram)
+   Спільні службові дані для всіх форм
+   ========================================================================== */
+function setFormStartedAt(form) {
+	const field = form.querySelector('input[name="form_started_at"]');
+	if (field) field.value = String(Math.floor(Date.now() / 1000));
+	// Монотонный таймер: не зависит от того, верно ли выставлены часы у посетителя
+	form.dataset.startedPerf = String(performance.now());
+}
+
+function addFormMetadata(form, data, kind) {
+	const started = Number(form.dataset.startedPerf || 0);
+	data.set('form_elapsed', String(Math.floor((performance.now() - started) / 1000)));
+	data.set('page', window.location.href);
+	data.set('page_title', document.title);
+	data.set('form_title', form.dataset.formTitle || document.title);
+	data.set('form_kind', kind);
+}
+
+/* ==========================================================================
+   Форма заявки: перевірка полів і відправка на send.php через SMTP
    ========================================================================== */
 function initForms() {
 	const rules = {
@@ -250,6 +274,8 @@ function initForms() {
 	};
 
 	document.querySelectorAll('[data-form]').forEach((form) => {
+		setFormStartedAt(form);
+
 		const setError = (control, message) => {
 			const field = control.closest('.form__field');
 			if (!field) return;
@@ -265,6 +291,8 @@ function initForms() {
 				message = control.required && !control.checked ? t.errConsent : '';
 			} else if (rules[control.name] && control.type !== 'hidden') {
 				message = rules[control.name](control.value);
+			} else if (control.required && control.type !== 'hidden' && !control.value.trim()) {
+				message = t.errRequired;
 			}
 			setError(control, message);
 			return !message;
@@ -290,7 +318,7 @@ function initForms() {
 			}
 
 			const data = new FormData(form);
-			data.append('page', window.location.href);
+			addFormMetadata(form, data, 'simple');
 			submit.disabled = true;
 			form.classList.add('form--loading');
 			if (fail) fail.hidden = true;
@@ -303,6 +331,7 @@ function initForms() {
 				const success = form.querySelector('[data-form-success]');
 				if (success) success.hidden = false;
 				form.reset();
+				setFormStartedAt(form);
 			} catch (error) {
 				// Немає PHP (сайт відкрито з диска або на GitHub Pages) чи Telegram не відповів — показуємо телефон
 				if (fail) fail.hidden = false;
@@ -350,6 +379,76 @@ function initContacts() {
 		});
 	}
 
+}
+
+/* ==========================================================================
+	Циклічні слайдери карток послуг: без автопрокрутки, з окремою навігацією для кожного блока
+	========================================================================== */
+function initServiceSliders() {
+	if (!window.Swiper) return;
+	document.querySelectorAll('[data-services-slider]').forEach((slider) => {
+		const section = slider.closest('.services');
+		new Swiper(slider, {
+			observer: true,
+			observeParents: true,
+			loop: true,
+			watchOverflow: true,
+			speed: 650,
+			slidesPerView: 1,
+			spaceBetween: 14,
+			keyboard: {
+				enabled: true,
+				onlyInViewport: true,
+			},
+			navigation: {
+				prevEl: section.querySelector('[data-services-prev]'),
+				nextEl: section.querySelector('[data-services-next]'),
+			},
+			pagination: {
+				el: section.querySelector('[data-services-pagination]'),
+				clickable: true,
+			},
+			breakpoints: {
+				576: { slidesPerView: 2, spaceBetween: 18 },
+				992: { slidesPerView: 3, spaceBetween: 24 },
+			},
+		});
+	});
+}
+
+/* ==========================================================================
+	Відгуки: три картки на десктопі, свайп на мобільних
+	========================================================================== */
+function initReviewSliders() {
+	if (!window.Swiper) return;
+	document.querySelectorAll('[data-reviews-slider]').forEach((slider) => {
+		const section = slider.closest('.reviews');
+		new Swiper(slider, {
+			observer: true,
+			observeParents: true,
+			loop: true,
+			watchOverflow: true,
+			speed: 650,
+			slidesPerView: 1,
+			spaceBetween: 14,
+			keyboard: {
+				enabled: true,
+				onlyInViewport: true,
+			},
+			navigation: {
+				prevEl: section.querySelector('[data-reviews-prev]'),
+				nextEl: section.querySelector('[data-reviews-next]'),
+			},
+			pagination: {
+				el: section.querySelector('[data-reviews-pagination]'),
+				clickable: true,
+			},
+			breakpoints: {
+				768: { slidesPerView: 2, spaceBetween: 18 },
+				1280: { slidesPerView: 3, spaceBetween: 24 },
+			},
+		});
+	});
 }
 
 /* ==========================================================================
@@ -561,12 +660,13 @@ function initAnimations() {
    Кастомний селект для анкети (у стилі сайту, з пошуком)
    ========================================================================== */
 function initCustomSelects() {
-	document.querySelectorAll('[data-order] select.form__input--select').forEach((select) => {
+	document.querySelectorAll('form select.form__input--select, select[data-quick-select]').forEach((select) => {
 		if (select.dataset.cselect) return;
 		select.dataset.cselect = '1';
+		const isQuick = select.hasAttribute('data-quick-select');
 
 		const wrap = document.createElement('div');
-		wrap.className = 'cselect';
+		wrap.className = isQuick ? 'cselect cselect--quick' : 'cselect';
 		select.parentNode.insertBefore(wrap, select);
 		wrap.appendChild(select);
 		select.classList.add('cselect__native');
@@ -584,15 +684,18 @@ function initCustomSelects() {
 		const panel = document.createElement('div');
 		panel.className = 'cselect__panel';
 		panel.hidden = true;
-		const search = document.createElement('input');
-		search.type = 'search';
-		search.className = 'cselect__search';
-		search.placeholder = t.search_ph;
-		search.autocomplete = 'off';
+		let search = null;
+		if (!isQuick) {
+			search = document.createElement('input');
+			search.type = 'search';
+			search.className = 'cselect__search';
+			search.placeholder = t.search_ph;
+			search.autocomplete = 'off';
+		}
 		const list = document.createElement('ul');
 		list.className = 'cselect__list';
 		list.setAttribute('role', 'listbox');
-		panel.appendChild(search);
+		if (search) panel.appendChild(search);
 		panel.appendChild(list);
 		wrap.appendChild(panel);
 
@@ -603,6 +706,7 @@ function initCustomSelects() {
 			const li = document.createElement('li');
 			li.className = 'cselect__option';
 			li.setAttribute('role', 'option');
+			li.tabIndex = -1;
 			li.textContent = opt.textContent;
 			li.dataset.value = opt.value;
 			list.appendChild(li);
@@ -620,7 +724,8 @@ function initCustomSelects() {
 			const isPlaceholder = !select.value;
 			const text = isPlaceholder ? placeholder : sel.textContent;
 			triggerValue.textContent = text;
-			trigger.title = isPlaceholder ? '' : text;
+			trigger.removeAttribute('title');
+			trigger.setAttribute('aria-label', text);
 			trigger.classList.toggle('cselect__trigger--placeholder', isPlaceholder);
 			items.forEach((li) => li.setAttribute('aria-selected', li.dataset.value === select.value ? 'true' : 'false'));
 		};
@@ -631,9 +736,13 @@ function initCustomSelects() {
 		const open = () => {
 			panel.hidden = false;
 			trigger.setAttribute('aria-expanded', 'true');
-			search.value = '';
+			if (search) search.value = '';
 			filter('');
-			search.focus();
+			if (search) {
+				search.focus();
+			} else {
+				(items.find((li) => li.getAttribute('aria-selected') === 'true') || items[0])?.focus();
+			}
 		};
 		const choose = (value) => {
 			select.value = value;
@@ -643,17 +752,41 @@ function initCustomSelects() {
 			trigger.focus();
 		};
 
-		items.forEach((li) => li.addEventListener('click', () => choose(li.dataset.value)));
+		const focusOption = (item, direction) => {
+			const visible = items.filter((li) => !li.hidden);
+			const index = visible.indexOf(item);
+			visible[(index + direction + visible.length) % visible.length]?.focus();
+		};
+		items.forEach((li) => {
+			li.addEventListener('click', () => choose(li.dataset.value));
+			li.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					choose(li.dataset.value);
+				} else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+					e.preventDefault();
+					focusOption(li, e.key === 'ArrowDown' ? 1 : -1);
+				}
+			});
+		});
 		trigger.addEventListener('click', () => (panel.hidden ? open() : close()));
-		select.addEventListener('change', sync);
-		search.addEventListener('input', () => filter(search.value));
-		search.addEventListener('keydown', (e) => {
-			if (e.key === 'Enter') {
+		trigger.addEventListener('keydown', (e) => {
+			if (e.key === 'ArrowDown' && panel.hidden) {
 				e.preventDefault();
-				const first = items.find((li) => !li.hidden);
-				if (first) choose(first.dataset.value);
+				open();
 			}
 		});
+		select.addEventListener('change', sync);
+		if (search) {
+			search.addEventListener('input', () => filter(search.value));
+			search.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter') {
+					e.preventDefault();
+					const first = items.find((li) => !li.hidden);
+					if (first) choose(first.dataset.value);
+				}
+			});
+		}
 		document.addEventListener('click', (e) => {
 			if (!wrap.contains(e.target)) close();
 		});
@@ -755,6 +888,7 @@ function initDatepickers() {
 
 function initOrderForms() {
 	document.querySelectorAll('[data-order]').forEach((form) => {
+		setFormStartedAt(form);
 		const wrappers = Array.from(form.querySelectorAll('[data-cond]'));
 		const gate = form.querySelector('[data-order-gate]');
 		const syncGate = () => {
@@ -778,6 +912,8 @@ function initOrderForms() {
 				if (!control) valid = true;
 				else if (control.type === 'radio' || control.type === 'checkbox') {
 					valid = Boolean(form.querySelector('[name="' + control.name + '"]:checked'));
+				} else if (control.type === 'tel') {
+					valid = control.value.replace(/\D/g, '').length >= 10;
 				} else if (isDate) {
 					valid = control.value.trim() === '' ? !isRequired : isValidDateInput(control);
 				} else valid = control.value.trim() !== '';
@@ -785,7 +921,7 @@ function initOrderForms() {
 				const error = wrapper.querySelector('[data-error]');
 				if (error) {
 					const empty = !control || control.value.trim() === '';
-					error.textContent = valid ? '' : isDate && !empty ? t.errDate : t.errRequired;
+					error.textContent = valid ? '' : control && control.type === 'tel' ? t.errPhone : isDate && !empty ? t.errDate : t.errRequired;
 				}
 				if (!valid && !firstInvalid) firstInvalid = control;
 			});
@@ -893,7 +1029,15 @@ function initOrderForms() {
 
 			const data = new FormData(form);
 			data.set('details', JSON.stringify(details));
-			const phoneEl = form.querySelector('input[type="tel"]');
+			const requiredFields = Array.from(form.querySelectorAll('.form__field[data-required]:not([hidden])'))
+				.map((wrapper) => wrapper.querySelector('input,select,textarea')?.name || '')
+				.filter(Boolean);
+			data.set('required_fields', JSON.stringify([...new Set(requiredFields)]));
+			addFormMetadata(form, data, 'order');
+			const phoneEl = Array.from(form.querySelectorAll('input[type="tel"]')).find((input) => {
+				const wrapper = input.closest('.form__field');
+				return !wrapper?.hidden && input.value.trim();
+			});
 			if (phoneEl && phoneEl.value.trim()) data.set('phone', phoneEl.value.trim());
 			const nameWrap = Array.from(form.querySelectorAll('.form__field[data-label]')).find((w) => /ПІБ|ФИО/i.test(w.getAttribute('data-label')));
 			if (nameWrap) {
@@ -912,6 +1056,7 @@ function initOrderForms() {
 				const success = form.querySelector('[data-form-success]');
 				if (success) success.hidden = false;
 				form.reset();
+				setFormStartedAt(form);
 				evaluate();
 			} catch (err) {
 				if (fail) fail.hidden = false;
@@ -927,6 +1072,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	initHeader();
 	initMenu();
 	initServices();
+	initServiceSliders();
+	initReviewSliders();
 	initFaq();
 	initForms();
 	initDatepickers();

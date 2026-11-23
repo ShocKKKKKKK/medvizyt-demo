@@ -1,5 +1,10 @@
 .claude/
 tg-config.php
+config.php
 
 # Nilux project configuration
 .nilux/
+
+# Архивы сборки и кэш Python
+*.zip
+__pycache__/

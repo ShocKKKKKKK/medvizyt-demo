@@ -11,7 +11,6 @@ import html
 import json
 import os
 import sys
-from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(__file__))
 import content as content_uk  # noqa: E402
@@ -132,8 +131,9 @@ def head(root, slug, title, description, with_datepicker=False):
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@14/swiper-bundle.min.css">
 {datepicker_css}
-	<link rel="stylesheet" href="{root}assets/css/style.css">
+	<link rel="stylesheet" href="{root}assets/css/style.css?v=reviews-author-wrap-fix">
 </head>
 <body>
 <!-- Спрайт іконок вбудовано: зовнішній <use> не працює при відкритті з диска. Іконки: Lucide (ISC), Simple Icons (CC0) -->
@@ -160,7 +160,7 @@ def header(root, current):
 		<div class="header__container">
 			{logo(root)}
 
-			<nav class="menu" id="menu" aria-label="{T['menu_label']}" data-lp>
+			<nav class="menu" id="menu" aria-label="{T['menu_label']}">
 				<ul class="menu__list">
 					<li class="menu__item"><a class="menu__link" href="{home}"{' aria-current="page"' if not current else ''}>{T['nav_home']}</a></li>
 					<li class="menu__item">
@@ -298,8 +298,9 @@ def tail(root, with_datepicker=False):
 {city_modal()}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@14/swiper-bundle.min.js" defer></script>
 {datepicker_js}
-<script src="{root}assets/js/main.js" defer></script>
+<script src="{root}assets/js/main.js?v=form-elapsed-1" defer></script>
 </body>
 </html>
 '''
@@ -309,11 +310,16 @@ def order_form_html(root, slug):
 	"""Анкета замовлення для сторінки послуги (схема з order_form.py)."""
 	forms = order_form.FORMS_RU if LANG == 'ru' else order_form.FORMS_UK
 	fields = forms[slug]
+	service = next((item for item in SERVICES if item['slug'] == slug), None)
+	form_title = service['form_name'] if service else slug
 	rows = []
 
 	for f in fields:
 		fid, ftype, label = f['id'], f['type'], f['label']
 		req, opts, cond, content = f['required'], f['options'], f['cond'], f['content']
+		# Телефон получателя и отделение Новой Почты обязательны во всех анкетах.
+		label_lower = label.lower()
+		req = req or ftype == 'phone' or 'номер відділення нової пошти' in label_lower or 'номер отделения новой почты' in label_lower
 		cond_attr = hidden = ''
 		if cond:
 			cond_attr = ' data-cond="' + e(json.dumps(cond, ensure_ascii=False)) + '"'
@@ -356,8 +362,9 @@ def order_form_html(root, slug):
 
 	rows_html = '\n'.join(rows)
 	gate_class = ' order-form--gated' if slug == 'basein' else ''
-	return f'''<form class="form form--order order-form{gate_class}" action="{root}send.php" method="post" enctype="multipart/form-data" novalidate data-order>
+	return f'''<form class="form form--order order-form{gate_class}" action="{root}send.php" method="post" enctype="multipart/form-data" novalidate data-order data-form-title="{e(form_title)}">
 						<input type="hidden" name="lang" value="{LANG}">
+						<input type="hidden" name="form_started_at" value="">
 						<div class="form__grid">
 {rows_html}
 						</div>
@@ -373,8 +380,7 @@ def order_form_html(root, slug):
 						<p class="form__fail" hidden role="alert" data-form-fail>{T['fail_text']} <a href="{SITE['phone_href']}">{SITE['phone']}</a></p>
 						<div class="form__success" hidden role="status" data-form-success>
 							{icon('check')}
-							<h3 class="title title--h3">{T['ok_title']}</h3>
-							<p class="form__success-text">{T['ok_text']}</p>
+							<p class="title title--h3 form__success-text">Дякуємо! Ми зв'яжемося з вами найближчим часом</p>
 						</div>
 					</form>'''
 
@@ -382,11 +388,13 @@ def order_form_html(root, slug):
 def simple_form_html(root, selected=None, prefix='f', comment_placeholder=None):
 	"""Короткая форма с главной страницы для обычного блока или диалога."""
 	comment_placeholder = comment_placeholder or T['optional_ph']
+	form_title = selected or T['req_title']
 	options = '\n'.join(
 		f'\t\t\t\t\t\t\t\t<option{" selected" if s["form_name"] == selected else ""}>{e(s["form_name"])}</option>' for s in SERVICES
 	)
-	return f'''<form class="form" action="{root}send.php" method="post" novalidate data-form>
+	return f'''<form class="form" action="{root}send.php" method="post" novalidate data-form data-form-title="{e(form_title)}">
 						<input type="hidden" name="lang" value="{LANG}">
+						<input type="hidden" name="form_started_at" value="">
 						<div class="form__field">
 							<label class="form__label" for="{prefix}-name">{T['f_name']}</label>
 							<input class="form__input" id="{prefix}-name" name="name" type="text" autocomplete="name" placeholder="{T['f_name_ph']}" required>
@@ -422,8 +430,7 @@ def simple_form_html(root, selected=None, prefix='f', comment_placeholder=None):
 						<p class="form__fail" hidden role="alert" data-form-fail>{T['fail_text']} <a href="{SITE['phone_href']}">{SITE['phone']}</a></p>
 						<div class="form__success" hidden role="status" data-form-success>
 							{icon('check')}
-							<h3 class="title title--h3">{T['ok_title']}</h3>
-							<p class="form__success-text">{T['ok_text']}</p>
+							<p class="title title--h3 form__success-text">Дякуємо! Ми зв'яжемося з вами найближчим часом</p>
 						</div>
 					</form>'''
 
@@ -457,9 +464,10 @@ def request_section(root, selected=None, title=None, text=None, slug=None):
 						<p class="request__text">{e(text)}</p>
 					</div>
 
-					<!-- Заявка йде на send.php, звідти в Telegram. Налаштування бота: tg-config.php (див. tg-config.example.php) -->
-					<form class="form" action="{root}send.php" method="post" novalidate data-form>
+					<!-- Заявка надсилається через SMTP-обробник send.php. -->
+					<form class="form" action="{root}send.php" method="post" novalidate data-form data-form-title="{e(title)}">
 						<input type="hidden" name="lang" value="{LANG}">
+						<input type="hidden" name="form_started_at" value="">
 						<div class="form__field">
 							<label class="form__label" for="f-name">{T['f_name']}</label>
 							<input class="form__input" id="f-name" name="name" type="text" autocomplete="name" placeholder="{T['f_name_ph']}" required>
@@ -495,8 +503,7 @@ def request_section(root, selected=None, title=None, text=None, slug=None):
 						<p class="form__fail" hidden role="alert" data-form-fail>{T['fail_text']} <a href="{SITE['phone_href']}">{SITE['phone']}</a></p>
 						<div class="form__success" hidden role="status" data-form-success>
 							{icon('check')}
-							<h3 class="title title--h3">{T['ok_title']}</h3>
-							<p class="form__success-text">{T['ok_text']}</p>
+							<p class="title title--h3 form__success-text">Дякуємо! Ми зв'яжемося з вами найближчим часом</p>
 						</div>
 					</form>
 				</div>
@@ -533,13 +540,85 @@ def services_cards(root, exclude=None):
 	for s in SERVICES:
 		if s['slug'] == exclude:
 			continue
-		cards.append(f'''					<article class="service-card" data-reveal data-service-item>
+		cards.append(f'''					<article class="service-card swiper-slide" data-reveal data-service-item>
 						<div class="service-card__top"><span class="service-card__icon">{icon(s['icon'])}</span><span class="service-card__code">{nb(e(s['code']))}</span></div>
 						<h3 class="title title--h3"><a class="service-card__link" href="{link(root, s['slug'])}">{e(s['card_title'])}</a></h3>
 						<p class="service-card__text">{nb(e(s['card_text']))}</p>
 						<p class="service-card__footer"><span class="service-card__price">{T['card_more']}</span><span class="service-card__arrow">{icon('arrow')}</span></p>
 					</article>''')
 	return '\n'.join(cards)
+
+
+def services_slider(root, exclude=None, searchable=False):
+	grid_attr = ' data-services-grid' if searchable else ''
+	return f'''				<div class="services__slider swiper" data-services-slider>
+					<div class="services__grid swiper-wrapper"{grid_attr}>
+{services_cards(root, exclude=exclude)}
+					</div>
+				</div>
+				<div class="services__controls">
+					<button class="services__arrow services__arrow--prev" type="button" aria-label="{T['slider_prev']}" data-services-prev>{icon('arrow')}</button>
+					<div class="services__pagination" data-services-pagination></div>
+					<button class="services__arrow services__arrow--next" type="button" aria-label="{T['slider_next']}" data-services-next>{icon('arrow')}</button>
+				</div>'''
+
+
+REVIEWS = (
+	('Іван', '18 листопада 2026', '2026-11-18', 'ivan.jpg', 'Дякую, довідка оригінальна, на роботі забрали без питань.'),
+	('Роман', '15 листопада 2026', '2026-11-15', 'roman.jpg', 'В универе справка 095 прошла. Доставили как и обещали за день.'),
+	('Марина', '12 листопада 2026', '2026-11-12', 'marina.jpg', 'Зробили довідку за день, ціна маленька, на роботі прийняли.'),
+	('Ольга', '10 листопада 2026', '2026-11-10', 'olga.jpg', 'Роблю книжку в цьому мед центрі не перший рік. Всім задоволений.'),
+	('Денис', '8 листопада 2026', '2026-11-08', 'denis.jpg', 'Рекомендували вас, колеги с роботи. Зробили все чітко та на наступний день забрав сан книжку.'),
+)
+GOOGLE_REVIEWS_URL = 'https://maps.app.goo.gl/7otPuzSgCWm7yBvWA'
+
+
+def reviews_section(root):
+	"""Единый блок отзывов для главной и всех страниц услуг."""
+	stars = ''.join(icon('star-fill') for _ in range(5))
+	cards = '\n'.join(
+		f'''\t\t\t\t\t<article class="reviews__card swiper-slide">
+\t\t\t\t\t\t<a class="reviews__link" href="{GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener">
+\t\t\t\t\t\t\t<div class="reviews__meta">
+\t\t\t\t\t\t\t\t<img class="reviews__avatar" src="{root}assets/img/reviews/{avatar}" alt="" width="320" height="320" loading="lazy" decoding="async">
+\t\t\t\t\t\t\t\t<div class="reviews__details">
+\t\t\t\t\t\t\t\t\t<div class="reviews__author-line">
+\t\t\t\t\t\t\t\t\t\t<div class="reviews__author">
+\t\t\t\t\t\t\t\t\t\t\t{icon('google', 'reviews__google')}
+\t\t\t\t\t\t\t\t\t\t\t<h3 class="reviews__name">{e(name)}</h3>
+\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t<span class="reviews__stars" aria-label="5 з 5 зірок">{stars}</span>
+\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t<div class="reviews__date">{icon('calendar')}<time datetime="{date_iso}">{e(date_label)}</time></div>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t<p class="reviews__text">{e(text)}</p>
+\t\t\t\t\t\t</a>
+\t\t\t\t\t</article>'''
+		for name, date_label, date_iso, avatar, text in REVIEWS
+	)
+	return f'''\t\t<section class="reviews" aria-labelledby="reviews-title">
+\t\t\t<div class="reviews__container">
+\t\t\t\t<div class="section-head section-head--center" data-reveal>
+\t\t\t\t\t<p class="eyebrow">Відгуки</p>
+\t\t\t\t\t<h2 class="title title--h2" id="reviews-title">Відгуки клієнтів</h2>
+\t\t\t\t</div>
+\t\t\t\t<div class="reviews__slider swiper" data-reviews-slider>
+\t\t\t\t\t<div class="reviews__wrapper swiper-wrapper">
+{cards}
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="reviews__controls">
+\t\t\t\t\t<button class="reviews__arrow reviews__arrow--prev" type="button" aria-label="Попередній відгук" data-reviews-prev>{icon('arrow')}</button>
+\t\t\t\t\t<div class="reviews__pagination" data-reviews-pagination></div>
+\t\t\t\t\t<button class="reviews__arrow reviews__arrow--next" type="button" aria-label="Наступний відгук" data-reviews-next>{icon('arrow')}</button>
+\t\t\t\t</div>
+\t\t\t\t<div class="reviews__footer">
+\t\t\t\t\t<a class="button button--ghost" href="{GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener">Дивитися всі відгуки в Google {icon('arrow')}</a>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</section>
+'''
 
 
 def question_dialog(root, selected):
@@ -592,12 +671,25 @@ def service_page(slug):
 	s = next(x for x in SERVICES if x['slug'] == slug)
 	root = '../' + ('../' if LANG == 'ru' else '')
 
-	perks = '\n'.join(
-		f'\t\t\t\t\t\t<li class="service-hero__stat"><span class="service-hero__stat-value">{nb(e(v))}</span><span class="service-hero__stat-label">{e(l)}</span></li>'
-		for v, l in p['perks']
+	sheet_label, sheet_code, _ = p['sheet']
+	sheet_rows = '\n'.join(
+		f'\t\t\t\t\t\t<p class="sheet__row">{icon("check")}{nb(e(text))}</p>' for text in p['perks']
 	)
-	sheet_label, sheet_code, sheet_rows = p['sheet']
-	sheet_rows = '\n'.join(f'\t\t\t\t\t\t<p class="sheet__row">{icon("check")}{e(r)}</p>' for r in sheet_rows)
+	hero_visual = f'''\t\t\t\t<div class="service-hero__visual" aria-hidden="true">
+\t\t\t\t\t<div class="sheet" data-hero-chip>
+\t\t\t\t\t\t<div class="sheet__head">
+\t\t\t\t\t\t\t<div>
+\t\t\t\t\t\t\t\t<p class="sheet__label">{e(sheet_label)}</p>
+\t\t\t\t\t\t\t\t<p class="sheet__code">{nb(e(sheet_code))}</p>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t<span class="sheet__mark">{icon(s['icon'])}</span>
+\t\t\t\t\t\t</div>
+{sheet_rows}
+\t\t\t\t\t\t<div class="sheet__line"></div>
+\t\t\t\t\t\t<div class="sheet__line sheet__line--short"></div>
+\t\t\t\t\t\t<span class="sheet__stamp">{T['stamp']}</span>
+\t\t\t\t\t</div>
+\t\t\t\t</div>'''
 
 	intro = '\n'.join(f'\t\t\t\t\t\t<p class="intro__text">{nb(e(t))}</p>' for t in p['intro'])
 
@@ -610,7 +702,7 @@ def service_page(slug):
 		'\t\t\t\t\t\t\t<tr class="prices__row">\n'
 		+ '\n'.join(
 			f'\t\t\t\t\t\t\t\t<th class="prices__cell prices__cell--name" scope="row">{nb(e(c))}</th>' if i == 0
-			else f'\t\t\t\t\t\t\t\t<td class="prices__cell" data-label="{e(table["head"][i])}">{nb(e(c))}</td>'
+			else f'\t\t\t\t\t\t\t\t<td class="prices__cell" data-label="{e(table["head"][i])}"><span class="prices__value">{nb(e(c))}</span></td>'
 			for i, c in enumerate(row)
 		)
 		+ '\n\t\t\t\t\t\t\t</tr>'
@@ -653,26 +745,9 @@ def service_page(slug):
 						<a class="button" href="#request">{T['cta']} {icon('arrow')}</a>
 						<a class="button button--ghost" href="#price">{T['see_prices']}</a>
 					</div>
-					<ul class="service-hero__stats service-hero__stats--four" data-hero>
-{perks}
-					</ul>
 				</div>
 
-				<div class="service-hero__visual" aria-hidden="true">
-					<div class="sheet" data-hero-chip>
-						<div class="sheet__head">
-							<div>
-								<p class="sheet__label">{e(sheet_label)}</p>
-								<p class="sheet__code">{nb(e(sheet_code))}</p>
-							</div>
-							<span class="sheet__mark">{icon(s['icon'])}</span>
-						</div>
-{sheet_rows}
-						<div class="sheet__line"></div>
-						<div class="sheet__line sheet__line--short"></div>
-						<span class="sheet__stamp">{T['stamp']}</span>
-					</div>
-				</div>
+{hero_visual}
 			</div>
 		</section>
 
@@ -685,8 +760,8 @@ def service_page(slug):
 {intro}
 					</div>
 					<div class="intro__aside">
-						<a class="button button--light button--wide" href="#request">{T['cta']} {icon('arrow')}</a>
-						<a class="intro__phone" href="{SITE['phone_href']}">{icon('phone')}{SITE['phone']}</a>
+						<a class="button button--telegram button--wide" href="{SITE['telegram']}" target="_blank" rel="noopener">{icon('telegram')}{T['telegram_action']}</a>
+						<a class="button button--light button--wide" href="{SITE['phone_href']}">{icon('phone')}{T['call_action']}</a>
 					</div>
 				</div>
 			</div>
@@ -733,6 +808,7 @@ def service_page(slug):
 			</div>
 		</section>
 
+{reviews_section(root)}
 {faq_section(p['faq'], T['faq_title'], root, s['form_name'])}
 		<section class="services services--related">
 			<div class="services__container">
@@ -740,9 +816,7 @@ def service_page(slug):
 					<p class="eyebrow">{T['other_eyebrow']}</p>
 					<h2 class="title title--h2">{T['our_services']}</h2>
 				</div>
-				<div class="services__grid">
-{services_cards(root, exclude=slug)}
-				</div>
+{services_slider(root, exclude=slug)}
 			</div>
 		</section>
 
@@ -764,12 +838,7 @@ def home_page():
 	)
 	about = '\n'.join(f'\t\t\t\t\t<p class="about__text">{e(t)}</p>' for t in HOME['about'])
 	hours = '<br>'.join(f'{d} — {t}' for d, t in SITE['hours'])
-	map_src = 'https://maps.google.com/maps?q=' + quote(SITE['map_query']) + '&hl=' + LANG + '&output=embed'
-	docs_items = '\n\t\t\t\t\t\t'.join(f'<span class="hero__float-item">{icon("check")}{e(t)}</span>' for t in T['fl_docs_items'])
-	days = ''.join(
-		f'<span class="booking__day{" booking__day--active" if i == 1 else ""}">{d}<b>{14 + i}</b></span>' for i, d in enumerate(T['bk_days'])
-	)
-
+	map_src = SITE['map_embed']
 	body = f'''
 	<main class="page">
 
@@ -788,38 +857,12 @@ def home_page():
 					</form>
 					<p class="hero__note" data-hero>
 						<button class="hero__city" type="button" aria-haspopup="dialog" aria-controls="city" data-city-open>{icon('pin')}<span>{T['your_city']} <b data-city-label>{T['all_country']}</b></span></button>
-						<span>{T['questions']} <a class="hero__phone" href="{SITE['phone_href']}">{SITE['phone']}</a></span>
+						<span>{T['questions']} <a class="hero__telegram" href="{SITE['telegram']}" target="_blank" rel="noopener">{icon('telegram')}{T['questions_telegram']}</a></span>
 					</p>
 				</div>
 
 				<div class="hero__visual" aria-hidden="true">
-					<div class="booking" data-hero-chip>
-						<div class="booking__head">
-							<span class="booking__icon">{icon('car')}</span>
-							<div>
-								<p class="booking__label">{T['bk_label']}</p>
-								<p class="booking__title">{T['bk_title']} <span class="nowrap">083/о</span></p>
-							</div>
-							<span class="booking__badge">{T['bk_badge']}</span>
-						</div>
-						<p class="booking__row">{icon('truck')}{T['bk_row']}</p>
-						<div class="booking__days">{days}</div>
-						<div class="booking__slots">
-							<span class="booking__slot">09:30</span>
-							<span class="booking__slot booking__slot--active">11:00</span>
-							<span class="booking__slot">13:30</span>
-							<span class="booking__slot">16:00</span>
-						</div>
-						<span class="booking__button">{T['bk_button']}</span>
-					</div>
-					<div class="hero__float hero__float--status" data-hero-chip>
-						<span class="hero__float-icon">{icon('check')}</span>
-						<span>{T['fl_status']}<small>{T['fl_status_small']}</small></span>
-					</div>
-					<div class="hero__float hero__float--docs" data-hero-chip>
-						<span>{T['fl_docs']}</span>
-						{docs_items}
-					</div>
+					<img class="hero__illustration" src="{root}assets/img/hero-medical-docs-v2.webp" width="900" height="675" alt="" data-hero-chip>
 				</div>
 			</div>
 		</section>
@@ -847,26 +890,12 @@ def home_page():
 				</label>
 				<p class="services__count" data-reveal aria-live="polite" data-services-count></p>
 
-				<div class="services__grid" data-services-grid>
-{services_cards(root)}
-				</div>
+{services_slider(root, searchable=True)}
 				<p class="services__empty" hidden data-services-empty>{T['svc_empty']}</p>
 			</div>
 		</section>
 
 {steps_section(T['home_step2'], soft=False)}
-		<section class="help">
-			<div class="help__container">
-				<div class="help__inner" data-reveal>
-					<div class="help__content">
-						<h2 class="title title--h3">{T['help_title']}</h2>
-						<p class="help__text">{T['help_text']}</p>
-					</div>
-					<a class="button button--dark" href="#request">{T['help_btn']} {icon('arrow')}</a>
-				</div>
-			</div>
-		</section>
-
 		<section class="about about--home">
 			<div class="about__container">
 				<div class="about__content" data-reveal>
@@ -881,7 +910,7 @@ def home_page():
 							<li class="docs__item">{icon('phone')}<a href="{SITE['phone_href']}">{SITE['phone']}</a></li>
 							<li class="docs__item">{icon('telegram')}<a href="{SITE['telegram']}" target="_blank" rel="noopener">{SITE['telegram_label']}</a></li>
 							<li class="docs__item">{icon('clock')}<span>{hours}</span></li>
-							<li class="docs__item">{icon('pin')}<span>{e(SITE['address'])}</span></li>
+							<li class="docs__item">{icon('pin')}<span>{T['work_country']}</span></li>
 						</ul>
 					</aside>
 				</div>
@@ -889,6 +918,7 @@ def home_page():
 		</section>
 
 {request_section(root)}
+{reviews_section(root)}
 		<section class="map" aria-label="{T['map_label']}">
 			<div class="map__container">
 				<div class="map__frame" data-reveal>
@@ -901,6 +931,189 @@ def home_page():
 
 '''
 	return head(root, '', HOME['title'], HOME['description']) + header(root, '') + body + footer(root, faq=link(root, 'meddovidky') + '#faq') + tail(root)
+
+
+def reviews_concepts_page():
+	"""Служебная страница для сравнения пяти вариантов секции отзывов."""
+	root = '../'
+	google_url = GOOGLE_REVIEWS_URL
+
+	def section_head(number, name, description):
+		return f'''\t\t\t<div class="review-concept__head">
+\t\t\t\t<p class="review-concept__label">Варіант {number}</p>
+\t\t\t\t<h2 class="review-concept__title">{e(name)}</h2>
+\t\t\t\t<p class="review-concept__description">{e(description)}</p>
+\t\t\t</div>'''
+
+	def controls():
+		return f'''\t\t\t<div class="review-concept__controls">
+\t\t\t\t<button class="review-concept__arrow review-concept__arrow--prev" type="button" aria-label="Попередній відгук" data-concept-prev>{icon('arrow')}</button>
+\t\t\t\t<div class="review-concept__pagination" data-concept-pagination></div>
+\t\t\t\t<button class="review-concept__arrow review-concept__arrow--next" type="button" aria-label="Наступний відгук" data-concept-next>{icon('arrow')}</button>
+\t\t\t</div>'''
+
+	def google_link():
+		return f'''\t\t\t<div class="review-concept__footer">
+\t\t\t\t<a class="button button--ghost review-concept__google" href="{google_url}" target="_blank" rel="noopener">Дивитися всі відгуки в Google {icon('arrow')}</a>
+\t\t\t</div>'''
+
+	document_cards = '\n'.join(
+		f'''\t\t\t\t\t<article class="review-document__card swiper-slide">
+\t\t\t\t\t\t<div class="review-document__meta"><span>Відгук клієнта</span><span class="review-document__check">{icon('check')}</span></div>
+\t\t\t\t\t\t<p class="review-document__text">{e(text)}</p>
+\t\t\t\t\t\t<div class="review-document__signature"><span class="review-document__name">{e(name)}</span><span class="review-document__line"></span></div>
+\t\t\t\t\t</article>'''
+		for name, _date_label, _date_iso, _avatar, text in REVIEWS
+	)
+
+	focus_tabs = '\n'.join(
+		f'''\t\t\t\t\t<button class="review-focus__tab{' review-focus__tab--active' if index == 0 else ''}" type="button" data-focus-tab data-name="{e(name, quote=True)}" data-text="{e(text, quote=True)}" aria-pressed="{'true' if index == 0 else 'false'}"><span class="review-focus__initial">{e(name[0])}</span><span>{e(name)}</span></button>'''
+		for index, (name, _date_label, _date_iso, _avatar, text) in enumerate(REVIEWS)
+	)
+
+	stack_cards = '\n'.join(
+		f'''\t\t\t\t<article class="review-stack__card">
+\t\t\t\t\t<span class="review-stack__quote" aria-hidden="true">“</span>
+\t\t\t\t\t<p class="review-stack__text">{e(text)}</p>
+\t\t\t\t\t<div class="review-stack__person"><span class="review-stack__initial">{e(name[0])}</span><strong>{e(name)}</strong></div>
+\t\t\t\t</article>'''
+		for name, _date_label, _date_iso, _avatar, text in REVIEWS
+	)
+
+	split_cards = '\n'.join(
+		f'''\t\t\t\t\t\t<article class="review-split__card swiper-slide">
+\t\t\t\t\t\t\t<p class="review-split__text">{e(text)}</p>
+\t\t\t\t\t\t\t<div class="review-split__person"><span>{e(name[0])}</span><strong>{e(name)}</strong></div>
+\t\t\t\t\t\t</article>'''
+		for name, _date_label, _date_iso, _avatar, text in REVIEWS
+	)
+
+	stage_cards = '\n'.join(
+		f'''\t\t\t\t\t<article class="review-stage__card swiper-slide">
+\t\t\t\t\t\t<span class="review-stage__quote" aria-hidden="true">“</span>
+\t\t\t\t\t\t<p class="review-stage__text">{e(text)}</p>
+\t\t\t\t\t\t<div class="review-stage__person"><span>{e(name[0])}</span><strong>{e(name)}</strong></div>
+\t\t\t\t\t</article>'''
+		for name, _date_label, _date_iso, _avatar, text in REVIEWS
+	)
+
+	first_name, _first_date_label, _first_date_iso, _first_avatar, first_text = REVIEWS[0]
+	page_head = head(
+		root,
+		'reviews-concepts',
+		'П’ять варіантів секції відгуків — Med-assistant',
+		'Службова сторінка для вибору дизайну секції відгуків.',
+	).replace(
+		'<meta name="robots" content="index, follow">',
+		'<meta name="robots" content="noindex, nofollow">',
+	).replace(
+		'</head>',
+		f'\t<link rel="stylesheet" href="{root}assets/css/reviews-concepts.css">\n</head>',
+	)
+
+	body = f'''<div class="wrapper review-lab">
+	<header class="review-lab__header">
+		<div class="review-lab__header-container">
+			{logo(root)}
+			<a class="button button--ghost button--small" href="{link(root, 'basein')}">{icon('arrow', 'icon review-lab__back-icon')} Повернутися до сайту</a>
+		</div>
+	</header>
+
+	<main class="review-lab__main">
+		<section class="review-lab__intro">
+			<div class="review-lab__container">
+				<p class="eyebrow">Дизайн-лабораторія</p>
+				<h1 class="review-lab__title">П’ять варіантів секції відгуків</h1>
+				<p class="review-lab__lead">У кожному варіанті використані ті самі імена, тексти та кольори сайту. Відрізняється лише композиція.</p>
+				<nav class="review-lab__nav" aria-label="Варіанти секції">
+					<a href="#variant-1">01 · Бланки</a><a href="#variant-2">02 · Акцент</a><a href="#variant-3">03 · Стос карток</a><a href="#variant-4">04 · Поділ</a><a href="#variant-5">05 · Центр уваги</a>
+				</nav>
+			</div>
+		</section>
+
+		<section class="review-concept review-concept--document" id="variant-1" data-review-concept>
+			<div class="review-concept__container">
+{section_head('01', 'Відгуки як медичні бланки', 'Фірмовий мотив документа: службова позначка, відмітка та підпис клієнта.')}
+				<div class="review-document__slider swiper" data-concept-slider="documents">
+					<div class="review-document__wrapper swiper-wrapper">
+{document_cards}
+					</div>
+				</div>
+{controls()}
+{google_link()}
+			</div>
+		</section>
+
+		<section class="review-concept review-concept--focus" id="variant-2" data-review-concept>
+			<div class="review-concept__container">
+{section_head('02', 'Один головний відгук', 'Один текст отримує максимум уваги, а імена працюють як компактне перемикання.')}
+				<div class="review-focus" data-review-focus>
+					<article class="review-focus__card">
+						<span class="review-focus__quote" aria-hidden="true">“</span>
+						<p class="review-focus__text" data-focus-text>{e(first_text)}</p>
+						<strong class="review-focus__name" data-focus-name>{e(first_name)}</strong>
+					</article>
+					<div class="review-focus__tabs" aria-label="Оберіть відгук">
+{focus_tabs}
+					</div>
+				</div>
+{google_link()}
+			</div>
+		</section>
+
+		<section class="review-concept review-concept--stack" id="variant-3" data-review-concept>
+			<div class="review-concept__container">
+{section_head('03', 'Стос живих карток', 'Картки трохи зміщені одна відносно одної, ніби окремі нотатки клієнтів.')}
+				<div class="review-stack">
+{stack_cards}
+				</div>
+{google_link()}
+			</div>
+		</section>
+
+		<section class="review-concept review-concept--split" id="variant-4" data-review-concept>
+			<div class="review-concept__container">
+{section_head('04', 'Розділена композиція', 'Заголовок і дія утворюють окрему панель, а відгуки рухаються поруч.')}
+				<div class="review-split">
+					<aside class="review-split__aside">
+						<p class="review-split__eyebrow">Нам довіряють</p>
+						<h3 class="review-split__title">Реальний досвід наших клієнтів</h3>
+						<p class="review-split__description">Коротко про оформлення, доставку та прийняття документів.</p>
+						<a class="button button--light review-split__google" href="{google_url}" target="_blank" rel="noopener">Відгуки в Google {icon('arrow')}</a>
+					</aside>
+					<div class="review-split__content">
+						<div class="review-split__slider swiper" data-concept-slider="split">
+							<div class="review-split__wrapper swiper-wrapper">
+{split_cards}
+							</div>
+						</div>
+{controls()}
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="review-concept review-concept--stage" id="variant-5" data-review-concept>
+			<div class="review-concept__container">
+{section_head('05', 'Відгук у центрі уваги', 'Активний відгук великий, сусідні картки залишаються частково видимими.')}
+				<div class="review-stage__slider swiper" data-concept-slider="stage">
+					<div class="review-stage__wrapper swiper-wrapper">
+{stage_cards}
+					</div>
+				</div>
+{controls()}
+{google_link()}
+			</div>
+		</section>
+	</main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@14/swiper-bundle.min.js" defer></script>
+<script src="{root}assets/js/reviews-concepts.js" defer></script>
+</body>
+</html>
+'''
+	return page_head + body
 
 
 def write(path, content):
@@ -934,4 +1147,6 @@ if __name__ == '__main__':
 		write(f'{PREFIX[lang]}index.html', home_page())
 		for item in SERVICES:
 			write(f'{PREFIX[lang]}{item["slug"]}/index.html', service_page(item['slug']))
+	use('uk')
+	write('reviews-concepts/index.html', reviews_concepts_page())
 	write('sitemap.xml', sitemap())
