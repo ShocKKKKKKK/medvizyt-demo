@@ -1068,6 +1068,11 @@ function initOrderForms() {
 	});
 }
 
+// Старі закладки виду /medknigka/index.html — показуємо чисту адресу /medknigka/ без перезавантаження
+if (/\/index\.html$/.test(window.location.pathname) && window.location.protocol !== 'file:') {
+	history.replaceState(null, '', window.location.pathname.replace(/index\.html$/, '') + window.location.search + window.location.hash);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	initHeader();
 	initMenu();

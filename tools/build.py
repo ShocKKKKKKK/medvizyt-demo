@@ -51,9 +51,9 @@ def nb(text):
 
 
 def link(root, slug, lang=None):
-	"""Шлях до сторінки. root — шлях до кореня сайту (там лежать assets)."""
-	base = root + PREFIX[lang or LANG]
-	return f'{base}{slug}/index.html' if slug else f'{base}index.html'
+	"""Чиста адреса сторінки від кореня сайту: /medknigka/, /ru/, / — як було на WordPress.
+	root лишився в сигнатурі для сумісності викликів; assets і далі підключаються відносно."""
+	return '/' + PREFIX[lang or LANG] + (f'{slug}/' if slug else '')
 
 
 def page_url(slug, lang=None):
@@ -300,7 +300,7 @@ def tail(root, with_datepicker=False):
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@14/swiper-bundle.min.js" defer></script>
 {datepicker_js}
-<script src="{root}assets/js/main.js?v=form-elapsed-1" defer></script>
+<script src="{root}assets/js/main.js?v=clean-urls-1" defer></script>
 </body>
 </html>
 '''
