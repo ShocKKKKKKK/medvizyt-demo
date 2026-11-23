@@ -180,7 +180,7 @@ $sentAt = date('d.m.Y H:i:s');
 $subjectLabel = $formTitle !== '' ? $formTitle : ($pageTitle !== '' ? $pageTitle : 'форма сайту');
 $subjectLabel = preg_replace('/[\r\n]+/', ' ', $subjectLabel) ?? 'форма сайту';
 
-// Тема письма: назва сторінки, тип форми і мова — щоб заявки було видно ще у списку листів.
+// Тема письма: назва сторінки і мова — щоб заявки було видно ще у списку листів.
 $pageNames = [
 	'' => 'Головна',
 	'meddovidky' => 'Медична довідка',
@@ -197,9 +197,7 @@ $pagePath = preg_replace('~(^|/)index\.html$~', '', $pagePath) ?? '';
 $isRu = $pagePath === 'ru' || strpos($pagePath, 'ru/') === 0;
 $slug = $isRu ? trim(substr($pagePath, 2), '/') : $pagePath;
 $pageName = $page !== '' && isset($pageNames[$slug]) ? $pageNames[$slug] : $subjectLabel;
-$subject = 'Нова заявка — ' . $pageName
-	. ' · ' . ($formKind === 'order' ? 'анкета' : 'коротка форма')
-	. ($isRu ? ' (RU)' : '');
+$subject = 'Нова заявка — ' . $pageName . ($isRu ? ' (RU)' : '');
 
 $rows = [];
 if ($cleanDetails !== []) {
